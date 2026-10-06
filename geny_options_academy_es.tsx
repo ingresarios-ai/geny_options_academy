@@ -728,47 +728,6 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
         </div>
       </div>
 
-      {/* Botón flotante permanente para reactivar el Tutorial en cualquier momento */}
-      {!tourOpen && !welcomeOpen && (
-        <button
-          onClick={iniciarTour}
-          title="Haz clic aquí en cualquier momento para volver a ver el tutorial interactivo"
-          style={{
-            position: 'fixed',
-            bottom: 20,
-            right: 22,
-            zIndex: 990,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 9,
-            background: 'linear-gradient(135deg, #091322 0%, #0d2238 100%)',
-            border: '1.5px solid #00d4aa',
-            borderRadius: 30,
-            padding: '10px 18px',
-            color: '#f8fafc',
-            boxShadow: '0 8px 30px rgba(0, 212, 170, 0.4), 0 4px 16px rgba(0,0,0,0.9)',
-            cursor: 'pointer',
-            fontWeight: 800,
-            fontSize: 13,
-            backdropFilter: 'blur(12px)',
-            transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
-            e.currentTarget.style.boxShadow = '0 12px 38px rgba(0, 212, 170, 0.6), 0 6px 20px rgba(0,0,0,0.95)';
-            e.currentTarget.style.borderColor = '#00f5c4';
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.transform = 'translateY(0) scale(1)';
-            e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 212, 170, 0.4), 0 4px 16px rgba(0,0,0,0.9)';
-            e.currentTarget.style.borderColor = '#00d4aa';
-          }}
-        >
-          <span style={{ fontSize: 16 }}>🎯</span>
-          <span>¿Cómo funciona? <strong style={{ color: '#00f5c4' }}>Ver Tutorial</strong></span>
-        </button>
-      )}
-
       {/* Modal de Bienvenida inicial */}
       <WelcomeModal
         isOpen={welcomeOpen}
