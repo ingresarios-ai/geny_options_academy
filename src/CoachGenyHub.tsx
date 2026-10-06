@@ -540,7 +540,8 @@ export const CoachGenyHub: React.FC<CoachGenyHubProps> = ({
               type="text"
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
-              placeholder="Pregúntale a Geny (ej: ¿Qué es Delta?)..."
+              placeholder="Pregunta sobre opciones o el simulador (máx 280 caracteres)..."
+              maxLength={280}
               disabled={isAskingAi}
               style={{
                 flex: 1,
