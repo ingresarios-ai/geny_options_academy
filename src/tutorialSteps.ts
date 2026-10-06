@@ -70,7 +70,7 @@ export const TUTORIAL_STEPS: TutorialStep[] = [
     title: 'Misiones Gamificadas & Coach Geny IA',
     description:
       'Supera desafíos pedagógicos para subir de nivel y desbloquear nuevas estrategias. Además, cada vez que ejecutas una orden, el Coach Geny IA te dará retroalimentación táctica profesional en español.',
-    tip: '¡Comienza con el Nivel 1 (Principiante) y sube hasta convertirte en Trader de Spreads! ¡A operar!',
+    tip: '¡Comienza con el Nivel 1 (Principiante) y avanza hasta dominar el Nivel 3 (Avanzado)! ¡A operar!',
     preferredPlacement: 'right',
   },
 ];

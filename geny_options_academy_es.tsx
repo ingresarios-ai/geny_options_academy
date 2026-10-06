@@ -84,13 +84,13 @@ const TIERS=[
     {id:'r3',xp:150,title:'Cierra una Posición',desc:'Vende una opción que ya tienes.',ok:(t)=>t.some(x=>x.isClose)},
     {id:'r4',xp:200,title:'Registra una Ganancia',desc:'Cierra cualquier posición con ganancia.',ok:(t)=>t.some(x=>x.pnl&&x.pnl>0)},
   ]},
-  {id:2,name:'Aprendiz',icon:'📚',col:'#8b5cf6',missions:[
+  {id:2,name:'Intermedio',icon:'📚',col:'#8b5cf6',missions:[
     {id:'a1',xp:200,title:'Operación ITM Profundo (Δ > 0,65)',desc:'Compra una opción con delta mayor a 0,65.',ok:(t)=>t.some(x=>Math.abs(x.delta||0)>0.65)},
     {id:'a2',xp:200,title:'Vende para Cobrar Prima',desc:'Vende un call o put para recibir prima.',ok:(t)=>t.some(x=>x.side==='sell'&&!x.isClose)},
     {id:'a3',xp:250,title:'Hito de 5 Operaciones',desc:'Ejecuta 5 operaciones en total.',ok:(t)=>t.length>=5},
     {id:'a4',xp:300,title:'Retorno del 25%+',desc:'Cierra una posición con 25%+ de ganancia.',ok:(t)=>t.some(x=>x.pnlPct&&x.pnlPct>=25)},
   ]},
-  {id:3,name:'Trader',icon:'💹',col:'#10b981',missions:[
+  {id:3,name:'Avanzado',icon:'💹',col:'#10b981',missions:[
     {id:'t1',xp:350,title:'Bull Call Spread',desc:'Compra un call Y vende un call de strike mayor, mismo vencimiento.',ok:(_,pos)=>{const c=pos.filter(p=>p.ot==='call');return c.some(p=>p.side==='buy')&&c.some(p=>p.side==='sell');}},
     {id:'t2',xp:350,title:'Bear Put Spread',desc:'Compra un put Y vende un put de strike menor, mismo vencimiento.',ok:(_,pos)=>{const p=pos.filter(x=>x.ot==='put');return p.some(x=>x.side==='buy')&&p.some(x=>x.side==='sell');}},
     {id:'t3',xp:300,title:'Cash-Secured Put',desc:'Vende un put por debajo del precio actual.',ok:(t)=>t.some(x=>x.ot==='put'&&x.side==='sell'&&!x.isClose)},
@@ -439,76 +439,150 @@ export default function GenyOptionsAcademyES(){
       <div style={{display:'grid',gridTemplateColumns:'235px 1fr 305px',flex:1,overflow:'hidden'}}>
 
         {/* IZQUIERDA: MISIONES (Paso 6 Tour) */}
-        <div id="tour-missions-area" style={{borderRight:`1px solid ${BDR}`,overflowY:'auto',background:'#08101c',padding:'12px 10px'}}>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10,paddingLeft:4,paddingRight:4}}>
-            <div style={{fontSize:11,color:DIM,fontWeight:800,letterSpacing:1.2}}>TUS MISIONES</div>
-            <button
-              onClick={iniciarTour}
-              title="Volver a abrir el tutorial interactivo"
-              style={{
-                background:'rgba(0,212,170,0.12)',
-                border:'1px solid rgba(0,212,170,0.3)',
-                borderRadius:6,
-                color:'#00d4aa',
-                cursor:'pointer',
-                fontSize:11,
-                fontWeight:700,
-                padding:'3px 8px',
-                display:'flex',
-                alignItems:'center',
-                gap:4,
-                transition:'all .15s'
-              }}
-              onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,212,170,0.25)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,212,170,0.12)'}
-            >
-              <span>🎯</span> Guía
-            </button>
+        <div id="tour-missions-area" style={{borderRight:`1px solid ${BDR}`,display:'flex',flexDirection:'column',background:'#08101c',overflow:'hidden'}}>
+          {/* Pestaña Principal Resaltada: MISIONES */}
+          <div style={{background:'#091220',borderBottom:`1px solid ${BDR}`,padding:'10px 14px',display:'flex',justifyContent:'space-between',alignItems:'center',flexShrink:0}}>
+            <div style={{display:'flex',alignItems:'center',gap:8}}>
+              <span style={{fontSize:16}}>🎯</span>
+              <span style={{fontWeight:900,fontSize:13,letterSpacing:1.5,color:'#f8fafc'}}>MISIONES</span>
+            </div>
+            <div style={{display:'flex',alignItems:'center',gap:7}}>
+              <span style={{background:'rgba(0,212,170,0.12)',border:'1px solid rgba(0,212,170,0.3)',borderRadius:6,padding:'2px 7px',fontSize:10.5,fontWeight:800,color:'#00d4aa'}}>
+                {done.size}/12
+              </span>
+              <button
+                onClick={iniciarTour}
+                title="Volver a abrir el tutorial guiado"
+                style={{
+                  background:'rgba(255,255,255,0.06)',
+                  border:'1px solid rgba(255,255,255,0.15)',
+                  borderRadius:6,
+                  color:'#cbd5e1',
+                  cursor:'pointer',
+                  fontSize:10.5,
+                  fontWeight:700,
+                  padding:'3px 8px',
+                  display:'flex',
+                  alignItems:'center',
+                  gap:4,
+                  transition:'all .15s'
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
+              >
+                Guía
+              </button>
+            </div>
           </div>
-          {TIERS.map(t=>{
-            const lock=!desbloqueado(t.id),cnt=t.missions.filter(m=>done.has(m.id)).length,active=mTab===t.id;
-            return(
-              <div key={t.id} style={{marginBottom:8}}>
-                <button onClick={()=>!lock&&setMTab(t.id)} style={{width:'100%',background:active?'#141e30':'transparent',border:`1px solid ${active?t.col:BDR}`,borderRadius:8,padding:'8px 12px',cursor:lock?'not-allowed':'pointer',textAlign:'left',color:lock?DIM:'#f1f5f9',transition:'all .15s'}}>
-                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                    <span style={{fontWeight:800,fontSize:12.5}}>{t.icon} Nivel {t.id}: {t.name}</span>
-                    {lock?<span style={{fontSize:12}}>🔒</span>:<span style={{fontSize:11,color:t.col,fontWeight:700}}>{cnt}/{t.missions.length}</span>}
+
+          {/* Selector de Niveles (Segmented Tabs): Solo muestra el nivel activo para no abrumar */}
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:4,padding:'8px 8px',background:'#060c16',borderBottom:`1px solid ${BDR}`,flexShrink:0}}>
+            {TIERS.map(t=>{
+              const lock = !desbloqueado(t.id);
+              const active = mTab === t.id;
+              const cnt = t.missions.filter(m => done.has(m.id)).length;
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => !lock && setMTab(t.id)}
+                  style={{
+                    background: active ? '#142238' : 'transparent',
+                    border: `1px solid ${active ? t.col : 'transparent'}`,
+                    borderRadius: 7,
+                    padding: '6px 3px',
+                    color: active ? '#f1f5f9' : lock ? '#64748b' : '#94a3b8',
+                    cursor: lock ? 'not-allowed' : 'pointer',
+                    fontSize: 11,
+                    fontWeight: active ? 800 : 600,
+                    textAlign: 'center',
+                    transition: 'all .15s',
+                  }}
+                  title={lock ? `Completa Nivel ${t.id - 1} para desbloquear` : `${t.name}: ${cnt}/${t.missions.length} completadas`}
+                >
+                  <div style={{fontSize: 12}}>{t.icon} Nivel {t.id}</div>
+                  <div style={{fontSize: 9.5, color: active ? t.col : lock ? '#475569' : '#94a3b8', marginTop: 2, fontWeight: 700}}>
+                    {lock ? '🔒' : `${cnt}/${t.missions.length}`}
                   </div>
-                  <div style={{background:'#090e1a',borderRadius:3,height:4,marginTop:6}}>
-                    <div style={{background:t.col,height:'100%',width:`${cnt/t.missions.length*100}%`,borderRadius:3,transition:'width .4s'}}/>
-                  </div>
-                  {lock&&<div style={{fontSize:10.5,color:DIM,marginTop:4}}>Completa Nivel {t.id-1} para desbloquear</div>}
                 </button>
-                {active&&!lock&&(
-                  <div style={{marginTop:6}}>
-                    {t.missions.map(m=>{
-                      const isDone=done.has(m.id);
-                      return(
-                        <div key={m.id} style={{background:isDone?'#071a0e':CARD,border:`1px solid ${isDone?'#14532d':BDR}`,borderRadius:7,padding:'9px 11px',marginBottom:5}}>
-                          <div style={{display:'flex',justifyContent:'space-between',gap:6}}>
-                            <div style={{flex:1}}>
-                              <div style={{fontWeight:700,fontSize:12,color:isDone?'#4ade80':'#f1f5f9'}}>{isDone?'✅':'⬜'} {m.title}</div>
-                              <div style={{color:'#94a3b8',fontSize:11,marginTop:3,lineHeight:1.45}}>{m.desc}</div>
-                            </div>
-                            <span style={{color:'#f59e0b',fontSize:11,whiteSpace:'nowrap',fontWeight:700}}>+{m.xp}XP</span>
-                          </div>
-                          {!isDone&&<button onClick={()=>{setTierAprender(t.id);setTabCentro('aprender');}} style={{marginTop:8,background:'transparent',border:`1px solid ${t.col}77`,borderRadius:5,color:t.col,cursor:'pointer',padding:'4px 9px',fontSize:11,fontWeight:700,width:'100%',transition:'all .15s'}}>📖 Estudiar Este Concepto</button>}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-          <div style={{marginTop:10,background:CARD,border:'1px solid #d4a01740',borderRadius:8,padding:'10px',textAlign:'center'}}>
-            <div style={{fontSize:9.5,color:'#d4a017',fontWeight:800,letterSpacing:1.5,marginBottom:4}}>ECOSISTEMA</div>
-            <div style={{fontWeight:900,fontSize:13,color:'#f0c040',letterSpacing:1}}>INGRESARIOS</div>
-            <div style={{fontSize:10.5,color:DIM,marginTop:3,lineHeight:1.5}}>PEDEM · Geny Trend<br/>Opciones · Psicología</div>
+              );
+            })}
           </div>
-          <div style={{marginTop:8,background:CARD,border:`1px solid ${BDR}`,borderRadius:8,padding:'10px',textAlign:'center'}}>
-            <div style={{fontSize:10.5,color:DIM,fontWeight:700,marginBottom:5}}>PRÓXIMAMENTE</div>
-            {['⚡ Nivel 4: Pro','🔥 Nivel 5: Experto','👑 Nivel 6: Maestro'].map(t=><div key={t} style={{fontSize:11,color:DIM,padding:'3px 0',opacity:.6}}>🔒 {t}</div>)}
+
+          {/* Lista de Misiones del Nivel Seleccionado */}
+          <div style={{flex:1,overflowY:'auto',padding:'10px'}}>
+            {(()=>{
+              const curTier = TIERS.find(t => t.id === mTab) || TIERS[0];
+              const lock = !desbloqueado(curTier.id);
+              const cnt = curTier.missions.filter(m => done.has(m.id)).length;
+              return (
+                <div>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8,padding:'0 2px'}}>
+                    <div>
+                      <div style={{fontWeight:800,fontSize:12.5,color:'#f8fafc'}}>
+                        {curTier.icon} Nivel {curTier.id}: {curTier.name}
+                      </div>
+                      <div style={{fontSize:10.5,color:DIM,marginTop:1}}>
+                        {lock ? 'Bloqueado hasta completar nivel previo' : `${cnt} de ${curTier.missions.length} misiones listas`}
+                      </div>
+                    </div>
+                    <span style={{fontSize:11,color:curTier.col,fontWeight:800}}>
+                      {Math.round((cnt / curTier.missions.length) * 100)}%
+                    </span>
+                  </div>
+
+                  <div style={{background:'#090e1a',borderRadius:4,height:5,marginBottom:12,overflow:'hidden'}}>
+                    <div style={{background:curTier.col,height:'100%',width:`${(cnt / curTier.missions.length) * 100}%`,borderRadius:4,transition:'width .4s'}}/>
+                  </div>
+
+                  {lock ? (
+                    <div style={{background:CARD,border:`1px solid ${BDR}`,borderRadius:8,padding:16,textAlign:'center',color:DIM,fontSize:12,lineHeight:1.6}}>
+                      🔒 Completa todas las misiones del Nivel {curTier.id - 1} para desbloquear este nivel.
+                    </div>
+                  ) : (
+                    <div style={{display:'flex',flexDirection:'column',gap:7}}>
+                      {curTier.missions.map(m => {
+                        const isDone = done.has(m.id);
+                        return (
+                          <div key={m.id} style={{background:isDone?'#071a0e':CARD,border:`1px solid ${isDone?'#14532d':BDR}`,borderRadius:8,padding:'10px 11px'}}>
+                            <div style={{display:'flex',justifyContent:'space-between',gap:6}}>
+                              <div style={{flex:1}}>
+                                <div style={{fontWeight:700,fontSize:12,color:isDone?'#4ade80':'#f1f5f9'}}>{isDone?'✅':'⬜'} {m.title}</div>
+                                <div style={{color:'#94a3b8',fontSize:11,marginTop:3,lineHeight:1.45}}>{m.desc}</div>
+                              </div>
+                              <span style={{color:'#f59e0b',fontSize:11,whiteSpace:'nowrap',fontWeight:800}}>+{m.xp}XP</span>
+                            </div>
+                            {!isDone && (
+                              <button
+                                onClick={()=>{setTierAprender(curTier.id);setTabCentro('aprender');}}
+                                style={{marginTop:8,background:'transparent',border:`1px solid ${curTier.col}77`,borderRadius:6,color:curTier.col,cursor:'pointer',padding:'5px 9px',fontSize:11,fontWeight:700,width:'100%',transition:'all .15s'}}
+                              >
+                                📖 Estudiar Este Concepto
+                              </button>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+          </div>
+
+          {/* Pie de página discreto con próximos módulos formativos */}
+          <div style={{padding:'8px 10px',borderTop:`1px solid ${BDR}`,background:'#050b14',flexShrink:0}}>
+            <details style={{fontSize:11,color:'#64748b'}}>
+              <summary style={{cursor:'pointer',fontWeight:700,letterSpacing:0.5,outline:'none',userSelect:'none'}}>
+                🔒 Próximos módulos formativos
+              </summary>
+              <div style={{display:'flex',flexDirection:'column',gap:4,marginTop:6}}>
+                {['Nivel 4: Spreads Complejos','Nivel 5: Coberturas & Hedging','Nivel 6: Gestión de Portafolio'].map(m => (
+                  <div key={m} style={{background:'#08111e',border:'1px solid #142236',borderRadius:6,padding:'4px 8px',fontSize:10.5,color:'#94a3b8'}}>
+                    🔒 {m}
+                  </div>
+                ))}
+              </div>
+            </details>
           </div>
         </div>
 
