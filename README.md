@@ -43,3 +43,7 @@ Este proyecto está preconfigurado para Vercel (`vercel.json`):
 - **Framework Preset:** Vite
 - **Build Command:** `npm run build`
 - **Output Directory:** `dist`
+
+### Variables de Entorno en Vercel
+- `VITE_DEEPSEEK_API_KEY`: Clave de API de DeepSeek para habilitar la tutoría y el buscador inteligente de Coach Geny IA.
+
