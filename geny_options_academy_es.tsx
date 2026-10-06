@@ -176,6 +176,7 @@ export default function GenyOptionsAcademyES(){
 
   const iniciarTour = () => {
     setWelcomeOpen(false);
+    setTabCentro('chain');
     setTourStep(0);
     setTourOpen(true);
   };
@@ -333,27 +334,36 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
 
           <button
             onClick={iniciarTour}
+            title="Activar o reiniciar el tutorial guiado interactivo"
             style={{
-              background:'linear-gradient(135deg, rgba(0, 212, 170, 0.18), rgba(2, 132, 199, 0.18))',
-              border:'1px solid #00d4aa',
-              borderRadius:8,
-              padding:'7px 14px',
-              color:'#00d4aa',
-              fontWeight:700,
-              fontSize:12,
-              cursor:'pointer',
-              display:'flex',
-              alignItems:'center',
-              gap:7,
-              transition:'all .2s',
-              boxShadow:'0 0 14px rgba(0, 212, 170, 0.25)',
-              whiteSpace:'nowrap',
+              background: 'linear-gradient(135deg, rgba(0, 212, 170, 0.22), rgba(14, 165, 233, 0.22))',
+              border: '1.5px solid #00d4aa',
+              borderRadius: 8,
+              padding: '7px 14px',
+              color: '#00f5c4',
+              fontWeight: 800,
+              fontSize: 12.5,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              transition: 'all .2s ease',
+              boxShadow: '0 0 16px rgba(0, 212, 170, 0.3)',
+              whiteSpace: 'nowrap',
             }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = '#00d4aa'; e.currentTarget.style.boxShadow = '0 0 20px rgba(0, 212, 170, 0.45)'; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = '#00d4aa88'; e.currentTarget.style.boxShadow = '0 0 14px rgba(0, 212, 170, 0.25)'; }}
+            onMouseEnter={e => {
+              e.currentTarget.style.borderColor = '#00f5c4';
+              e.currentTarget.style.boxShadow = '0 0 24px rgba(0, 212, 170, 0.55)';
+              e.currentTarget.style.transform = 'translateY(-1px)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.borderColor = '#00d4aa';
+              e.currentTarget.style.boxShadow = '0 0 16px rgba(0, 212, 170, 0.3)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
           >
-            <span style={{fontSize:14}}>🎯</span>
-            <span>Tutorial Guiado</span>
+            <span style={{ fontSize: 15 }}>🎯</span>
+            <span>Ver Tutorial</span>
           </button>
         </div>
 
@@ -416,7 +426,31 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
 
         {/* IZQUIERDA: MISIONES (Paso 6 Tour) */}
         <div id="tour-missions-area" style={{borderRight:`1px solid ${BDR}`,overflowY:'auto',background:'#08101c',padding:'12px 10px'}}>
-          <div style={{fontSize:11,color:DIM,fontWeight:800,letterSpacing:1.2,marginBottom:10,paddingLeft:4}}>TUS MISIONES</div>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10,paddingLeft:4,paddingRight:4}}>
+            <div style={{fontSize:11,color:DIM,fontWeight:800,letterSpacing:1.2}}>TUS MISIONES</div>
+            <button
+              onClick={iniciarTour}
+              title="Volver a abrir el tutorial interactivo"
+              style={{
+                background:'rgba(0,212,170,0.12)',
+                border:'1px solid rgba(0,212,170,0.3)',
+                borderRadius:6,
+                color:'#00d4aa',
+                cursor:'pointer',
+                fontSize:11,
+                fontWeight:700,
+                padding:'3px 8px',
+                display:'flex',
+                alignItems:'center',
+                gap:4,
+                transition:'all .15s'
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,212,170,0.25)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,212,170,0.12)'}
+            >
+              <span>🎯</span> Guía
+            </button>
+          </div>
           {TIERS.map(t=>{
             const lock=!desbloqueado(t.id),cnt=t.missions.filter(m=>done.has(m.id)).length,active=mTab===t.id;
             return(
@@ -693,6 +727,47 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
           </div>
         </div>
       </div>
+
+      {/* Botón flotante permanente para reactivar el Tutorial en cualquier momento */}
+      {!tourOpen && !welcomeOpen && (
+        <button
+          onClick={iniciarTour}
+          title="Haz clic aquí en cualquier momento para volver a ver el tutorial interactivo"
+          style={{
+            position: 'fixed',
+            bottom: 20,
+            right: 22,
+            zIndex: 990,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 9,
+            background: 'linear-gradient(135deg, #091322 0%, #0d2238 100%)',
+            border: '1.5px solid #00d4aa',
+            borderRadius: 30,
+            padding: '10px 18px',
+            color: '#f8fafc',
+            boxShadow: '0 8px 30px rgba(0, 212, 170, 0.4), 0 4px 16px rgba(0,0,0,0.9)',
+            cursor: 'pointer',
+            fontWeight: 800,
+            fontSize: 13,
+            backdropFilter: 'blur(12px)',
+            transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+            e.currentTarget.style.boxShadow = '0 12px 38px rgba(0, 212, 170, 0.6), 0 6px 20px rgba(0,0,0,0.95)';
+            e.currentTarget.style.borderColor = '#00f5c4';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.transform = 'translateY(0) scale(1)';
+            e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 212, 170, 0.4), 0 4px 16px rgba(0,0,0,0.9)';
+            e.currentTarget.style.borderColor = '#00d4aa';
+          }}
+        >
+          <span style={{ fontSize: 16 }}>🎯</span>
+          <span>¿Cómo funciona? <strong style={{ color: '#00f5c4' }}>Ver Tutorial</strong></span>
+        </button>
+      )}
 
       {/* Modal de Bienvenida inicial */}
       <WelcomeModal
