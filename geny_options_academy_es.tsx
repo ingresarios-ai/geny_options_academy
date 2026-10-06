@@ -3,6 +3,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, R
 import { TutorialSpotlight } from "./src/TutorialSpotlight";
 import { WelcomeModal } from "./src/WelcomeModal";
 import { TUTORIAL_STEPS } from "./src/tutorialSteps";
+import { CoachGenyHub } from "./src/CoachGenyHub";
+import { analyzeTradeWithDeepSeek } from "./src/deepseekService";
 
 function ncdf(x){const a=[0.254829592,-0.284496736,1.421413741,-1.453152027,1.061405429],p=0.3275911;const s=x<0?-1:1;x=Math.abs(x)/Math.SQRT2;const t=1/(1+p*x);return 0.5*(1+s*(1-(((((a[4]*t+a[3])*t+a[2])*t+a[1])*t+a[0])*t*Math.exp(-x*x))));}
 function bsp(S,K,T,type,σ=0.20,r=0.05){if(T<=0)return type==='call'?Math.max(0,S-K):Math.max(0,K-S);const sq=Math.sqrt(T),d1=(Math.log(S/K)+(r+σ*σ/2)*T)/(σ*sq),d2=d1-σ*sq;return type==='call'?Math.max(0.01,S*ncdf(d1)-K*Math.exp(-r*T)*ncdf(d2)):Math.max(0.01,K*Math.exp(-r*T)*ncdf(-d2)-S*ncdf(-d1));}
@@ -291,18 +293,30 @@ export default function GenyOptionsAcademyES(){
     setTabCentro('chain');
   };
 
-  const getAI=async(trade,greeks)=>{
+  const getAI = async (trade, greeks) => {
     setAiLoad(true);
-    try{
-      const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:220,
-          system:`Eres Geny, coach experto en opciones dentro de un simulador gamificado de INGRESARIOS. 
-Responde SIEMPRE EN ESPAÑOL. Da exactamente 3 oraciones: 1) Comenta la mecánica de la operación 2) Explica UN concepto clave con números concretos 3) Un próximo paso accionable. 
-Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, ${dte} días al vencimiento.`,
-          messages:[{role:'user',content:`Operación en ${sym}: ${trade.side==='buy'?'COMPRÓ':'VENDIÓ'} ${trade.qty}x $${trade.strike} ${trade.ot.toUpperCase()} @ $${trade.price}. Delta: ${trade.delta}. ${trade.isClose?`CERRÓ con P&L: ${f$(trade.pnl)} (${trade.pnlPct}%)`:'Nueva posición abierta.'}`}]})});
-      const d=await res.json();
-      setAiMsg(d.content?.find(c=>c.type==='text')?.text||'¡Buena operación! Monitorea tus griegas y siempre conoce tu pérdida máxima antes de entrar.');
-    }catch{setAiMsg('¡Sólida ejecución! Observa el delta de tu posición — te dice cuántas acciones equivalentes tienes expuestas. Revisa el diagrama de payoff para visualizar tus zonas de ganancia.');}
+    try {
+      const msg = await analyzeTradeWithDeepSeek(trade, {
+        symbol: sym,
+        assetName: SD.name,
+        spot,
+        iv: σ,
+        dte,
+        portfolioEquity: equity,
+        cash,
+        positionsCount: positions.length,
+        activeContract: {
+          strike: trade.strike,
+          optionType: trade.ot,
+          side: trade.side,
+          price: trade.price,
+          delta: trade.delta,
+        },
+      });
+      setAiMsg(msg);
+    } catch {
+      setAiMsg('¡Sólida ejecución! Observa el delta de tu posición — te dice cuántas acciones equivalentes tienes expuestas. Revisa el diagrama de payoff para visualizar tus zonas de ganancia.');
+    }
     setAiLoad(false);
   };
 
@@ -717,13 +731,33 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
             )}
           </div>
 
-          {/* Coach IA */}
+          {/* Coach IA Hub con Buscador de Conceptos y DeepSeek */}
           <div style={{padding:14,flex:1}}>
-            <div style={{fontWeight:800,fontSize:11,color:'#d4a017',letterSpacing:1.2,marginBottom:8}}>🤖 COACH GENY IA · INGRESARIOS</div>
-            <div style={{background:CARD,border:`1px solid ${BDR}`,borderRadius:9,padding:12,minHeight:95}}>
-              {aiLoad?<div style={{color:TEAL,fontSize:12.5,display:'flex',alignItems:'center',gap:8,fontWeight:600}}>⚡ Analizando tu operación...</div>
-              :<div style={{color:'#e2e8f0',fontSize:12.5,lineHeight:1.75,whiteSpace:'pre-wrap'}}>{aiMsg}</div>}
-            </div>
+            <CoachGenyHub
+              sym={sym}
+              spot={spot}
+              SD={SD}
+              sigma={σ}
+              dte={dte}
+              sel={sel}
+              selInfo={selInfo}
+              equity={equity}
+              cash={cash}
+              totalPnL={totalPnL}
+              positionsCount={positions.length}
+              lastAiTradeMsg={aiMsg}
+              isAiLoading={aiLoad}
+              onNavigateToAcademyTier={tierId => {
+                setTierAprender(tierId);
+                setTabCentro('aprender');
+              }}
+              onSelectAtmOption={() => {
+                const s = SYMBOLS[sym] || SYMBOLS.SPY;
+                const atm = Math.round(spot / s.step) * s.step;
+                setSel({ strike: atm, ot: 'call' });
+                setOSide('buy');
+              }}
+            />
           </div>
         </div>
       </div>
