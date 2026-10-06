@@ -500,7 +500,7 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
 
         {/* CENTRO (Paso 2 y 3 Tour) */}
         <div id="tour-academy-area" style={{display:'flex',flexDirection:'column',overflow:'hidden',flex:1}}>
-          <div style={{background:'#08101c',borderBottom:`1px solid ${BDR}`,padding:'9px 14px',display:'flex',justifyContent:'space-between',alignItems:'center',flexShrink:0}}>
+          <div id="tour-tabs-header" style={{background:'#08101c',borderBottom:`1px solid ${BDR}`,padding:'9px 14px',display:'flex',justifyContent:'space-between',alignItems:'center',flexShrink:0}}>
             <div style={{display:'flex',gap:5}}>
               {tabBtn('aprender','📖 Aprender',tabCentro==='aprender')}
               {tabBtn('chain','📊 Chain',tabCentro==='chain')}

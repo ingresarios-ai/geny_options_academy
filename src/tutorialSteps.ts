@@ -15,7 +15,7 @@ export const TUTORIAL_STEPS: TutorialStep[] = [
   },
   {
     id: 'step-academy',
-    targetId: 'tour-academy-area',
+    targetId: 'tour-tabs-header',
     badge: 'Paso 2 de 6',
     badgeCol: '#10b981',
     icon: '📖',
