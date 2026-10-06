@@ -1,5 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, ResponsiveContainer } from "recharts";
+import { TutorialSpotlight } from "./src/TutorialSpotlight";
+import { WelcomeModal } from "./src/WelcomeModal";
+import { TUTORIAL_STEPS } from "./src/tutorialSteps";
 
 function ncdf(x){const a=[0.254829592,-0.284496736,1.421413741,-1.453152027,1.061405429],p=0.3275911;const s=x<0?-1:1;x=Math.abs(x)/Math.SQRT2;const t=1/(1+p*x);return 0.5*(1+s*(1-(((((a[4]*t+a[3])*t+a[2])*t+a[1])*t+a[0])*t*Math.exp(-x*x))));}
 function bsp(S,K,T,type,σ=0.20,r=0.05){if(T<=0)return type==='call'?Math.max(0,S-K):Math.max(0,K-S);const sq=Math.sqrt(T),d1=(Math.log(S/K)+(r+σ*σ/2)*T)/(σ*sq),d2=d1-σ*sq;return type==='call'?Math.max(0.01,S*ncdf(d1)-K*Math.exp(-r*T)*ncdf(d2)):Math.max(0.01,K*Math.exp(-r*T)*ncdf(-d2)-S*ncdf(-d1));}
@@ -153,6 +156,73 @@ export default function GenyOptionsAcademyES(){
   const [toast,setToast]=useState(null);
   const [dia,setDia]=useState(1);
 
+  // Estados del tutorial interactivo
+  const [tourOpen, setTourOpen] = useState(false);
+  const [tourStep, setTourStep] = useState(0);
+  const [welcomeOpen, setWelcomeOpen] = useState(false);
+
+  // Mostrar modal de bienvenida en la primera visita
+  useEffect(() => {
+    try {
+      const hasSeen = localStorage.getItem('geny_options_academy_tour_done');
+      if (!hasSeen) {
+        const timer = setTimeout(() => setWelcomeOpen(true), 700);
+        return () => clearTimeout(timer);
+      }
+    } catch (e) {
+      // Ignorar errores de storage
+    }
+  }, []);
+
+  const iniciarTour = () => {
+    setWelcomeOpen(false);
+    setTourStep(0);
+    setTourOpen(true);
+  };
+
+  const cerrarTour = () => {
+    setTourOpen(false);
+    try {
+      localStorage.setItem('geny_options_academy_tour_done', 'true');
+    } catch (e) {}
+  };
+
+  const avanzarTour = () => {
+    if (tourStep < TUTORIAL_STEPS.length - 1) {
+      setTourStep(s => s + 1);
+    } else {
+      cerrarTour();
+      showToast('🎉 ¡Tutorial completado! Ya estás listo para operar.');
+    }
+  };
+
+  const retrocederTour = () => {
+    if (tourStep > 0) setTourStep(s => s - 1);
+  };
+
+  const irAPaso = (idx: number) => {
+    setTourStep(idx);
+  };
+
+  // Sincronizar automáticamente la interfaz al avanzar en el tour
+  useEffect(() => {
+    if (!tourOpen) return;
+    if (tourStep === 1) {
+      setTabCentro('aprender');
+    } else if (tourStep === 2) {
+      setTabCentro('chain');
+    } else if (tourStep === 3) {
+      setTabCentro('chain');
+      // Aseguramos una selección ilustrativa para el ticket y payoff
+      if (!sel) {
+        const s = SYMBOLS[sym] || SYMBOLS.SPY;
+        const atm = Math.round(spot / s.step) * s.step;
+        setSel({ strike: atm, ot: 'call' });
+        setOSide('buy');
+      }
+    }
+  }, [tourOpen, tourStep]);
+
   const SD=SYMBOLS[sym];
 
   // Cambiar símbolo
@@ -248,71 +318,104 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
 
       {/* ENCABEZADO */}
       <div style={{background:'#090e1a',borderBottom:`1px solid ${BDR}`,padding:'7px 16px',display:'flex',alignItems:'center',justifyContent:'space-between',flexShrink:0,gap:10}}>
-        {/* Logo */}
-        <div style={{display:'flex',alignItems:'center',gap:12,flexShrink:0}}>
-          <div style={{display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#d4a017,#f0c040)',borderRadius:9,width:38,height:38,flexShrink:0,boxShadow:'0 0 14px #d4a01755'}}>
-            <span style={{fontWeight:900,fontSize:22,color:'#000',letterSpacing:-1}}>G</span>
+        {/* Logo y Botón Tutorial */}
+        <div style={{display:'flex',alignItems:'center',gap:14,flexShrink:0}}>
+          <div style={{display:'flex',alignItems:'center',gap:12}}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#d4a017,#f0c040)',borderRadius:9,width:38,height:38,flexShrink:0,boxShadow:'0 0 14px #d4a01755'}}>
+              <span style={{fontWeight:900,fontSize:22,color:'#000',letterSpacing:-1}}>G</span>
+            </div>
+            <div>
+              <div style={{fontSize:8,color:'#d4a017',fontWeight:700,letterSpacing:2,marginBottom:1}}>INGRESARIOS PRESENTA</div>
+              <div style={{fontWeight:800,fontSize:13,letterSpacing:1.5,color:TEAL,lineHeight:1}}>GENY OPTIONS ACADEMY</div>
+              <div style={{fontSize:9,color:DIM,letterSpacing:.8,marginTop:1}}>APRENDE · PRACTICA · DOMINA</div>
+            </div>
           </div>
-          <div>
-            <div style={{fontSize:8,color:'#d4a017',fontWeight:700,letterSpacing:2,marginBottom:1}}>INGRESARIOS PRESENTA</div>
-            <div style={{fontWeight:800,fontSize:13,letterSpacing:1.5,color:TEAL,lineHeight:1}}>GENY OPTIONS ACADEMY</div>
-            <div style={{fontSize:9,color:DIM,letterSpacing:.8,marginTop:1}}>APRENDE · PRACTICA · DOMINA</div>
+
+          <button
+            onClick={iniciarTour}
+            style={{
+              background:'linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(2, 132, 199, 0.15))',
+              border:'1px solid #00d4aa88',
+              borderRadius:8,
+              padding:'6px 12px',
+              color:'#00d4aa',
+              fontWeight:700,
+              fontSize:11,
+              cursor:'pointer',
+              display:'flex',
+              alignItems:'center',
+              gap:6,
+              transition:'all .2s',
+              boxShadow:'0 0 12px rgba(0, 212, 170, 0.2)',
+              whiteSpace:'nowrap',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = '#00d4aa'; e.currentTarget.style.boxShadow = '0 0 18px rgba(0, 212, 170, 0.4)'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = '#00d4aa88'; e.currentTarget.style.boxShadow = '0 0 12px rgba(0, 212, 170, 0.2)'; }}
+          >
+            <span>🎯</span>
+            <span>Tutorial Guiado</span>
+          </button>
+        </div>
+
+        {/* Paso 1 Tour: Selector de Símbolo y Precio */}
+        <div id="tour-assets" style={{display:'flex',alignItems:'center',gap:8}}>
+          {/* Selector de Símbolo */}
+          <div style={{background:CARD,borderRadius:10,border:`1px solid ${BDR}`,padding:'6px 10px'}}>
+            <div style={{fontSize:8,color:DIM,fontWeight:700,letterSpacing:1.2,marginBottom:5,textAlign:'center'}}>SELECCIONA ACTIVO</div>
+            <div style={{display:'flex',gap:4}}>
+              {Object.values(SYMBOLS).map(s=>(
+                <button key={s.label} onClick={()=>setSym(s.label)} style={{
+                  background:sym===s.label?`${s.col}25`:'transparent',
+                  border:`1px solid ${sym===s.label?s.col:BDR}`,
+                  borderRadius:7,padding:'5px 10px',cursor:'pointer',textAlign:'center',
+                  transition:'all .15s',minWidth:46,
+                }}>
+                  <div style={{fontWeight:800,fontSize:12,color:sym===s.label?s.col:'#64748b'}}>{s.label}</div>
+                  <div style={{fontSize:8,color:sym===s.label?`${s.col}bb`:DIM,marginTop:1}}>{s.cat}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Precio */}
+          <div style={{background:CARD,borderRadius:8,padding:'4px 14px',border:`1px solid ${SD.col}55`,textAlign:'center',flexShrink:0}}>
+            <div style={{fontSize:9,color:SD.col,letterSpacing:1,fontWeight:700}}>{sym} · {SD.name}</div>
+            <div style={{display:'flex',alignItems:'center',gap:8,marginTop:1}}>
+              <span style={{fontWeight:800,fontSize:17,fontFamily:'monospace'}}>${spot.toFixed(sym==='SPX'?0:2)}</span>
+              <span style={{color:spot>=prevSpot?'#22c55e':'#ef4444',fontSize:11,fontWeight:700}}>{spot>=prevSpot?'▲':'▼'}{Math.abs(((spot-prevSpot)/prevSpot)*100).toFixed(2)}%</span>
+            </div>
+            <div style={{fontSize:9,color:DIM}}>IV: {(σ*100).toFixed(1)}%  ·  Día {dia}</div>
           </div>
         </div>
 
-        {/* Selector de Símbolo */}
-        <div style={{background:CARD,borderRadius:10,border:`1px solid ${BDR}`,padding:'6px 10px'}}>
-          <div style={{fontSize:8,color:DIM,fontWeight:700,letterSpacing:1.2,marginBottom:5,textAlign:'center'}}>SELECCIONA ACTIVO</div>
-          <div style={{display:'flex',gap:4}}>
-            {Object.values(SYMBOLS).map(s=>(
-              <button key={s.label} onClick={()=>setSym(s.label)} style={{
-                background:sym===s.label?`${s.col}25`:'transparent',
-                border:`1px solid ${sym===s.label?s.col:BDR}`,
-                borderRadius:7,padding:'5px 10px',cursor:'pointer',textAlign:'center',
-                transition:'all .15s',minWidth:46,
-              }}>
-                <div style={{fontWeight:800,fontSize:12,color:sym===s.label?s.col:'#64748b'}}>{s.label}</div>
-                <div style={{fontSize:8,color:sym===s.label?`${s.col}bb`:DIM,marginTop:1}}>{s.cat}</div>
-              </button>
-            ))}
+        {/* Paso 5 Tour: Portfolio + Máquina del tiempo */}
+        <div id="tour-time-machine" style={{display:'flex',alignItems:'center',gap:10}}>
+          {/* Portfolio */}
+          <div style={{background:CARD,borderRadius:8,padding:'4px 14px',border:`1px solid ${BDR}`,textAlign:'right',flexShrink:0}}>
+            <div style={{fontSize:9,color:DIM,letterSpacing:1}}>PORTAFOLIO</div>
+            <div style={{fontWeight:800,fontSize:17,fontFamily:'monospace',color:equity>=25000?'#22c55e':'#ef4444',marginTop:1}}>${equity.toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
+            <div style={{fontSize:9,color:DIM}}>Efectivo: ${cash.toLocaleString('en',{maximumFractionDigits:0})} · P&L: <span style={{color:totalPnL>=0?'#22c55e':'#ef4444',fontWeight:600}}>{totalPnL>=0?'+':''}{f$(totalPnL)}</span></div>
           </div>
-        </div>
 
-        {/* Precio */}
-        <div style={{background:CARD,borderRadius:8,padding:'4px 14px',border:`1px solid ${SD.col}55`,textAlign:'center',flexShrink:0}}>
-          <div style={{fontSize:9,color:SD.col,letterSpacing:1,fontWeight:700}}>{sym} · {SD.name}</div>
-          <div style={{display:'flex',alignItems:'center',gap:8,marginTop:1}}>
-            <span style={{fontWeight:800,fontSize:17,fontFamily:'monospace'}}>${spot.toFixed(sym==='SPX'?0:2)}</span>
-            <span style={{color:spot>=prevSpot?'#22c55e':'#ef4444',fontSize:11,fontWeight:700}}>{spot>=prevSpot?'▲':'▼'}{Math.abs(((spot-prevSpot)/prevSpot)*100).toFixed(2)}%</span>
+          {/* XP & Avanzar Día */}
+          <div style={{minWidth:155,flexShrink:0}}>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:10,marginBottom:3}}>
+              <span style={{color:TEAL,fontWeight:700}}>⚡ {xp.toLocaleString()} XP</span>
+              <span style={{color:DIM}}>{dte} días al venc.</span>
+            </div>
+            <div style={{background:'#131e30',borderRadius:4,height:5,overflow:'hidden',marginBottom:6}}>
+              <div style={{background:`linear-gradient(90deg,${TEAL},#0066ff)`,height:'100%',width:`${xpPct}%`,transition:'width .5s',borderRadius:4}}/>
+            </div>
+            <button onClick={avanzarDia} style={{width:'100%',background:'#131e30',border:`1px solid ${BDR}`,borderRadius:6,color:'#94a3b8',cursor:'pointer',padding:'5px 8px',fontSize:11,fontWeight:600}}>⏩ Avanzar Día</button>
           </div>
-          <div style={{fontSize:9,color:DIM}}>IV: {(σ*100).toFixed(1)}%  ·  Día {dia}</div>
-        </div>
-
-        {/* Portfolio */}
-        <div style={{background:CARD,borderRadius:8,padding:'4px 14px',border:`1px solid ${BDR}`,textAlign:'right',flexShrink:0}}>
-          <div style={{fontSize:9,color:DIM,letterSpacing:1}}>PORTAFOLIO</div>
-          <div style={{fontWeight:800,fontSize:17,fontFamily:'monospace',color:equity>=25000?'#22c55e':'#ef4444',marginTop:1}}>${equity.toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
-          <div style={{fontSize:9,color:DIM}}>Efectivo: ${cash.toLocaleString('en',{maximumFractionDigits:0})} · P&L: <span style={{color:totalPnL>=0?'#22c55e':'#ef4444',fontWeight:600}}>{totalPnL>=0?'+':''}{f$(totalPnL)}</span></div>
-        </div>
-
-        {/* XP */}
-        <div style={{minWidth:155,flexShrink:0}}>
-          <div style={{display:'flex',justifyContent:'space-between',fontSize:10,marginBottom:3}}>
-            <span style={{color:TEAL,fontWeight:700}}>⚡ {xp.toLocaleString()} XP</span>
-            <span style={{color:DIM}}>{dte} días al venc.</span>
-          </div>
-          <div style={{background:'#131e30',borderRadius:4,height:5,overflow:'hidden',marginBottom:6}}>
-            <div style={{background:`linear-gradient(90deg,${TEAL},#0066ff)`,height:'100%',width:`${xpPct}%`,transition:'width .5s',borderRadius:4}}/>
-          </div>
-          <button onClick={avanzarDia} style={{width:'100%',background:'#131e30',border:`1px solid ${BDR}`,borderRadius:6,color:'#94a3b8',cursor:'pointer',padding:'5px 8px',fontSize:11,fontWeight:600}}>⏩ Avanzar Día</button>
         </div>
       </div>
 
       {/* CUERPO */}
       <div style={{display:'grid',gridTemplateColumns:'210px 1fr 275px',flex:1,overflow:'hidden'}}>
 
-        {/* IZQUIERDA: MISIONES */}
-        <div style={{borderRight:`1px solid ${BDR}`,overflowY:'auto',background:'#08101c',padding:'10px 8px'}}>
+        {/* IZQUIERDA: MISIONES (Paso 6 Tour) */}
+        <div id="tour-missions-area" style={{borderRight:`1px solid ${BDR}`,overflowY:'auto',background:'#08101c',padding:'10px 8px'}}>
           <div style={{fontSize:9,color:DIM,fontWeight:700,letterSpacing:1.2,marginBottom:8,paddingLeft:4}}>TUS MISIONES</div>
           {TIERS.map(t=>{
             const lock=!desbloqueado(t.id),cnt=t.missions.filter(m=>done.has(m.id)).length,active=mTab===t.id;
@@ -361,8 +464,8 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
           </div>
         </div>
 
-        {/* CENTRO */}
-        <div style={{display:'flex',flexDirection:'column',overflow:'hidden'}}>
+        {/* CENTRO (Paso 2 y 3 Tour) */}
+        <div id="tour-academy-area" style={{display:'flex',flexDirection:'column',overflow:'hidden',flex:1}}>
           <div style={{background:'#08101c',borderBottom:`1px solid ${BDR}`,padding:'7px 12px',display:'flex',justifyContent:'space-between',alignItems:'center',flexShrink:0}}>
             <div style={{display:'flex',gap:3}}>
               {tabBtn('aprender','📖 Aprender',tabCentro==='aprender')}
@@ -403,7 +506,7 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
 
           {/* CHAIN */}
           {tabCentro==='chain'&&(
-            <div style={{overflowY:'auto',flex:1}}>
+            <div id="tour-option-chain" style={{overflowY:'auto',flex:1}}>
               {/* Info del activo */}
               <div style={{background:`${SD.col}12`,borderBottom:`1px solid ${SD.col}30`,padding:'5px 14px',display:'flex',alignItems:'center',gap:10}}>
                 <span style={{fontWeight:800,fontSize:13,color:SD.col}}>{sym}</span>
@@ -494,8 +597,8 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
           )}
         </div>
 
-        {/* DERECHA */}
-        <div style={{borderLeft:`1px solid ${BDR}`,display:'flex',flexDirection:'column',overflowY:'auto',background:'#08101c'}}>
+        {/* DERECHA (Paso 4 Tour) */}
+        <div id="tour-order-payoff" style={{borderLeft:`1px solid ${BDR}`,display:'flex',flexDirection:'column',overflowY:'auto',background:'#08101c'}}>
           <div style={{padding:12,borderBottom:`1px solid ${BDR}`,flexShrink:0}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
               <div style={{fontWeight:700,fontSize:9,color:DIM,letterSpacing:1.2}}>ENTRADA DE ORDEN</div>
@@ -587,6 +690,29 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
           </div>
         </div>
       </div>
+
+      {/* Modal de Bienvenida inicial */}
+      <WelcomeModal
+        isOpen={welcomeOpen}
+        onStartTour={iniciarTour}
+        onDismiss={() => {
+          setWelcomeOpen(false);
+          try {
+            localStorage.setItem('geny_options_academy_tour_done', 'true');
+          } catch(e) {}
+        }}
+      />
+
+      {/* Tutorial Spotlight Onboarding */}
+      <TutorialSpotlight
+        isOpen={tourOpen}
+        currentStepIndex={tourStep}
+        steps={TUTORIAL_STEPS}
+        onNext={avanzarTour}
+        onPrev={retrocederTour}
+        onClose={cerrarTour}
+        onGoToStep={irAPaso}
+      />
     </div>
   );
 }
