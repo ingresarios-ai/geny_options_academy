@@ -157,6 +157,7 @@ export default function GenyOptionsAcademyES(){
   const [aiLoad,setAiLoad]=useState(false);
   const [toast,setToast]=useState(null);
   const [dia,setDia]=useState(1);
+  const [showNextStepGuide, setShowNextStepGuide] = useState(false);
 
   // Estados del tutorial interactivo
   const [tourOpen, setTourOpen] = useState(false);
@@ -271,6 +272,7 @@ export default function GenyOptionsAcademyES(){
   const selInfo=useMemo(()=>{if(!sel)return null;const T=Math.max(0.001,dte/365);return{px:bsp(spot,sel.strike,T,sel.ot,σ),g:bsg(spot,sel.strike,T,sel.ot,σ)};},[sel,spot,σ,dte]);
 
   const avanzarDia=()=>{
+    setShowNextStepGuide(false);
     setPrevSpot(spot);
     setSpot(s=>parseFloat(Math.max(s*.85,Math.min(s*1.15,s+(Math.random()-.47)*s*SD.vol)).toFixed(sym==='SPX'?0:2)));
     setσ(v=>parseFloat(Math.max(0.08,Math.min(0.70,v+(Math.random()-.5)*.02)).toFixed(3)));
@@ -290,7 +292,9 @@ export default function GenyOptionsAcademyES(){
     const trade={id:Date.now(),sym,strike:sel.strike,ot:sel.ot,side:oSide,qty,price:parseFloat(px.toFixed(2)),cost,pnl,pnlPct,isClose,delta:g.d,time:new Date().toLocaleTimeString()};
     setTrades(t=>[trade,...t]);
     getAI(trade,g);
-    setTabCentro('chain');
+    setTabCentro('positions');
+    setShowNextStepGuide(true);
+    showToast('✅ ¡Orden ejecutada! Haz clic en ⏩ Avanzar Día para ver evolucionar tu posición.');
   };
 
   const getAI = async (trade, greeks) => {
@@ -430,7 +434,25 @@ export default function GenyOptionsAcademyES(){
             <div style={{background:'#131e30',borderRadius:4,height:6,overflow:'hidden',marginBottom:7}}>
               <div style={{background:`linear-gradient(90deg,${TEAL},#0066ff)`,height:'100%',width:`${xpPct}%`,transition:'width .5s',borderRadius:4}}/>
             </div>
-            <button onClick={avanzarDia} style={{width:'100%',background:'#131e30',border:`1px solid ${BDR}`,borderRadius:7,color:'#cbd5e1',cursor:'pointer',padding:'6px 10px',fontSize:12,fontWeight:700}}>⏩ Avanzar Día</button>
+            <button
+              onClick={avanzarDia}
+              title={showNextStepGuide ? "¡Haz clic aquí para avanzar 1 día y ver evolucionar tu posición!" : "Simula el avance de 1 día de mercado"}
+              style={{
+                width:'100%',
+                background: showNextStepGuide ? 'linear-gradient(135deg, #0284c7, #0369a1)' : '#131e30',
+                border: `1px solid ${showNextStepGuide ? '#38bdf8' : BDR}`,
+                borderRadius: 7,
+                color: showNextStepGuide ? '#ffffff' : '#cbd5e1',
+                cursor: 'pointer',
+                padding: '6px 10px',
+                fontSize: 12,
+                fontWeight: 800,
+                transition: 'all .2s ease',
+                boxShadow: showNextStepGuide ? '0 0 16px rgba(56,189,248,0.55)' : 'none',
+              }}
+            >
+              ⏩ Avanzar Día {showNextStepGuide && '👈'}
+            </button>
           </div>
         </div>
       </div>
@@ -612,6 +634,37 @@ export default function GenyOptionsAcademyES(){
             )}
           </div>
 
+          {/* GUÍA DE ACCIÓN POST-OPERACIÓN (Para principiantes) */}
+          {showNextStepGuide && positions.length > 0 && (
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(14,44,77,0.95), rgba(8,24,44,0.98))',
+              border: '1px solid #38bdf8',
+              borderRadius: 8,
+              padding: '10px 14px',
+              margin: '10px 14px 0 14px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              boxShadow: '0 0 18px rgba(56,189,248,0.22)',
+            }}>
+              <span style={{fontSize:24}}>💡</span>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800, fontSize:13, color:'#38bdf8', display:'flex', alignItems:'center', gap:6}}>
+                  ¡Posición abierta con éxito! ¿Y ahora qué hago?
+                </div>
+                <div style={{fontSize:11.5, color:'#e2e8f0', marginTop:2, lineHeight:1.45}}>
+                  Haz clic en <strong style={{color:'#38bdf8', background:'rgba(56,189,248,0.18)', padding:'2px 7px', borderRadius:4, border:'1px solid rgba(56,189,248,0.3)'}}>⏩ Avanzar Día</strong> (arriba a la derecha) para simular el paso del tiempo y ver cómo fluctúa tu P&L por el decaimiento Theta y el movimiento de {sym}.
+                </div>
+              </div>
+              <button
+                onClick={()=>setShowNextStepGuide(false)}
+                style={{background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:6, color:'#cbd5e1', cursor:'pointer', padding:'5px 11px', fontSize:11.5, fontWeight:700, whiteSpace:'nowrap'}}
+              >
+                Entendido ✓
+              </button>
+            </div>
+          )}
+
           {/* APRENDER */}
           {tabCentro==='aprender'&&(
             <div style={{overflowY:'auto',flex:1,padding:18}}>
@@ -637,11 +690,11 @@ export default function GenyOptionsAcademyES(){
                 <span style={{fontSize:11,color:'#94a3b8',marginLeft:'auto'}}>{SD.desc}</span>
               </div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 96px 80px 96px 1fr',background:'#07101c',padding:'7px 14px',fontSize:11,color:DIM,position:'sticky',top:0,zIndex:10,borderBottom:`1px solid ${BDR}`,letterSpacing:.5}}>
-                <span style={{color:'#22c55e',fontWeight:800}}>── CALLS ──</span>
+                <span style={{color:'#22c55e',fontWeight:800}}>── CALLS (Sube ↗) ──</span>
                 <span style={{color:'#22c55e',fontWeight:600}}>Compra / Venta</span>
-                <span style={{textAlign:'center',color:'#f1f5f9',fontWeight:800}}>STRIKE</span>
+                <span style={{textAlign:'center',color:'#f1f5f9',fontWeight:800}}>STRIKE (Meta)</span>
                 <span style={{color:'#ef4444',textAlign:'right',fontWeight:600}}>Compra / Venta</span>
-                <span style={{color:'#ef4444',fontWeight:800,textAlign:'right'}}>── PUTS ──</span>
+                <span style={{color:'#ef4444',fontWeight:800,textAlign:'right'}}>── PUTS (Baja ↘) ──</span>
               </div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 96px 80px 96px 1fr',background:'#060e19',padding:'4px 14px',fontSize:9.5,color:'#8da2be',borderBottom:'1px solid #0c1525',fontWeight:600}}>
                 <span>Δ Delta · Θ Theta · IV%</span><span>Bid / Ask</span><span/><span style={{textAlign:'right'}}>Bid / Ask</span><span style={{textAlign:'right'}}>Δ Delta · Θ Theta · IV%</span>
@@ -649,19 +702,57 @@ export default function GenyOptionsAcademyES(){
               {chain.map(row=>{
                 const sc=sel?.strike===row.K&&sel?.ot==='call',sp=sel?.strike===row.K&&sel?.ot==='put';
                 return(
-                  <div key={row.K} style={{display:'grid',gridTemplateColumns:'1fr 96px 80px 96px 1fr',padding:'6px 14px',background:row.atm?'#0b1a30':row.itmc?'#071410':'transparent',borderBottom:'1px solid #0b1525',borderLeft:`3px solid ${row.atm?TEAL:'transparent'}`}}>
-                    <div onClick={()=>{setSel({strike:row.K,ot:'call'});setOSide('buy');}} style={{cursor:'pointer',background:sc?`${TEAL}22`:row.itmc?'#0e1c14':'transparent',borderRadius:5,padding:'2px 5px'}}>
+                  <div
+                    key={row.K}
+                    style={{
+                      display:'grid',
+                      gridTemplateColumns:'1fr 96px 80px 96px 1fr',
+                      padding:'6px 14px',
+                      background:row.atm?'#0b223d':row.itmc?'#071410':'transparent',
+                      borderBottom:'1px solid #0b1525',
+                      borderLeft:`3px solid ${row.atm?TEAL:'transparent'}`,
+                      borderRight:`3px solid ${row.atm?TEAL:'transparent'}`,
+                      transition:'background .15s ease',
+                    }}
+                  >
+                    <div
+                      onClick={()=>{setSel({strike:row.K,ot:'call'});setOSide('buy');}}
+                      title={`👈 Comprar CALL Strike $${row.K} — Apuestas a que ${sym} SUBE sobre $${row.K}. Clic para operar.`}
+                      style={{cursor:'pointer',background:sc?`${TEAL}22`:row.itmc?'#0e1c14':'transparent',borderRadius:5,padding:'2px 5px'}}
+                    >
                       <div style={{fontWeight:800,color:'#22c55e',fontFamily:'monospace',fontSize:13.5}}>{row.c.p.toFixed(2)}</div>
                       <div style={{fontSize:9.5,color:'#94a3b8',marginTop:1}}>Δ{row.c.d} Θ{row.c.t} {row.c.iv}%</div>
                     </div>
-                    <div onClick={()=>{setSel({strike:row.K,ot:'call'});setOSide('buy');}} style={{cursor:'pointer',fontFamily:'monospace',fontSize:11.5,display:'flex',alignItems:'center',gap:3}}>
+                    <div
+                      onClick={()=>{setSel({strike:row.K,ot:'call'});setOSide('buy');}}
+                      title="Precios Bid / Ask para CALL"
+                      style={{cursor:'pointer',fontFamily:'monospace',fontSize:11.5,display:'flex',alignItems:'center',gap:3}}
+                    >
                       <span style={{color:DIM}}>{row.c.bid}</span><span style={{color:'#334155'}}>/</span><span style={{color:'#22c55e',fontWeight:700}}>{row.c.ask}</span>
                     </div>
-                    <div style={{textAlign:'center',fontWeight:900,color:row.atm?TEAL:'#f1f5f9',fontSize:14,display:'flex',alignItems:'center',justifyContent:'center'}}>{row.K}</div>
-                    <div onClick={()=>{setSel({strike:row.K,ot:'put'});setOSide('buy');}} style={{cursor:'pointer',fontFamily:'monospace',fontSize:11.5,display:'flex',alignItems:'center',justifyContent:'flex-end',gap:3}}>
+                    <div
+                      title={row.atm ? `Precio actual de mercado de ${sym}: $${spot.toFixed(sym==='SPX'?0:2)} (En el dinero / ATM)` : `Precio de ejercicio Strike $${row.K}`}
+                      style={{textAlign:'center',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}
+                    >
+                      <span style={{fontWeight:900,color:row.atm?TEAL:'#f1f5f9',fontSize:14}}>{row.K}</span>
+                      {row.atm && (
+                        <span style={{fontSize:8.5,fontWeight:800,background:`${TEAL}22`,color:TEAL,padding:'1px 4px',borderRadius:4,letterSpacing:0.5,marginTop:1,whiteSpace:'nowrap',border:`1px solid ${TEAL}40`}}>
+                          ACTUAL ${spot.toFixed(sym==='SPX'?0:1)}
+                        </span>
+                      )}
+                    </div>
+                    <div
+                      onClick={()=>{setSel({strike:row.K,ot:'put'});setOSide('buy');}}
+                      title="Precios Bid / Ask para PUT"
+                      style={{cursor:'pointer',fontFamily:'monospace',fontSize:11.5,display:'flex',alignItems:'center',justifyContent:'flex-end',gap:3}}
+                    >
                       <span style={{color:'#ef4444',fontWeight:700}}>{row.p.bid}</span><span style={{color:'#334155'}}>/</span><span style={{color:DIM}}>{row.p.ask}</span>
                     </div>
-                    <div onClick={()=>{setSel({strike:row.K,ot:'put'});setOSide('buy');}} style={{cursor:'pointer',background:sp?'#ef444422':row.itmp?'#140b0b':'transparent',borderRadius:5,padding:'2px 5px',textAlign:'right'}}>
+                    <div
+                      onClick={()=>{setSel({strike:row.K,ot:'put'});setOSide('buy');}}
+                      title={`👉 Comprar PUT Strike $${row.K} — Apuestas a que ${sym} CAE bajo $${row.K}. Clic para operar.`}
+                      style={{cursor:'pointer',background:sp?'#ef444422':row.itmp?'#140b0b':'transparent',borderRadius:5,padding:'2px 5px',textAlign:'right'}}
+                    >
                       <div style={{fontWeight:800,color:'#ef4444',fontFamily:'monospace',fontSize:13.5}}>{row.p.p.toFixed(2)}</div>
                       <div style={{fontSize:9.5,color:'#94a3b8',marginTop:1}}>Δ{row.p.d} Θ{row.p.t} {row.p.iv}%</div>
                     </div>
@@ -761,12 +852,32 @@ export default function GenyOptionsAcademyES(){
                   {[-1,null,1].map((delta,i)=>delta===null?<span key="qty" style={{fontWeight:800,fontSize:16,fontFamily:'monospace',minWidth:28,textAlign:'center'}}>{qty}</span>:<button key={i} onClick={()=>setQty(q=>Math.max(1,q+delta))} style={{background:'#141e30',border:`1px solid ${BDR}`,borderRadius:6,color:'#f1f5f9',cursor:'pointer',width:28,height:28,fontSize:16,display:'flex',alignItems:'center',justifyContent:'center',fontWeight:800}}>{delta>0?'+':'−'}</button>)}
                 </div>
                 {selInfo&&(
-                  <>
-                    <div style={{fontSize:12,color:DIM,marginBottom:6}}>Est. {oSide==='buy'?'Costo':'Crédito'}: <span style={{color:'#f8fafc',fontWeight:800,fontFamily:'monospace'}}>${(selInfo.px*(oSide==='buy'?1.018:0.982)*100*qty).toFixed(2)}</span><span style={{color:DIM}}> (×{qty}×100)</span></div>
-                    <div style={{fontSize:11,color:'#cbd5e1',marginBottom:10,background:'#050c18',borderRadius:6,padding:'7px 10px',lineHeight:1.5,border:'1px solid #132238'}}>
-                      {oSide==='buy'?`📌 Pérd. máx: $${(selInfo.px*1.018*100*qty).toFixed(0)} · Ganas si ${sel.ot==='call'?`${sym} sube sobre`:`${sym} cae bajo`} $${(sel.strike+(sel.ot==='call'?1:-1)*selInfo.px).toFixed(0)}`:`📌 Gan. máx: $${(selInfo.px*0.982*100*qty).toFixed(0)} · Te quedas la prima si expira sin valor`}
+                  <div style={{background:'#050c18', border:'1px solid #1e293b', borderRadius:8, padding:'10px 12px', marginBottom:10}}>
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:5}}>
+                      <span style={{fontSize:11.5, color:DIM}}>Prima cotizada:</span>
+                      <span style={{fontFamily:'monospace', fontSize:13, fontWeight:700, color:'#cbd5e1'}}>
+                        ${(selInfo.px*(oSide==='buy'?1.018:0.982)).toFixed(2)} <span style={{fontSize:10, color:DIM}}>/ acc</span>
+                      </span>
                     </div>
-                  </>
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:7}}>
+                      <span style={{fontSize:11.5, color:'#38bdf8', display:'flex', alignItems:'center', gap:5}}>
+                        <span>📦 Multiplicador:</span>
+                        <span style={{fontSize:9.5, background:'rgba(56,189,248,0.14)', color:'#38bdf8', padding:'1px 6px', borderRadius:4, fontWeight:700}}>1 contrato = 100 acc</span>
+                      </span>
+                      <span style={{fontFamily:'monospace', fontSize:11.5, color:'#94a3b8'}}>× 100 × {qty}</span>
+                    </div>
+                    <div style={{borderTop:'1px solid #0f1d30', paddingTop:7, display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:6}}>
+                      <span style={{fontSize:12, fontWeight:700, color:'#f1f5f9'}}>{oSide==='buy'?'Total a Pagar (Costo):':'Total a Recibir (Crédito):'}</span>
+                      <span style={{fontFamily:'monospace', fontSize:16, fontWeight:900, color:oSide==='buy'?'#22c55e':'#38bdf8'}}>
+                        ${(selInfo.px*(oSide==='buy'?1.018:0.982)*100*qty).toFixed(2)}
+                      </span>
+                    </div>
+                    <div style={{fontSize:10.5, color:'#94a3b8', borderTop:'1px dashed #1a283e', paddingTop:6, lineHeight:1.45}}>
+                      {oSide==='buy'
+                        ? `📌 Pérdida máx: $${(selInfo.px*1.018*100*qty).toFixed(0)} · Ganas si ${sel.ot==='call'?`${sym} sube sobre`:`${sym} cae bajo`} $${(sel.strike+(sel.ot==='call'?1:-1)*selInfo.px).toFixed(0)}`
+                        : `📌 Ganancia máx: $${(selInfo.px*0.982*100*qty).toFixed(0)} · Te quedas el crédito si expira OTM`}
+                    </div>
+                  </div>
                 )}
                 <button onClick={ejecutarOrden} style={{width:'100%',padding:'12px',fontWeight:800,fontSize:14,cursor:'pointer',borderRadius:8,background:`linear-gradient(135deg,${oSide==='buy'?'#166634,#15803d':'#991b1b,#7f1d1d'})`,border:'none',color:'#fff',letterSpacing:.5,boxShadow:oSide==='buy'?'0 0 16px rgba(22,102,52,0.4)':'0 0 16px rgba(153,27,27,0.4)'}}>
                   {oSide==='buy'?'📈':'📉'} {oSide==='buy'?'COMPRAR':'VENDER'} {qty} CONTRATO{qty!==1?'S':''}
