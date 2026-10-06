@@ -135,23 +135,6 @@ export const CoachGenyHub: React.FC<CoachGenyHubProps> = ({
             COACH GENY IA · INGRESARIOS
           </span>
         </div>
-        <span
-          style={{
-            fontSize: 9.5,
-            fontWeight: 800,
-            background: 'rgba(0, 212, 170, 0.12)',
-            color: '#00d4aa',
-            border: '1px solid rgba(0, 212, 170, 0.3)',
-            borderRadius: 5,
-            padding: '2px 6px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 4,
-          }}
-        >
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#00d4aa' }} />
-          DeepSeek
-        </span>
       </div>
 
       {/* Tabs superiores */}
@@ -227,7 +210,7 @@ export const CoachGenyHub: React.FC<CoachGenyHubProps> = ({
           >
             {isAiLoading ? (
               <div style={{ color: '#00d4aa', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8, fontSize: 12 }}>
-                <span>⚡</span> Analizando operación con DeepSeek...
+                <span>⚡</span> Analizando operación con Geny IA...
               </div>
             ) : (
               lastAiTradeMsg ||
@@ -398,7 +381,7 @@ export const CoachGenyHub: React.FC<CoachGenyHubProps> = ({
                   gap: 6,
                 }}
               >
-                <span>🤖</span> Profundizar con DeepSeek en {sym}
+                <span>🤖</span> Profundizar con Geny IA en {sym}
               </button>
             </div>
           ) : (
@@ -460,7 +443,7 @@ export const CoachGenyHub: React.FC<CoachGenyHubProps> = ({
                     textAlign: 'center',
                   }}
                 >
-                  ⚡ Preguntar a DeepSeek: "{searchQuery}"
+                  ⚡ Preguntar a Geny IA: "{searchQuery}"
                 </button>
               )}
             </div>
@@ -523,7 +506,7 @@ export const CoachGenyHub: React.FC<CoachGenyHubProps> = ({
 
             {isAskingAi && (
               <div style={{ color: '#00d4aa', fontSize: 11.5, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, padding: '4px 0' }}>
-                <span>⚡</span> DeepSeek respondiendo con datos de {sym}...
+                <span>⚡</span> Geny IA respondiendo con datos de {sym}...
               </div>
             )}
           </div>
