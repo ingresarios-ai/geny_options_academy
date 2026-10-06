@@ -534,42 +534,49 @@ export const CoachGenyHub: React.FC<CoachGenyHubProps> = ({
               e.preventDefault();
               handleAskDeepSeek(chatInput);
             }}
-            style={{ display: 'flex', gap: 6 }}
+            style={{ display: 'flex', flexDirection: 'column', gap: 4 }}
           >
-            <input
-              type="text"
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              placeholder="Pregunta sobre opciones o el simulador (máx 280 caracteres)..."
-              maxLength={280}
-              disabled={isAskingAi}
-              style={{
-                flex: 1,
-                background: '#07101e',
-                border: '1px solid #1f375a',
-                borderRadius: 7,
-                padding: '6px 10px',
-                color: '#f8fafc',
-                fontSize: 11.5,
-                outline: 'none',
-              }}
-            />
-            <button
-              type="submit"
-              disabled={!chatInput.trim() || isAskingAi}
-              style={{
-                background: !chatInput.trim() || isAskingAi ? '#1e293b' : 'linear-gradient(135deg, #00d4aa, #0284c7)',
-                border: 'none',
-                borderRadius: 7,
-                color: '#fff',
-                padding: '6px 12px',
-                fontSize: 12,
-                fontWeight: 700,
-                cursor: !chatInput.trim() || isAskingAi ? 'not-allowed' : 'pointer',
-              }}
-            >
-              Enviar
-            </button>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <input
+                type="text"
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                placeholder="Pregunta sobre opciones o el simulador (máx 500 caracteres)..."
+                maxLength={500}
+                disabled={isAskingAi}
+                style={{
+                  flex: 1,
+                  background: '#07101e',
+                  border: '1px solid #1f375a',
+                  borderRadius: 7,
+                  padding: '6px 10px',
+                  color: '#f8fafc',
+                  fontSize: 11.5,
+                  outline: 'none',
+                }}
+              />
+              <button
+                type="submit"
+                disabled={!chatInput.trim() || isAskingAi}
+                style={{
+                  background: !chatInput.trim() || isAskingAi ? '#1e293b' : 'linear-gradient(135deg, #00d4aa, #0284c7)',
+                  border: 'none',
+                  borderRadius: 7,
+                  color: '#fff',
+                  padding: '6px 12px',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  cursor: !chatInput.trim() || isAskingAi ? 'not-allowed' : 'pointer',
+                }}
+              >
+                Enviar
+              </button>
+            </div>
+            {chatInput.length > 350 && (
+              <div style={{ fontSize: 9.5, color: chatInput.length > 450 ? '#f59e0b' : '#64748b', textAlign: 'right', paddingRight: 4 }}>
+                {chatInput.length}/500 caracteres
+              </div>
+            )}
           </form>
         </div>
       )}

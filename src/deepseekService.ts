@@ -73,8 +73,8 @@ export async function askDeepSeekCoach(
     return 'Has alcanzado el límite pedagógico de consultas por sesión (30). Dedica este tiempo a practicar en el simulador o refresca la página para reiniciar tu sesión.';
   }
 
-  // Sanitizar y acotar a máximo 320 caracteres para evitar prompts inflados
-  const sanitizedQuery = trimmed.slice(0, 320);
+  // Sanitizar y acotar a máximo 500 caracteres para permitir preguntas con contexto completo
+  const sanitizedQuery = trimmed.slice(0, 500);
 
   // 2. System prompt con GUARDRAIL ESTRICTO de dominio
   const systemPrompt = `Eres Geny, coach pedagógico y mentor de opciones financieras de la prestigiosa academia INGRESARIOS dentro del simulador "Geny Options Academy".
