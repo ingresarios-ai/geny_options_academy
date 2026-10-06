@@ -97,36 +97,36 @@ const TIERS=[
 ];
 
 const f$=(n,d=2)=>`${n>=0?'':'-'}$${Math.abs(n).toFixed(d)}`;
-const D='#070b12',CARD='#0d1421',BDR='#1a2840',TEAL='#00d4aa',DIM='#4a5a72';
+const D='#070b12',CARD='#0d1421',BDR='#1a2840',TEAL='#00d4aa',DIM='#94a3b8';
 
 function TarjetaLeccion({leccion,alPracticar}){
   return(
-    <div style={{background:CARD,border:`1px solid ${BDR}`,borderRadius:12,overflow:'hidden',marginBottom:14}}>
-      <div style={{background:`${leccion.tagCol}18`,borderBottom:`1px solid ${leccion.tagCol}44`,padding:'12px 16px',display:'flex',alignItems:'center',gap:10}}>
-        <span style={{fontSize:22}}>{leccion.icon}</span>
+    <div style={{background:CARD,border:`1px solid ${BDR}`,borderRadius:12,overflow:'hidden',marginBottom:16}}>
+      <div style={{background:`${leccion.tagCol}18`,borderBottom:`1px solid ${leccion.tagCol}44`,padding:'13px 18px',display:'flex',alignItems:'center',gap:12}}>
+        <span style={{fontSize:24}}>{leccion.icon}</span>
         <div>
-          <div style={{fontSize:9,color:leccion.tagCol,fontWeight:700,letterSpacing:1.5,marginBottom:2}}>{leccion.tag}</div>
-          <div style={{fontWeight:800,fontSize:15,color:'#f1f5f9'}}>{leccion.title}</div>
+          <div style={{fontSize:11,color:leccion.tagCol,fontWeight:800,letterSpacing:1.5,marginBottom:2}}>{leccion.tag}</div>
+          <div style={{fontWeight:800,fontSize:17,color:'#f8fafc'}}>{leccion.title}</div>
         </div>
       </div>
-      <div style={{padding:'14px 16px'}}>
-        <div style={{background:`${leccion.tagCol}15`,border:`1px solid ${leccion.tagCol}30`,borderRadius:8,padding:'10px 12px',marginBottom:12}}>
-          <div style={{fontSize:9,color:leccion.tagCol,fontWeight:700,letterSpacing:1,marginBottom:5}}>CONCEPTO CLAVE</div>
-          <div style={{color:'#e2e8f0',fontSize:13,lineHeight:1.6,fontWeight:500}}>{leccion.concept}</div>
+      <div style={{padding:'16px 18px'}}>
+        <div style={{background:`${leccion.tagCol}15`,border:`1px solid ${leccion.tagCol}30`,borderRadius:9,padding:'12px 14px',marginBottom:14}}>
+          <div style={{fontSize:11,color:leccion.tagCol,fontWeight:800,letterSpacing:1,marginBottom:6}}>CONCEPTO CLAVE</div>
+          <div style={{color:'#f1f5f9',fontSize:14.5,lineHeight:1.6,fontWeight:500}}>{leccion.concept}</div>
         </div>
-        <div style={{marginBottom:12}}>
-          <div style={{fontSize:9,color:DIM,fontWeight:700,letterSpacing:1,marginBottom:5}}>EN PALABRAS SIMPLES</div>
-          <div style={{color:'#94a3b8',fontSize:12,lineHeight:1.75}}>{leccion.explain}</div>
+        <div style={{marginBottom:14}}>
+          <div style={{fontSize:11,color:DIM,fontWeight:800,letterSpacing:1,marginBottom:6}}>EN PALABRAS SIMPLES</div>
+          <div style={{color:'#cbd5e1',fontSize:13.5,lineHeight:1.75}}>{leccion.explain}</div>
         </div>
-        <div style={{background:'#050d18',border:'1px solid #0f2040',borderRadius:8,padding:'10px 12px',marginBottom:12}}>
-          <div style={{fontSize:9,color:'#f59e0b',fontWeight:700,letterSpacing:1,marginBottom:6}}>📊 EJEMPLO REAL</div>
-          <pre style={{color:'#cbd5e1',fontSize:11,lineHeight:1.8,margin:0,fontFamily:"'Courier New',monospace",whiteSpace:'pre-wrap'}}>{leccion.example}</pre>
+        <div style={{background:'#050d18',border:'1px solid #0f2040',borderRadius:9,padding:'12px 14px',marginBottom:14}}>
+          <div style={{fontSize:11,color:'#f59e0b',fontWeight:800,letterSpacing:1,marginBottom:6}}>📊 EJEMPLO REAL</div>
+          <pre style={{color:'#e2e8f0',fontSize:12.5,lineHeight:1.8,margin:0,fontFamily:"'Courier New',monospace",whiteSpace:'pre-wrap'}}>{leccion.example}</pre>
         </div>
-        <div style={{background:'#0a1f10',border:'1px solid #14532d',borderRadius:8,padding:'8px 12px',marginBottom:14}}>
-          <div style={{fontSize:9,color:'#4ade80',fontWeight:700,letterSpacing:1,marginBottom:4}}>✅ REGLA CLAVE</div>
-          <div style={{color:'#86efac',fontSize:11,lineHeight:1.7}}>{leccion.rule}</div>
+        <div style={{background:'#0a1f10',border:'1px solid #14532d',borderRadius:9,padding:'10px 14px',marginBottom:16}}>
+          <div style={{fontSize:11,color:'#4ade80',fontWeight:800,letterSpacing:1,marginBottom:5}}>✅ REGLA CLAVE</div>
+          <div style={{color:'#bbf7d0',fontSize:13,lineHeight:1.7,fontWeight:500}}>{leccion.rule}</div>
         </div>
-        <button onClick={()=>alPracticar(leccion.practice)} style={{width:'100%',background:`linear-gradient(135deg,${leccion.tagCol},${leccion.tagCol}99)`,border:'none',borderRadius:8,color:'#fff',fontWeight:700,fontSize:12,padding:'10px',cursor:'pointer',letterSpacing:.5}}>
+        <button onClick={()=>alPracticar(leccion.practice)} style={{width:'100%',background:`linear-gradient(135deg,${leccion.tagCol},${leccion.tagCol}cc)`,border:'none',borderRadius:8,color:'#fff',fontWeight:800,fontSize:13.5,padding:'11px',cursor:'pointer',letterSpacing:.5}}>
           🎯 Practicar Esto en el Simulador →
         </button>
       </div>
@@ -309,142 +309,142 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
   const desbloqueado=id=>id===1||tierDone(id-1);
   const xpPct=((xp%1000)/1000)*100;
   const leccionesTier=useMemo(()=>LECCIONES.filter(l=>l.tier===tierAprender),[tierAprender]);
-  const tabBtn=(k,lbl,activo)=>(<button onClick={()=>setTabCentro(k)} style={{background:activo?'#141e30':'transparent',border:`1px solid ${activo?BDR:'transparent'}`,borderRadius:6,padding:'4px 10px',color:activo?'#e2e8f0':DIM,cursor:'pointer',fontSize:11,fontWeight:activo?600:400,letterSpacing:.3,whiteSpace:'nowrap'}}>{lbl}</button>);
+  const tabBtn=(k,lbl,activo)=>(<button onClick={()=>setTabCentro(k)} style={{background:activo?'#141e30':'transparent',border:`1px solid ${activo?BDR:'transparent'}`,borderRadius:7,padding:'6px 12px',color:activo?'#f1f5f9':DIM,cursor:'pointer',fontSize:12.5,fontWeight:activo?700:500,letterSpacing:.3,whiteSpace:'nowrap',transition:'all .15s'}}>{lbl}</button>);
 
   return(
-    <div style={{background:D,minHeight:'100vh',color:'#e2e8f0',fontFamily:"'Inter',system-ui,sans-serif",fontSize:12,display:'flex',flexDirection:'column',height:'100vh',overflow:'hidden'}}>
+    <div style={{background:D,minHeight:'100vh',color:'#e2e8f0',fontFamily:"'Inter',system-ui,sans-serif",fontSize:13,display:'flex',flexDirection:'column',height:'100vh',overflow:'hidden'}}>
 
-      {toast&&<div style={{position:'fixed',top:14,left:'50%',transform:'translateX(-50%)',background:toast.includes('❌')?'#7f1d1d':TEAL,color:toast.includes('❌')?'#fca5a5':'#000',padding:'9px 20px',borderRadius:9,fontWeight:700,zIndex:9999,fontSize:13,boxShadow:'0 4px 28px rgba(0,0,0,.6)',pointerEvents:'none',whiteSpace:'nowrap'}}>{toast}</div>}
+      {toast&&<div style={{position:'fixed',top:14,left:'50%',transform:'translateX(-50%)',background:toast.includes('❌')?'#7f1d1d':TEAL,color:toast.includes('❌')?'#fca5a5':'#000',padding:'10px 22px',borderRadius:9,fontWeight:800,zIndex:9999,fontSize:14,boxShadow:'0 4px 28px rgba(0,0,0,.6)',pointerEvents:'none',whiteSpace:'nowrap'}}>{toast}</div>}
 
       {/* ENCABEZADO */}
-      <div style={{background:'#090e1a',borderBottom:`1px solid ${BDR}`,padding:'7px 16px',display:'flex',alignItems:'center',justifyContent:'space-between',flexShrink:0,gap:10}}>
+      <div style={{background:'#090e1a',borderBottom:`1px solid ${BDR}`,padding:'9px 18px',display:'flex',alignItems:'center',justifyContent:'space-between',flexShrink:0,gap:12}}>
         {/* Logo y Botón Tutorial */}
-        <div style={{display:'flex',alignItems:'center',gap:14,flexShrink:0}}>
+        <div style={{display:'flex',alignItems:'center',gap:16,flexShrink:0}}>
           <div style={{display:'flex',alignItems:'center',gap:12}}>
-            <div style={{display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#d4a017,#f0c040)',borderRadius:9,width:38,height:38,flexShrink:0,boxShadow:'0 0 14px #d4a01755'}}>
-              <span style={{fontWeight:900,fontSize:22,color:'#000',letterSpacing:-1}}>G</span>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#d4a017,#f0c040)',borderRadius:10,width:42,height:42,flexShrink:0,boxShadow:'0 0 16px #d4a01755'}}>
+              <span style={{fontWeight:900,fontSize:24,color:'#000',letterSpacing:-1}}>G</span>
             </div>
             <div>
-              <div style={{fontSize:8,color:'#d4a017',fontWeight:700,letterSpacing:2,marginBottom:1}}>INGRESARIOS PRESENTA</div>
-              <div style={{fontWeight:800,fontSize:13,letterSpacing:1.5,color:TEAL,lineHeight:1}}>GENY OPTIONS ACADEMY</div>
-              <div style={{fontSize:9,color:DIM,letterSpacing:.8,marginTop:1}}>APRENDE · PRACTICA · DOMINA</div>
+              <div style={{fontSize:9.5,color:'#d4a017',fontWeight:800,letterSpacing:2,marginBottom:2}}>INGRESARIOS PRESENTA</div>
+              <div style={{fontWeight:900,fontSize:15,letterSpacing:1.5,color:TEAL,lineHeight:1.1}}>GENY OPTIONS ACADEMY</div>
+              <div style={{fontSize:10.5,color:DIM,letterSpacing:.8,marginTop:2}}>APRENDE · PRACTICA · DOMINA</div>
             </div>
           </div>
 
           <button
             onClick={iniciarTour}
             style={{
-              background:'linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(2, 132, 199, 0.15))',
-              border:'1px solid #00d4aa88',
+              background:'linear-gradient(135deg, rgba(0, 212, 170, 0.18), rgba(2, 132, 199, 0.18))',
+              border:'1px solid #00d4aa',
               borderRadius:8,
-              padding:'6px 12px',
+              padding:'7px 14px',
               color:'#00d4aa',
               fontWeight:700,
-              fontSize:11,
+              fontSize:12,
               cursor:'pointer',
               display:'flex',
               alignItems:'center',
-              gap:6,
+              gap:7,
               transition:'all .2s',
-              boxShadow:'0 0 12px rgba(0, 212, 170, 0.2)',
+              boxShadow:'0 0 14px rgba(0, 212, 170, 0.25)',
               whiteSpace:'nowrap',
             }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = '#00d4aa'; e.currentTarget.style.boxShadow = '0 0 18px rgba(0, 212, 170, 0.4)'; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = '#00d4aa88'; e.currentTarget.style.boxShadow = '0 0 12px rgba(0, 212, 170, 0.2)'; }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = '#00d4aa'; e.currentTarget.style.boxShadow = '0 0 20px rgba(0, 212, 170, 0.45)'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = '#00d4aa88'; e.currentTarget.style.boxShadow = '0 0 14px rgba(0, 212, 170, 0.25)'; }}
           >
-            <span>🎯</span>
+            <span style={{fontSize:14}}>🎯</span>
             <span>Tutorial Guiado</span>
           </button>
         </div>
 
         {/* Paso 1 Tour: Selector de Símbolo y Precio */}
-        <div id="tour-assets" style={{display:'flex',alignItems:'center',gap:8}}>
+        <div id="tour-assets" style={{display:'flex',alignItems:'center',gap:10}}>
           {/* Selector de Símbolo */}
-          <div style={{background:CARD,borderRadius:10,border:`1px solid ${BDR}`,padding:'6px 10px'}}>
-            <div style={{fontSize:8,color:DIM,fontWeight:700,letterSpacing:1.2,marginBottom:5,textAlign:'center'}}>SELECCIONA ACTIVO</div>
-            <div style={{display:'flex',gap:4}}>
+          <div style={{background:CARD,borderRadius:10,border:`1px solid ${BDR}`,padding:'6px 12px'}}>
+            <div style={{fontSize:9.5,color:DIM,fontWeight:800,letterSpacing:1.2,marginBottom:5,textAlign:'center'}}>SELECCIONA ACTIVO</div>
+            <div style={{display:'flex',gap:5}}>
               {Object.values(SYMBOLS).map(s=>(
                 <button key={s.label} onClick={()=>setSym(s.label)} style={{
                   background:sym===s.label?`${s.col}25`:'transparent',
                   border:`1px solid ${sym===s.label?s.col:BDR}`,
-                  borderRadius:7,padding:'5px 10px',cursor:'pointer',textAlign:'center',
-                  transition:'all .15s',minWidth:46,
+                  borderRadius:7,padding:'6px 11px',cursor:'pointer',textAlign:'center',
+                  transition:'all .15s',minWidth:50,
                 }}>
-                  <div style={{fontWeight:800,fontSize:12,color:sym===s.label?s.col:'#64748b'}}>{s.label}</div>
-                  <div style={{fontSize:8,color:sym===s.label?`${s.col}bb`:DIM,marginTop:1}}>{s.cat}</div>
+                  <div style={{fontWeight:800,fontSize:13,color:sym===s.label?s.col:'#94a3b8'}}>{s.label}</div>
+                  <div style={{fontSize:10,color:sym===s.label?`${s.col}dd`:DIM,marginTop:1}}>{s.cat}</div>
                 </button>
               ))}
             </div>
           </div>
 
           {/* Precio */}
-          <div style={{background:CARD,borderRadius:8,padding:'4px 14px',border:`1px solid ${SD.col}55`,textAlign:'center',flexShrink:0}}>
-            <div style={{fontSize:9,color:SD.col,letterSpacing:1,fontWeight:700}}>{sym} · {SD.name}</div>
-            <div style={{display:'flex',alignItems:'center',gap:8,marginTop:1}}>
-              <span style={{fontWeight:800,fontSize:17,fontFamily:'monospace'}}>${spot.toFixed(sym==='SPX'?0:2)}</span>
-              <span style={{color:spot>=prevSpot?'#22c55e':'#ef4444',fontSize:11,fontWeight:700}}>{spot>=prevSpot?'▲':'▼'}{Math.abs(((spot-prevSpot)/prevSpot)*100).toFixed(2)}%</span>
+          <div style={{background:CARD,borderRadius:9,padding:'6px 16px',border:`1px solid ${SD.col}55`,textAlign:'center',flexShrink:0}}>
+            <div style={{fontSize:11,color:SD.col,letterSpacing:1,fontWeight:800}}>{sym} · {SD.name}</div>
+            <div style={{display:'flex',alignItems:'center',gap:8,marginTop:2}}>
+              <span style={{fontWeight:900,fontSize:19,fontFamily:'monospace'}}>${spot.toFixed(sym==='SPX'?0:2)}</span>
+              <span style={{color:spot>=prevSpot?'#22c55e':'#ef4444',fontSize:12,fontWeight:800}}>{spot>=prevSpot?'▲':'▼'}{Math.abs(((spot-prevSpot)/prevSpot)*100).toFixed(2)}%</span>
             </div>
-            <div style={{fontSize:9,color:DIM}}>IV: {(σ*100).toFixed(1)}%  ·  Día {dia}</div>
+            <div style={{fontSize:10.5,color:DIM,marginTop:2}}>IV: {(σ*100).toFixed(1)}%  ·  Día {dia}</div>
           </div>
         </div>
 
         {/* Paso 5 Tour: Portfolio + Máquina del tiempo */}
-        <div id="tour-time-machine" style={{display:'flex',alignItems:'center',gap:10}}>
+        <div id="tour-time-machine" style={{display:'flex',alignItems:'center',gap:12}}>
           {/* Portfolio */}
-          <div style={{background:CARD,borderRadius:8,padding:'4px 14px',border:`1px solid ${BDR}`,textAlign:'right',flexShrink:0}}>
-            <div style={{fontSize:9,color:DIM,letterSpacing:1}}>PORTAFOLIO</div>
-            <div style={{fontWeight:800,fontSize:17,fontFamily:'monospace',color:equity>=25000?'#22c55e':'#ef4444',marginTop:1}}>${equity.toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
-            <div style={{fontSize:9,color:DIM}}>Efectivo: ${cash.toLocaleString('en',{maximumFractionDigits:0})} · P&L: <span style={{color:totalPnL>=0?'#22c55e':'#ef4444',fontWeight:600}}>{totalPnL>=0?'+':''}{f$(totalPnL)}</span></div>
+          <div style={{background:CARD,borderRadius:9,padding:'6px 16px',border:`1px solid ${BDR}`,textAlign:'right',flexShrink:0}}>
+            <div style={{fontSize:10,color:DIM,letterSpacing:1,fontWeight:700}}>PORTAFOLIO</div>
+            <div style={{fontWeight:900,fontSize:19,fontFamily:'monospace',color:equity>=25000?'#22c55e':'#ef4444',marginTop:1}}>${equity.toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
+            <div style={{fontSize:11,color:DIM,marginTop:2}}>Efectivo: ${cash.toLocaleString('en',{maximumFractionDigits:0})} · P&L: <span style={{color:totalPnL>=0?'#22c55e':'#ef4444',fontWeight:700}}>{totalPnL>=0?'+':''}{f$(totalPnL)}</span></div>
           </div>
 
           {/* XP & Avanzar Día */}
-          <div style={{minWidth:155,flexShrink:0}}>
-            <div style={{display:'flex',justifyContent:'space-between',fontSize:10,marginBottom:3}}>
-              <span style={{color:TEAL,fontWeight:700}}>⚡ {xp.toLocaleString()} XP</span>
-              <span style={{color:DIM}}>{dte} días al venc.</span>
+          <div style={{minWidth:170,flexShrink:0}}>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:11.5,marginBottom:4}}>
+              <span style={{color:TEAL,fontWeight:800}}>⚡ {xp.toLocaleString()} XP</span>
+              <span style={{color:DIM,fontWeight:600}}>{dte} días al venc.</span>
             </div>
-            <div style={{background:'#131e30',borderRadius:4,height:5,overflow:'hidden',marginBottom:6}}>
+            <div style={{background:'#131e30',borderRadius:4,height:6,overflow:'hidden',marginBottom:7}}>
               <div style={{background:`linear-gradient(90deg,${TEAL},#0066ff)`,height:'100%',width:`${xpPct}%`,transition:'width .5s',borderRadius:4}}/>
             </div>
-            <button onClick={avanzarDia} style={{width:'100%',background:'#131e30',border:`1px solid ${BDR}`,borderRadius:6,color:'#94a3b8',cursor:'pointer',padding:'5px 8px',fontSize:11,fontWeight:600}}>⏩ Avanzar Día</button>
+            <button onClick={avanzarDia} style={{width:'100%',background:'#131e30',border:`1px solid ${BDR}`,borderRadius:7,color:'#cbd5e1',cursor:'pointer',padding:'6px 10px',fontSize:12,fontWeight:700}}>⏩ Avanzar Día</button>
           </div>
         </div>
       </div>
 
       {/* CUERPO */}
-      <div style={{display:'grid',gridTemplateColumns:'210px 1fr 275px',flex:1,overflow:'hidden'}}>
+      <div style={{display:'grid',gridTemplateColumns:'235px 1fr 305px',flex:1,overflow:'hidden'}}>
 
         {/* IZQUIERDA: MISIONES (Paso 6 Tour) */}
-        <div id="tour-missions-area" style={{borderRight:`1px solid ${BDR}`,overflowY:'auto',background:'#08101c',padding:'10px 8px'}}>
-          <div style={{fontSize:9,color:DIM,fontWeight:700,letterSpacing:1.2,marginBottom:8,paddingLeft:4}}>TUS MISIONES</div>
+        <div id="tour-missions-area" style={{borderRight:`1px solid ${BDR}`,overflowY:'auto',background:'#08101c',padding:'12px 10px'}}>
+          <div style={{fontSize:11,color:DIM,fontWeight:800,letterSpacing:1.2,marginBottom:10,paddingLeft:4}}>TUS MISIONES</div>
           {TIERS.map(t=>{
             const lock=!desbloqueado(t.id),cnt=t.missions.filter(m=>done.has(m.id)).length,active=mTab===t.id;
             return(
-              <div key={t.id} style={{marginBottom:6}}>
-                <button onClick={()=>!lock&&setMTab(t.id)} style={{width:'100%',background:active?'#141e30':'transparent',border:`1px solid ${active?t.col:BDR}`,borderRadius:8,padding:'7px 10px',cursor:lock?'not-allowed':'pointer',textAlign:'left',color:lock?DIM:'#e2e8f0',transition:'all .15s'}}>
+              <div key={t.id} style={{marginBottom:8}}>
+                <button onClick={()=>!lock&&setMTab(t.id)} style={{width:'100%',background:active?'#141e30':'transparent',border:`1px solid ${active?t.col:BDR}`,borderRadius:8,padding:'8px 12px',cursor:lock?'not-allowed':'pointer',textAlign:'left',color:lock?DIM:'#f1f5f9',transition:'all .15s'}}>
                   <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                    <span style={{fontWeight:700,fontSize:11}}>{t.icon} Nivel {t.id}: {t.name}</span>
-                    {lock?<span style={{fontSize:11}}>🔒</span>:<span style={{fontSize:10,color:t.col,fontWeight:600}}>{cnt}/{t.missions.length}</span>}
+                    <span style={{fontWeight:800,fontSize:12.5}}>{t.icon} Nivel {t.id}: {t.name}</span>
+                    {lock?<span style={{fontSize:12}}>🔒</span>:<span style={{fontSize:11,color:t.col,fontWeight:700}}>{cnt}/{t.missions.length}</span>}
                   </div>
-                  <div style={{background:'#090e1a',borderRadius:3,height:3,marginTop:5}}>
+                  <div style={{background:'#090e1a',borderRadius:3,height:4,marginTop:6}}>
                     <div style={{background:t.col,height:'100%',width:`${cnt/t.missions.length*100}%`,borderRadius:3,transition:'width .4s'}}/>
                   </div>
-                  {lock&&<div style={{fontSize:9,color:DIM,marginTop:3}}>Completa Nivel {t.id-1} para desbloquear</div>}
+                  {lock&&<div style={{fontSize:10.5,color:DIM,marginTop:4}}>Completa Nivel {t.id-1} para desbloquear</div>}
                 </button>
                 {active&&!lock&&(
-                  <div style={{marginTop:4}}>
+                  <div style={{marginTop:6}}>
                     {t.missions.map(m=>{
                       const isDone=done.has(m.id);
                       return(
-                        <div key={m.id} style={{background:isDone?'#071a0e':CARD,border:`1px solid ${isDone?'#14532d':BDR}`,borderRadius:6,padding:'8px 10px',marginBottom:4}}>
-                          <div style={{display:'flex',justifyContent:'space-between',gap:4}}>
+                        <div key={m.id} style={{background:isDone?'#071a0e':CARD,border:`1px solid ${isDone?'#14532d':BDR}`,borderRadius:7,padding:'9px 11px',marginBottom:5}}>
+                          <div style={{display:'flex',justifyContent:'space-between',gap:6}}>
                             <div style={{flex:1}}>
-                              <div style={{fontWeight:600,fontSize:11,color:isDone?'#4ade80':'#e2e8f0'}}>{isDone?'✅':'⬜'} {m.title}</div>
-                              <div style={{color:DIM,fontSize:9,marginTop:2,lineHeight:1.4}}>{m.desc}</div>
+                              <div style={{fontWeight:700,fontSize:12,color:isDone?'#4ade80':'#f1f5f9'}}>{isDone?'✅':'⬜'} {m.title}</div>
+                              <div style={{color:'#94a3b8',fontSize:11,marginTop:3,lineHeight:1.45}}>{m.desc}</div>
                             </div>
-                            <span style={{color:'#f59e0b',fontSize:9,whiteSpace:'nowrap',fontWeight:600}}>+{m.xp}XP</span>
+                            <span style={{color:'#f59e0b',fontSize:11,whiteSpace:'nowrap',fontWeight:700}}>+{m.xp}XP</span>
                           </div>
-                          {!isDone&&<button onClick={()=>{setTierAprender(t.id);setTabCentro('aprender');}} style={{marginTop:6,background:'transparent',border:`1px solid ${t.col}55`,borderRadius:4,color:t.col,cursor:'pointer',padding:'3px 8px',fontSize:9,fontWeight:600,width:'100%'}}>📖 Estudiar Este Concepto</button>}
+                          {!isDone&&<button onClick={()=>{setTierAprender(t.id);setTabCentro('aprender');}} style={{marginTop:8,background:'transparent',border:`1px solid ${t.col}77`,borderRadius:5,color:t.col,cursor:'pointer',padding:'4px 9px',fontSize:11,fontWeight:700,width:'100%',transition:'all .15s'}}>📖 Estudiar Este Concepto</button>}
                         </div>
                       );
                     })}
@@ -453,38 +453,38 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
               </div>
             );
           })}
-          <div style={{marginTop:8,background:CARD,border:'1px solid #d4a01730',borderRadius:8,padding:'8px 10px',textAlign:'center'}}>
-            <div style={{fontSize:8,color:'#d4a017',fontWeight:700,letterSpacing:1.5,marginBottom:4}}>ECOSISTEMA</div>
-            <div style={{fontWeight:800,fontSize:12,color:'#f0c040',letterSpacing:1}}>INGRESARIOS</div>
-            <div style={{fontSize:8,color:DIM,marginTop:2,lineHeight:1.5}}>PEDEM · Geny Trend<br/>Opciones · Psicología</div>
+          <div style={{marginTop:10,background:CARD,border:'1px solid #d4a01740',borderRadius:8,padding:'10px',textAlign:'center'}}>
+            <div style={{fontSize:9.5,color:'#d4a017',fontWeight:800,letterSpacing:1.5,marginBottom:4}}>ECOSISTEMA</div>
+            <div style={{fontWeight:900,fontSize:13,color:'#f0c040',letterSpacing:1}}>INGRESARIOS</div>
+            <div style={{fontSize:10.5,color:DIM,marginTop:3,lineHeight:1.5}}>PEDEM · Geny Trend<br/>Opciones · Psicología</div>
           </div>
-          <div style={{marginTop:6,background:CARD,border:`1px solid ${BDR}`,borderRadius:8,padding:'8px 10px',textAlign:'center'}}>
-            <div style={{fontSize:9,color:DIM,marginBottom:4}}>PRÓXIMAMENTE</div>
-            {['⚡ Nivel 4: Pro','🔥 Nivel 5: Experto','👑 Nivel 6: Maestro'].map(t=><div key={t} style={{fontSize:10,color:DIM,padding:'3px 0',opacity:.5}}>🔒 {t}</div>)}
+          <div style={{marginTop:8,background:CARD,border:`1px solid ${BDR}`,borderRadius:8,padding:'10px',textAlign:'center'}}>
+            <div style={{fontSize:10.5,color:DIM,fontWeight:700,marginBottom:5}}>PRÓXIMAMENTE</div>
+            {['⚡ Nivel 4: Pro','🔥 Nivel 5: Experto','👑 Nivel 6: Maestro'].map(t=><div key={t} style={{fontSize:11,color:DIM,padding:'3px 0',opacity:.6}}>🔒 {t}</div>)}
           </div>
         </div>
 
         {/* CENTRO (Paso 2 y 3 Tour) */}
         <div id="tour-academy-area" style={{display:'flex',flexDirection:'column',overflow:'hidden',flex:1}}>
-          <div style={{background:'#08101c',borderBottom:`1px solid ${BDR}`,padding:'7px 12px',display:'flex',justifyContent:'space-between',alignItems:'center',flexShrink:0}}>
-            <div style={{display:'flex',gap:3}}>
+          <div style={{background:'#08101c',borderBottom:`1px solid ${BDR}`,padding:'9px 14px',display:'flex',justifyContent:'space-between',alignItems:'center',flexShrink:0}}>
+            <div style={{display:'flex',gap:5}}>
               {tabBtn('aprender','📖 Aprender',tabCentro==='aprender')}
               {tabBtn('chain','📊 Chain',tabCentro==='chain')}
               {tabBtn('positions',`📂 Posiciones (${positions.length})`,tabCentro==='positions')}
               {tabBtn('history',`📋 Historial (${trades.length})`,tabCentro==='history')}
             </div>
             {tabCentro==='chain'&&(
-              <div style={{display:'flex',gap:3,alignItems:'center'}}>
-                <span style={{color:DIM,fontSize:10,marginRight:2}}>Vencimiento:</span>
+              <div style={{display:'flex',gap:5,alignItems:'center'}}>
+                <span style={{color:DIM,fontSize:11.5,marginRight:3,fontWeight:600}}>Vencimiento:</span>
                 {[7,14,30,60].map(d=>(
-                  <button key={d} onClick={()=>setDte(d)} style={{background:dte===d?`${TEAL}20`:'transparent',border:`1px solid ${dte===d?TEAL:BDR}`,borderRadius:5,padding:'3px 8px',color:dte===d?TEAL:DIM,cursor:'pointer',fontSize:10,fontWeight:dte===d?700:400}}>{d}D</button>
+                  <button key={d} onClick={()=>setDte(d)} style={{background:dte===d?`${TEAL}20`:'transparent',border:`1px solid ${dte===d?TEAL:BDR}`,borderRadius:6,padding:'4px 10px',color:dte===d?TEAL:DIM,cursor:'pointer',fontSize:11.5,fontWeight:dte===d?800:500,transition:'all .15s'}}>{d}D</button>
                 ))}
               </div>
             )}
             {tabCentro==='aprender'&&(
-              <div style={{display:'flex',gap:3}}>
+              <div style={{display:'flex',gap:5}}>
                 {TIERS.map(t=>(
-                  <button key={t.id} onClick={()=>setTierAprender(t.id)} disabled={!desbloqueado(t.id)} style={{background:tierAprender===t.id?`${t.col}25`:'transparent',border:`1px solid ${tierAprender===t.id?t.col:BDR}`,borderRadius:5,padding:'3px 9px',color:tierAprender===t.id?t.col:DIM,cursor:desbloqueado(t.id)?'pointer':'not-allowed',fontSize:10,fontWeight:tierAprender===t.id?700:400,opacity:desbloqueado(t.id)?1:.4}}>{t.icon} {t.name}</button>
+                  <button key={t.id} onClick={()=>setTierAprender(t.id)} disabled={!desbloqueado(t.id)} style={{background:tierAprender===t.id?`${t.col}25`:'transparent',border:`1px solid ${tierAprender===t.id?t.col:BDR}`,borderRadius:6,padding:'4px 11px',color:tierAprender===t.id?t.col:DIM,cursor:desbloqueado(t.id)?'pointer':'not-allowed',fontSize:11.5,fontWeight:tierAprender===t.id?800:500,opacity:desbloqueado(t.id)?1:.4,transition:'all .15s'}}>{t.icon} {t.name}</button>
                 ))}
               </div>
             )}
@@ -492,13 +492,13 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
 
           {/* APRENDER */}
           {tabCentro==='aprender'&&(
-            <div style={{overflowY:'auto',flex:1,padding:16}}>
-              <div style={{marginBottom:16,background:CARD,border:`1px solid ${BDR}`,borderRadius:10,padding:'12px 16px'}}>
-                <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:4}}>
-                  <span style={{fontSize:9,color:'#d4a017',fontWeight:700,letterSpacing:1.5,background:'#d4a01715',border:'1px solid #d4a01730',borderRadius:4,padding:'2px 6px'}}>INGRESARIOS</span>
-                  <div style={{fontWeight:700,fontSize:14,color:'#f1f5f9'}}>{TIERS.find(t=>t.id===tierAprender)?.icon} Nivel {tierAprender}: {TIERS.find(t=>t.id===tierAprender)?.name} — Guía de Estudio</div>
+            <div style={{overflowY:'auto',flex:1,padding:18}}>
+              <div style={{marginBottom:16,background:CARD,border:`1px solid ${BDR}`,borderRadius:12,padding:'14px 18px'}}>
+                <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:6}}>
+                  <span style={{fontSize:10.5,color:'#d4a017',fontWeight:800,letterSpacing:1.5,background:'#d4a01715',border:'1px solid #d4a01740',borderRadius:5,padding:'3px 8px'}}>INGRESARIOS</span>
+                  <div style={{fontWeight:800,fontSize:15,color:'#f8fafc'}}>{TIERS.find(t=>t.id===tierAprender)?.icon} Nivel {tierAprender}: {TIERS.find(t=>t.id===tierAprender)?.name} — Guía de Estudio</div>
                 </div>
-                <div style={{color:'#64748b',fontSize:11,lineHeight:1.6}}>Lee cada tarjeta, luego haz clic en <strong style={{color:TEAL}}>"Practicar en el Simulador"</strong> para aplicarlo en el chain en vivo.</div>
+                <div style={{color:'#94a3b8',fontSize:12.5,lineHeight:1.6}}>Lee cada tarjeta, luego haz clic en <strong style={{color:TEAL}}>"Practicar en el Simulador"</strong> para aplicarlo en el chain en vivo.</div>
               </div>
               {leccionesTier.map(l=><TarjetaLeccion key={l.id} leccion={l} alPracticar={()=>{setMTab(tierAprender);setTabCentro('chain');}}/>)}
             </div>
@@ -508,40 +508,40 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
           {tabCentro==='chain'&&(
             <div id="tour-option-chain" style={{overflowY:'auto',flex:1}}>
               {/* Info del activo */}
-              <div style={{background:`${SD.col}12`,borderBottom:`1px solid ${SD.col}30`,padding:'5px 14px',display:'flex',alignItems:'center',gap:10}}>
-                <span style={{fontWeight:800,fontSize:13,color:SD.col}}>{sym}</span>
-                <span style={{fontSize:10,color:'#94a3b8'}}>{SD.name}</span>
-                <span style={{fontSize:9,color:DIM,background:'#0a1020',padding:'2px 6px',borderRadius:4}}>{SD.cat}</span>
-                <span style={{fontSize:9,color:DIM,marginLeft:'auto'}}>{SD.desc}</span>
+              <div style={{background:`${SD.col}15`,borderBottom:`1px solid ${SD.col}35`,padding:'7px 16px',display:'flex',alignItems:'center',gap:12}}>
+                <span style={{fontWeight:900,fontSize:14,color:SD.col}}>{sym}</span>
+                <span style={{fontSize:12,color:'#cbd5e1',fontWeight:600}}>{SD.name}</span>
+                <span style={{fontSize:10.5,color:DIM,background:'#0a1020',padding:'3px 8px',borderRadius:5,border:'1px solid #1a2840'}}>{SD.cat}</span>
+                <span style={{fontSize:11,color:'#94a3b8',marginLeft:'auto'}}>{SD.desc}</span>
               </div>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 88px 72px 88px 1fr',background:'#07101c',padding:'5px 12px',fontSize:9,color:DIM,position:'sticky',top:0,zIndex:10,borderBottom:`1px solid ${BDR}`,letterSpacing:.5}}>
-                <span style={{color:'#22c55e',fontWeight:700}}>── CALLS ──</span>
-                <span style={{color:'#22c55e'}}>Compra / Venta</span>
-                <span style={{textAlign:'center',color:'#94a3b8',fontWeight:700}}>STRIKE</span>
-                <span style={{color:'#ef4444',textAlign:'right'}}>Compra / Venta</span>
-                <span style={{color:'#ef4444',fontWeight:700,textAlign:'right'}}>── PUTS ──</span>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 96px 80px 96px 1fr',background:'#07101c',padding:'7px 14px',fontSize:11,color:DIM,position:'sticky',top:0,zIndex:10,borderBottom:`1px solid ${BDR}`,letterSpacing:.5}}>
+                <span style={{color:'#22c55e',fontWeight:800}}>── CALLS ──</span>
+                <span style={{color:'#22c55e',fontWeight:600}}>Compra / Venta</span>
+                <span style={{textAlign:'center',color:'#f1f5f9',fontWeight:800}}>STRIKE</span>
+                <span style={{color:'#ef4444',textAlign:'right',fontWeight:600}}>Compra / Venta</span>
+                <span style={{color:'#ef4444',fontWeight:800,textAlign:'right'}}>── PUTS ──</span>
               </div>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 88px 72px 88px 1fr',background:'#060e19',padding:'2px 12px',fontSize:8,color:'#1e2d45',borderBottom:'1px solid #0c1525'}}>
-                <span>Δ Delta · Θ Theta · IV%</span><span>Bid/Ask</span><span/><span style={{textAlign:'right'}}>Bid/Ask</span><span style={{textAlign:'right'}}>Δ Delta · Θ Theta · IV%</span>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 96px 80px 96px 1fr',background:'#060e19',padding:'4px 14px',fontSize:9.5,color:'#8da2be',borderBottom:'1px solid #0c1525',fontWeight:600}}>
+                <span>Δ Delta · Θ Theta · IV%</span><span>Bid / Ask</span><span/><span style={{textAlign:'right'}}>Bid / Ask</span><span style={{textAlign:'right'}}>Δ Delta · Θ Theta · IV%</span>
               </div>
               {chain.map(row=>{
                 const sc=sel?.strike===row.K&&sel?.ot==='call',sp=sel?.strike===row.K&&sel?.ot==='put';
                 return(
-                  <div key={row.K} style={{display:'grid',gridTemplateColumns:'1fr 88px 72px 88px 1fr',padding:'5px 12px',background:row.atm?'#0b1a30':row.itmc?'#071410':'transparent',borderBottom:'1px solid #0b1525',borderLeft:`2px solid ${row.atm?TEAL:'transparent'}`}}>
-                    <div onClick={()=>{setSel({strike:row.K,ot:'call'});setOSide('buy');}} style={{cursor:'pointer',background:sc?`${TEAL}18`:row.itmc?'#0e1c14':'transparent',borderRadius:4,padding:'1px 3px'}}>
-                      <div style={{fontWeight:700,color:'#22c55e',fontFamily:'monospace',fontSize:12}}>{row.c.p.toFixed(2)}</div>
-                      <div style={{fontSize:8,color:DIM,marginTop:1}}>Δ{row.c.d} Θ{row.c.t} {row.c.iv}%</div>
+                  <div key={row.K} style={{display:'grid',gridTemplateColumns:'1fr 96px 80px 96px 1fr',padding:'6px 14px',background:row.atm?'#0b1a30':row.itmc?'#071410':'transparent',borderBottom:'1px solid #0b1525',borderLeft:`3px solid ${row.atm?TEAL:'transparent'}`}}>
+                    <div onClick={()=>{setSel({strike:row.K,ot:'call'});setOSide('buy');}} style={{cursor:'pointer',background:sc?`${TEAL}22`:row.itmc?'#0e1c14':'transparent',borderRadius:5,padding:'2px 5px'}}>
+                      <div style={{fontWeight:800,color:'#22c55e',fontFamily:'monospace',fontSize:13.5}}>{row.c.p.toFixed(2)}</div>
+                      <div style={{fontSize:9.5,color:'#94a3b8',marginTop:1}}>Δ{row.c.d} Θ{row.c.t} {row.c.iv}%</div>
                     </div>
-                    <div onClick={()=>{setSel({strike:row.K,ot:'call'});setOSide('buy');}} style={{cursor:'pointer',fontFamily:'monospace',fontSize:10,display:'flex',alignItems:'center',gap:2}}>
-                      <span style={{color:DIM}}>{row.c.bid}</span><span style={{color:'#1a2840'}}>/</span><span style={{color:'#22c55e'}}>{row.c.ask}</span>
+                    <div onClick={()=>{setSel({strike:row.K,ot:'call'});setOSide('buy');}} style={{cursor:'pointer',fontFamily:'monospace',fontSize:11.5,display:'flex',alignItems:'center',gap:3}}>
+                      <span style={{color:DIM}}>{row.c.bid}</span><span style={{color:'#334155'}}>/</span><span style={{color:'#22c55e',fontWeight:700}}>{row.c.ask}</span>
                     </div>
-                    <div style={{textAlign:'center',fontWeight:800,color:row.atm?TEAL:'#94a3b8',fontSize:12,display:'flex',alignItems:'center',justifyContent:'center'}}>{row.K}</div>
-                    <div onClick={()=>{setSel({strike:row.K,ot:'put'});setOSide('buy');}} style={{cursor:'pointer',fontFamily:'monospace',fontSize:10,display:'flex',alignItems:'center',justifyContent:'flex-end',gap:2}}>
-                      <span style={{color:'#ef4444'}}>{row.p.bid}</span><span style={{color:'#1a2840'}}>/</span><span style={{color:DIM}}>{row.p.ask}</span>
+                    <div style={{textAlign:'center',fontWeight:900,color:row.atm?TEAL:'#f1f5f9',fontSize:14,display:'flex',alignItems:'center',justifyContent:'center'}}>{row.K}</div>
+                    <div onClick={()=>{setSel({strike:row.K,ot:'put'});setOSide('buy');}} style={{cursor:'pointer',fontFamily:'monospace',fontSize:11.5,display:'flex',alignItems:'center',justifyContent:'flex-end',gap:3}}>
+                      <span style={{color:'#ef4444',fontWeight:700}}>{row.p.bid}</span><span style={{color:'#334155'}}>/</span><span style={{color:DIM}}>{row.p.ask}</span>
                     </div>
-                    <div onClick={()=>{setSel({strike:row.K,ot:'put'});setOSide('buy');}} style={{cursor:'pointer',background:sp?'#ef444418':row.itmp?'#140b0b':'transparent',borderRadius:4,padding:'1px 3px',textAlign:'right'}}>
-                      <div style={{fontWeight:700,color:'#ef4444',fontFamily:'monospace',fontSize:12}}>{row.p.p.toFixed(2)}</div>
-                      <div style={{fontSize:8,color:DIM,marginTop:1}}>Δ{row.p.d} Θ{row.p.t} {row.p.iv}%</div>
+                    <div onClick={()=>{setSel({strike:row.K,ot:'put'});setOSide('buy');}} style={{cursor:'pointer',background:sp?'#ef444422':row.itmp?'#140b0b':'transparent',borderRadius:5,padding:'2px 5px',textAlign:'right'}}>
+                      <div style={{fontWeight:800,color:'#ef4444',fontFamily:'monospace',fontSize:13.5}}>{row.p.p.toFixed(2)}</div>
+                      <div style={{fontSize:9.5,color:'#94a3b8',marginTop:1}}>Δ{row.p.d} Θ{row.p.t} {row.p.iv}%</div>
                     </div>
                   </div>
                 );
@@ -551,27 +551,30 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
 
           {/* POSICIONES */}
           {tabCentro==='positions'&&(
-            <div style={{overflowY:'auto',flex:1,padding:12}}>
-              {!positions.length&&<div style={{textAlign:'center',color:DIM,marginTop:60,fontSize:13,lineHeight:2}}>Sin posiciones abiertas.<br/>Ve a <strong style={{color:TEAL}}>📖 Aprender</strong> o al <strong style={{color:TEAL}}>📊 Chain</strong>.</div>}
+            <div style={{overflowY:'auto',flex:1,padding:14}}>
+              {!positions.length&&<div style={{textAlign:'center',color:DIM,marginTop:60,fontSize:14,lineHeight:2}}>Sin posiciones abiertas.<br/>Ve a <strong style={{color:TEAL}}>📖 Aprender</strong> o al <strong style={{color:TEAL}}>📊 Chain</strong>.</div>}
               {positions.map(p=>{
                 const T=Math.max(0.001,p.dte/365),curr=bsp(spot,p.strike,T,p.ot,σ);
                 const pnl=(p.side==='buy'?(curr-p.avg):(p.avg-curr))*100*p.qty,pct=(pnl/(p.avg*100*p.qty))*100;
                 const pSym=SYMBOLS[p.sym]||SD;
                 return(
-                  <div key={p.id} style={{background:CARD,border:`1px solid ${pnl>=0?'#14532d':'#7f1d1d'}`,borderRadius:8,padding:11,marginBottom:8}}>
+                  <div key={p.id} style={{background:CARD,border:`1px solid ${pnl>=0?'#14532d':'#7f1d1d'}`,borderRadius:9,padding:'12px 14px',marginBottom:10}}>
                     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                       <div>
-                        <span style={{fontWeight:700,fontSize:13,color:p.ot==='call'?'#22c55e':'#ef4444'}}>{p.side==='buy'?'COMPRA':'VENTA'} {p.qty}x</span>
-                        <span style={{color:pSym.col,marginLeft:6,fontWeight:700}}>{p.sym}</span>
-                        <span style={{color:'#94a3b8',marginLeft:4}}>${p.strike} {p.ot.toUpperCase()}</span>
-                        <span style={{color:DIM,fontSize:10,marginLeft:6}}>{p.dte}D</span>
+                        <span style={{fontWeight:800,fontSize:14,color:p.ot==='call'?'#22c55e':'#ef4444'}}>{p.side==='buy'?'COMPRA':'VENTA'} {p.qty}x</span>
+                        <span style={{color:pSym.col,marginLeft:8,fontWeight:800,fontSize:14}}>{p.sym}</span>
+                        <span style={{color:'#f1f5f9',marginLeft:6,fontSize:13}}>${p.strike} {p.ot.toUpperCase()}</span>
+                        <span style={{color:DIM,fontSize:11.5,marginLeft:8}}>{p.dte}D</span>
                       </div>
-                      <div style={{textAlign:'right'}}><div style={{fontWeight:700,fontFamily:'monospace',color:pnl>=0?'#22c55e':'#ef4444',fontSize:13}}>{pnl>=0?'+':''}{f$(pnl)}</div><div style={{fontSize:9,color:DIM}}>{pct>=0?'+':''}{pct.toFixed(1)}%</div></div>
+                      <div style={{textAlign:'right'}}>
+                        <div style={{fontWeight:800,fontFamily:'monospace',color:pnl>=0?'#22c55e':'#ef4444',fontSize:14}}>{pnl>=0?'+':''}{f$(pnl)}</div>
+                        <div style={{fontSize:11,color:DIM}}>{pct>=0?'+':''}{pct.toFixed(1)}%</div>
+                      </div>
                     </div>
-                    <div style={{display:'flex',gap:12,marginTop:5,fontSize:9,color:DIM}}>
-                      <span>Entrada: ${p.avg.toFixed(2)}</span><span>Ahora: ${curr.toFixed(2)}</span><span style={{color:'#60a5fa'}}>Δ{p.d}</span><span style={{color:'#f59e0b'}}>Θ{p.t}</span>
+                    <div style={{display:'flex',gap:14,marginTop:6,fontSize:11,color:'#94a3b8'}}>
+                      <span>Entrada: ${p.avg.toFixed(2)}</span><span>Ahora: ${curr.toFixed(2)}</span><span style={{color:'#60a5fa',fontWeight:600}}>Δ{p.d}</span><span style={{color:'#f59e0b',fontWeight:600}}>Θ{p.t}</span>
                     </div>
-                    <button onClick={()=>{setSel({strike:p.strike,ot:p.ot});setOSide(p.side==='buy'?'sell':'buy');setTabCentro('chain');}} style={{marginTop:8,background:'#450a0a',border:'1px solid #7f1d1d',borderRadius:5,color:'#fca5a5',cursor:'pointer',padding:'4px 10px',fontSize:10,fontWeight:600}}>Cerrar Posición →</button>
+                    <button onClick={()=>{setSel({strike:p.strike,ot:p.ot});setOSide(p.side==='buy'?'sell':'buy');setTabCentro('chain');}} style={{marginTop:10,background:'#450a0a',border:'1px solid #7f1d1d',borderRadius:6,color:'#fca5a5',cursor:'pointer',padding:'5px 12px',fontSize:11.5,fontWeight:700}}>Cerrar Posición →</button>
                   </div>
                 );
               })}
@@ -580,17 +583,17 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
 
           {/* HISTORIAL */}
           {tabCentro==='history'&&(
-            <div style={{overflowY:'auto',flex:1,padding:12}}>
-              {!trades.length&&<div style={{textAlign:'center',color:DIM,marginTop:60}}>Sin operaciones aún. ¡A operar!</div>}
+            <div style={{overflowY:'auto',flex:1,padding:14}}>
+              {!trades.length&&<div style={{textAlign:'center',color:DIM,marginTop:60,fontSize:14}}>Sin operaciones aún. ¡A operar!</div>}
               {trades.map(t=>(
-                <div key={t.id} style={{background:CARD,border:`1px solid ${BDR}`,borderRadius:6,padding:'7px 11px',marginBottom:5,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <div key={t.id} style={{background:CARD,border:`1px solid ${BDR}`,borderRadius:7,padding:'9px 13px',marginBottom:6,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                   <div>
-                    <span style={{fontWeight:700,color:SYMBOLS[t.sym]?.col||TEAL,marginRight:5}}>{t.sym}</span>
-                    <span style={{fontWeight:600,color:t.ot==='call'?'#22c55e':'#ef4444'}}>{t.side==='buy'?'COMPRA':'VENTA'} {t.qty}x ${t.strike} {t.ot.toUpperCase()}</span>
-                    {t.isClose&&<span style={{fontSize:9,color:'#f59e0b',marginLeft:6,fontWeight:600,background:'#451a03',padding:'1px 5px',borderRadius:3}}>CIERRE</span>}
-                    <div style={{fontSize:9,color:DIM,marginTop:2}}>@ ${t.price} · {t.time} · Δ{t.delta}</div>
+                    <span style={{fontWeight:800,color:SYMBOLS[t.sym]?.col||TEAL,marginRight:6,fontSize:13}}>{t.sym}</span>
+                    <span style={{fontWeight:700,fontSize:13,color:t.ot==='call'?'#22c55e':'#ef4444'}}>{t.side==='buy'?'COMPRA':'VENTA'} {t.qty}x ${t.strike} {t.ot.toUpperCase()}</span>
+                    {t.isClose&&<span style={{fontSize:10,color:'#f59e0b',marginLeft:8,fontWeight:700,background:'#451a03',padding:'2px 6px',borderRadius:4}}>CIERRE</span>}
+                    <div style={{fontSize:11,color:DIM,marginTop:3}}>@ ${t.price} · {t.time} · Δ{t.delta}</div>
                   </div>
-                  {t.pnl!=null&&<div style={{textAlign:'right'}}><div style={{fontWeight:700,color:t.pnl>=0?'#22c55e':'#ef4444',fontFamily:'monospace'}}>{t.pnl>=0?'+':''}{f$(t.pnl)}</div><div style={{fontSize:9,color:DIM}}>{t.pnlPct>=0?'+':''}{t.pnlPct}%</div></div>}
+                  {t.pnl!=null&&<div style={{textAlign:'right'}}><div style={{fontWeight:800,fontSize:13.5,color:t.pnl>=0?'#22c55e':'#ef4444',fontFamily:'monospace'}}>{t.pnl>=0?'+':''}{f$(t.pnl)}</div><div style={{fontSize:11,color:DIM}}>{t.pnlPct>=0?'+':''}{t.pnlPct}%</div></div>}
                 </div>
               ))}
             </div>
@@ -599,93 +602,93 @@ Activo: ${sym} (${SD.name}) en $${spot.toFixed(2)}, IV ${(σ*100).toFixed(0)}%, 
 
         {/* DERECHA (Paso 4 Tour) */}
         <div id="tour-order-payoff" style={{borderLeft:`1px solid ${BDR}`,display:'flex',flexDirection:'column',overflowY:'auto',background:'#08101c'}}>
-          <div style={{padding:12,borderBottom:`1px solid ${BDR}`,flexShrink:0}}>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
-              <div style={{fontWeight:700,fontSize:9,color:DIM,letterSpacing:1.2}}>ENTRADA DE ORDEN</div>
-              {sel&&<span style={{fontSize:9,color:SD.col,fontWeight:700,background:`${SD.col}15`,border:`1px solid ${SD.col}40`,borderRadius:4,padding:'2px 7px'}}>{sym}</span>}
+          <div style={{padding:14,borderBottom:`1px solid ${BDR}`,flexShrink:0}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10}}>
+              <div style={{fontWeight:800,fontSize:11,color:DIM,letterSpacing:1.2}}>ENTRADA DE ORDEN</div>
+              {sel&&<span style={{fontSize:10.5,color:SD.col,fontWeight:800,background:`${SD.col}18`,border:`1px solid ${SD.col}40`,borderRadius:5,padding:'3px 8px'}}>{sym}</span>}
             </div>
             {sel?(
               <>
-                <div style={{background:CARD,borderRadius:8,padding:10,marginBottom:8,border:`1px solid ${SD.col}44`}}>
+                <div style={{background:CARD,borderRadius:10,padding:12,marginBottom:10,border:`1px solid ${SD.col}44`}}>
                   <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                    <span style={{fontWeight:700,color:sel.ot==='call'?'#22c55e':'#ef4444',fontSize:13}}>{sym} ${sel.strike} {sel.ot.toUpperCase()}</span>
-                    <span style={{color:DIM,fontSize:10}}>{dte}D venc.</span>
+                    <span style={{fontWeight:800,color:sel.ot==='call'?'#22c55e':'#ef4444',fontSize:15}}>{sym} ${sel.strike} {sel.ot.toUpperCase()}</span>
+                    <span style={{color:DIM,fontSize:11.5,fontWeight:600}}>{dte}D venc.</span>
                   </div>
                   {selInfo&&(
                     <>
-                      <div style={{fontFamily:'monospace',fontSize:18,fontWeight:700,color:'#e2e8f0',margin:'4px 0'}}>${selInfo.px.toFixed(2)} <span style={{fontSize:10,color:DIM}}>/ acción</span></div>
-                      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:3}}>
+                      <div style={{fontFamily:'monospace',fontSize:21,fontWeight:800,color:'#f8fafc',margin:'6px 0'}}>${selInfo.px.toFixed(2)} <span style={{fontSize:11.5,color:DIM,fontWeight:400}}>/ acción</span></div>
+                      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:4}}>
                         {[['Delta Δ',selInfo.g.d,'#60a5fa','Exposición direccional'],['Gamma Γ',selInfo.g.g,'#a78bfa','Cambio del delta'],['Theta Θ',selInfo.g.t,'#f59e0b','Decaimiento diario'],['Vega ν',selInfo.g.v,'#34d399','Sensibilidad a IV']].map(([l,v,c,hint])=>(
-                          <div key={l} style={{background:'#050c18',borderRadius:4,padding:'4px 6px'}}>
-                            <div style={{fontSize:8,color:DIM,marginBottom:1}}>{l}</div>
-                            <div style={{color:c,fontWeight:700,fontFamily:'monospace',fontSize:12}}>{v}</div>
-                            <div style={{fontSize:8,color:'#2d3f57'}}>{hint}</div>
+                          <div key={l} style={{background:'#050c18',borderRadius:6,padding:'5px 8px'}}>
+                            <div style={{fontSize:10.5,color:DIM,marginBottom:2,fontWeight:600}}>{l}</div>
+                            <div style={{color:c,fontWeight:800,fontFamily:'monospace',fontSize:13.5}}>{v}</div>
+                            <div style={{fontSize:9.5,color:'#8da2be',marginTop:1}}>{hint}</div>
                           </div>
                         ))}
                       </div>
                     </>
                   )}
                 </div>
-                <div style={{display:'flex',gap:4,marginBottom:8}}>
+                <div style={{display:'flex',gap:6,marginBottom:10}}>
                   {[['buy','COMPRAR'],['sell','VENDER']].map(([s,lbl])=>(
-                    <button key={s} onClick={()=>setOSide(s)} style={{flex:1,padding:'7px',fontWeight:700,fontSize:12,cursor:'pointer',borderRadius:6,transition:'all .15s',background:oSide===s?(s==='buy'?'#14532d':'#7f1d1d'):'transparent',border:`1px solid ${oSide===s?(s==='buy'?'#22c55e':'#ef4444'):BDR}`,color:oSide===s?(s==='buy'?'#22c55e':'#fca5a5'):DIM}}>{lbl}</button>
+                    <button key={s} onClick={()=>setOSide(s)} style={{flex:1,padding:'9px',fontWeight:800,fontSize:13.5,cursor:'pointer',borderRadius:7,transition:'all .15s',background:oSide===s?(s==='buy'?'#14532d':'#7f1d1d'):'transparent',border:`1px solid ${oSide===s?(s==='buy'?'#22c55e':'#ef4444'):BDR}`,color:oSide===s?(s==='buy'?'#22c55e':'#fca5a5'):DIM}}>{lbl}</button>
                   ))}
                 </div>
-                <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:8}}>
-                  <span style={{color:DIM,fontSize:11,flex:1}}>Contratos:</span>
-                  {[-1,null,1].map((delta,i)=>delta===null?<span key="qty" style={{fontWeight:700,fontSize:15,fontFamily:'monospace',minWidth:24,textAlign:'center'}}>{qty}</span>:<button key={i} onClick={()=>setQty(q=>Math.max(1,q+delta))} style={{background:'#141e30',border:`1px solid ${BDR}`,borderRadius:5,color:'#e2e8f0',cursor:'pointer',width:26,height:26,fontSize:15,display:'flex',alignItems:'center',justifyContent:'center',fontWeight:700}}>{delta>0?'+':'−'}</button>)}
+                <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}>
+                  <span style={{color:DIM,fontSize:12.5,flex:1,fontWeight:600}}>Contratos:</span>
+                  {[-1,null,1].map((delta,i)=>delta===null?<span key="qty" style={{fontWeight:800,fontSize:16,fontFamily:'monospace',minWidth:28,textAlign:'center'}}>{qty}</span>:<button key={i} onClick={()=>setQty(q=>Math.max(1,q+delta))} style={{background:'#141e30',border:`1px solid ${BDR}`,borderRadius:6,color:'#f1f5f9',cursor:'pointer',width:28,height:28,fontSize:16,display:'flex',alignItems:'center',justifyContent:'center',fontWeight:800}}>{delta>0?'+':'−'}</button>)}
                 </div>
                 {selInfo&&(
                   <>
-                    <div style={{fontSize:10,color:DIM,marginBottom:4}}>Est. {oSide==='buy'?'Costo':'Crédito'}: <span style={{color:'#e2e8f0',fontWeight:700,fontFamily:'monospace'}}>${(selInfo.px*(oSide==='buy'?1.018:0.982)*100*qty).toFixed(2)}</span><span style={{color:DIM}}> (×{qty}×100)</span></div>
-                    <div style={{fontSize:9,color:DIM,marginBottom:8,background:'#050c18',borderRadius:5,padding:'5px 8px'}}>
+                    <div style={{fontSize:12,color:DIM,marginBottom:6}}>Est. {oSide==='buy'?'Costo':'Crédito'}: <span style={{color:'#f8fafc',fontWeight:800,fontFamily:'monospace'}}>${(selInfo.px*(oSide==='buy'?1.018:0.982)*100*qty).toFixed(2)}</span><span style={{color:DIM}}> (×{qty}×100)</span></div>
+                    <div style={{fontSize:11,color:'#cbd5e1',marginBottom:10,background:'#050c18',borderRadius:6,padding:'7px 10px',lineHeight:1.5,border:'1px solid #132238'}}>
                       {oSide==='buy'?`📌 Pérd. máx: $${(selInfo.px*1.018*100*qty).toFixed(0)} · Ganas si ${sel.ot==='call'?`${sym} sube sobre`:`${sym} cae bajo`} $${(sel.strike+(sel.ot==='call'?1:-1)*selInfo.px).toFixed(0)}`:`📌 Gan. máx: $${(selInfo.px*0.982*100*qty).toFixed(0)} · Te quedas la prima si expira sin valor`}
                     </div>
                   </>
                 )}
-                <button onClick={ejecutarOrden} style={{width:'100%',padding:'10px',fontWeight:800,fontSize:13,cursor:'pointer',borderRadius:8,background:`linear-gradient(135deg,${oSide==='buy'?'#166634,#15803d':'#991b1b,#7f1d1d'})`,border:'none',color:'#fff',letterSpacing:.5}}>
+                <button onClick={ejecutarOrden} style={{width:'100%',padding:'12px',fontWeight:800,fontSize:14,cursor:'pointer',borderRadius:8,background:`linear-gradient(135deg,${oSide==='buy'?'#166634,#15803d':'#991b1b,#7f1d1d'})`,border:'none',color:'#fff',letterSpacing:.5,boxShadow:oSide==='buy'?'0 0 16px rgba(22,102,52,0.4)':'0 0 16px rgba(153,27,27,0.4)'}}>
                   {oSide==='buy'?'📈':'📉'} {oSide==='buy'?'COMPRAR':'VENDER'} {qty} CONTRATO{qty!==1?'S':''}
                 </button>
               </>
             ):(
-              <div style={{textAlign:'center',padding:'16px 10px',fontSize:11,lineHeight:1.8}}>
-                <div style={{color:TEAL,fontSize:22,marginBottom:8}}>←</div>
-                <div style={{color:'#94a3b8',marginBottom:4}}>Selecciona el activo arriba,</div>
+              <div style={{textAlign:'center',padding:'20px 12px',fontSize:12.5,lineHeight:1.8}}>
+                <div style={{color:TEAL,fontSize:24,marginBottom:8}}>←</div>
+                <div style={{color:'#cbd5e1',marginBottom:4,fontWeight:600}}>Selecciona el activo arriba,</div>
                 <div style={{color:DIM}}>luego haz clic en cualquier</div>
                 <div style={{color:DIM}}>precio del chain para operar.</div>
-                <div style={{marginTop:10,background:CARD,border:`1px solid ${BDR}`,borderRadius:7,padding:'8px',fontSize:9,color:'#475569'}}>
-                  ¿Nuevo? Empieza por <span style={{color:TEAL,cursor:'pointer'}} onClick={()=>setTabCentro('aprender')}>📖 Aprender</span> primero
+                <div style={{marginTop:12,background:CARD,border:`1px solid ${BDR}`,borderRadius:8,padding:'10px',fontSize:11,color:'#94a3b8'}}>
+                  ¿Nuevo? Empieza por <span style={{color:TEAL,cursor:'pointer',fontWeight:700}} onClick={()=>setTabCentro('aprender')}>📖 Aprender</span> primero
                 </div>
               </div>
             )}
           </div>
 
           {/* Payoff */}
-          <div style={{padding:12,borderBottom:`1px solid ${BDR}`,flexShrink:0}}>
-            <div style={{fontWeight:700,fontSize:9,color:DIM,letterSpacing:1.2,marginBottom:6}}>PAYOFF AL VENCIMIENTO</div>
+          <div style={{padding:14,borderBottom:`1px solid ${BDR}`,flexShrink:0}}>
+            <div style={{fontWeight:800,fontSize:11,color:DIM,letterSpacing:1.2,marginBottom:8}}>PAYOFF AL VENCIMIENTO</div>
             {payoff.length?(
-              <ResponsiveContainer width="100%" height={115}>
+              <ResponsiveContainer width="100%" height={125}>
                 <LineChart data={payoff} margin={{top:4,right:4,bottom:0,left:-8}}>
                   <CartesianGrid strokeDasharray="2 4" stroke="#0d1828"/>
-                  <XAxis dataKey="s" tick={{fontSize:8,fill:DIM}} interval={14}/>
-                  <YAxis tick={{fontSize:8,fill:DIM}} tickFormatter={v=>v>=0?`$${v}`:`-$${Math.abs(v)}`}/>
-                  <Tooltip contentStyle={{background:CARD,border:`1px solid ${BDR}`,borderRadius:6,fontSize:9}} formatter={v=>[`${v>=0?'+':''}$${v}`,'P&L']} labelFormatter={l=>`${sym} @ $${l}`}/>
-                  <ReferenceLine y={0} stroke="#374151" strokeDasharray="3 3"/>
+                  <XAxis dataKey="s" tick={{fontSize:9.5,fill:DIM}} interval={14}/>
+                  <YAxis tick={{fontSize:9.5,fill:DIM}} tickFormatter={v=>v>=0?`$${v}`:`-$${Math.abs(v)}`}/>
+                  <Tooltip contentStyle={{background:CARD,border:`1px solid ${BDR}`,borderRadius:7,fontSize:11}} formatter={v=>[`${v>=0?'+':''}$${v}`,'P&L']} labelFormatter={l=>`${sym} @ $${l}`}/>
+                  <ReferenceLine y={0} stroke="#475569" strokeDasharray="3 3"/>
                   <ReferenceLine x={spot.toFixed(0)} stroke={TEAL} strokeDasharray="3 3"/>
-                  <Line type="monotone" dataKey="pnl" stroke={TEAL} dot={false} strokeWidth={2}/>
+                  <Line type="monotone" dataKey="pnl" stroke={TEAL} dot={false} strokeWidth={2.5}/>
                 </LineChart>
               </ResponsiveContainer>
             ):(
-              <div style={{textAlign:'center',color:DIM,fontSize:10,padding:'14px 0',background:CARD,borderRadius:8,lineHeight:1.7}}>Abre una posición<br/>para ver el diagrama de payoff</div>
+              <div style={{textAlign:'center',color:DIM,fontSize:12,padding:'18px 0',background:CARD,borderRadius:8,lineHeight:1.7}}>Abre una posición<br/>para ver el diagrama de payoff</div>
             )}
           </div>
 
           {/* Coach IA */}
-          <div style={{padding:12,flex:1}}>
-            <div style={{fontWeight:700,fontSize:9,color:'#d4a017',letterSpacing:1.2,marginBottom:6}}>🤖 COACH GENY IA · INGRESARIOS</div>
-            <div style={{background:CARD,border:`1px solid ${BDR}`,borderRadius:8,padding:10,minHeight:90}}>
-              {aiLoad?<div style={{color:TEAL,fontSize:11,display:'flex',alignItems:'center',gap:8}}>⚡ Analizando tu operación...</div>
-              :<div style={{color:'#94a3b8',fontSize:11,lineHeight:1.8,whiteSpace:'pre-wrap'}}>{aiMsg}</div>}
+          <div style={{padding:14,flex:1}}>
+            <div style={{fontWeight:800,fontSize:11,color:'#d4a017',letterSpacing:1.2,marginBottom:8}}>🤖 COACH GENY IA · INGRESARIOS</div>
+            <div style={{background:CARD,border:`1px solid ${BDR}`,borderRadius:9,padding:12,minHeight:95}}>
+              {aiLoad?<div style={{color:TEAL,fontSize:12.5,display:'flex',alignItems:'center',gap:8,fontWeight:600}}>⚡ Analizando tu operación...</div>
+              :<div style={{color:'#e2e8f0',fontSize:12.5,lineHeight:1.75,whiteSpace:'pre-wrap'}}>{aiMsg}</div>}
             </div>
           </div>
         </div>

@@ -91,7 +91,7 @@ export const TutorialSpotlight: React.FC<TutorialSpotlightProps> = ({
   if (!isOpen || !step) return null;
 
   // Ancho responsivo de la tarjeta
-  const cardWidth = Math.min(360, windowDimensions.width - 32);
+  const cardWidth = Math.min(385, windowDimensions.width - 32);
   const padding = 12;
 
   let desiredTop = 0;
@@ -195,7 +195,7 @@ export const TutorialSpotlight: React.FC<TutorialSpotlightProps> = ({
           background: 'linear-gradient(145deg, #0e1726, #09101d)',
           border: '1px solid #1f3352',
           borderRadius: 14,
-          padding: '14px 16px',
+          padding: '16px 18px',
           color: '#e2e8f0',
           boxShadow: '0 20px 50px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 212, 170, 0.25)',
           fontFamily: "'Inter', system-ui, sans-serif",
@@ -203,24 +203,24 @@ export const TutorialSpotlight: React.FC<TutorialSpotlightProps> = ({
         }}
       >
         {/* Barra superior con badge de paso y botón cerrar */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span
               style={{
-                fontSize: 9,
+                fontSize: 10.5,
                 fontWeight: 800,
                 letterSpacing: 1.2,
                 color: step.badgeCol || '#00d4aa',
                 background: `${step.badgeCol || '#00d4aa'}18`,
                 border: `1px solid ${step.badgeCol || '#00d4aa'}40`,
-                padding: '2px 7px',
-                borderRadius: 4,
+                padding: '3px 8px',
+                borderRadius: 5,
                 textTransform: 'uppercase',
               }}
             >
               {step.badge}
             </span>
-            <span style={{ fontSize: 10, color: '#64748b', fontWeight: 600 }}>
+            <span style={{ fontSize: 11.5, color: '#94a3b8', fontWeight: 600 }}>
               Paso {currentStepIndex + 1} de {steps.length}
             </span>
           </div>
@@ -231,30 +231,30 @@ export const TutorialSpotlight: React.FC<TutorialSpotlightProps> = ({
             style={{
               background: 'transparent',
               border: 'none',
-              color: '#64748b',
-              fontSize: 16,
+              color: '#94a3b8',
+              fontSize: 18,
               cursor: 'pointer',
               padding: '2px 6px',
               borderRadius: 4,
               lineHeight: 1,
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#e2e8f0')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = '#64748b')}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#f8fafc')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#94a3b8')}
           >
             ✕
           </button>
         </div>
 
         {/* Título e Icono */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 7 }}>
-          <span style={{ fontSize: 18, lineHeight: 1 }}>{step.icon}</span>
-          <div style={{ fontWeight: 800, fontSize: 14, color: '#f8fafc', letterSpacing: 0.2 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 8 }}>
+          <span style={{ fontSize: 20, lineHeight: 1 }}>{step.icon}</span>
+          <div style={{ fontWeight: 800, fontSize: 15.5, color: '#f8fafc', letterSpacing: 0.2 }}>
             {step.title}
           </div>
         </div>
 
         {/* Descripción */}
-        <div style={{ fontSize: 11.5, color: '#94a3b8', lineHeight: 1.55, marginBottom: 10 }}>
+        <div style={{ fontSize: 13, color: '#cbd5e1', lineHeight: 1.6, marginBottom: 12 }}>
           {step.description}
         </div>
 
@@ -265,32 +265,32 @@ export const TutorialSpotlight: React.FC<TutorialSpotlightProps> = ({
               background: '#061322',
               border: '1px solid #0f2744',
               borderRadius: 8,
-              padding: '7px 9px',
-              fontSize: 10.5,
-              color: '#cbd5e1',
-              lineHeight: 1.45,
-              marginBottom: 10,
+              padding: '9px 12px',
+              fontSize: 12,
+              color: '#e2e8f0',
+              lineHeight: 1.5,
+              marginBottom: 12,
               display: 'flex',
-              gap: 6,
+              gap: 8,
               alignItems: 'flex-start',
             }}
           >
-            <span style={{ color: '#f59e0b', fontSize: 12, flexShrink: 0 }}>💡</span>
+            <span style={{ color: '#f59e0b', fontSize: 14, flexShrink: 0 }}>💡</span>
             <div>{step.tip}</div>
           </div>
         )}
 
         {/* Barra de progreso con puntos */}
-        <div style={{ display: 'flex', gap: 4, marginBottom: 12 }}>
+        <div style={{ display: 'flex', gap: 5, marginBottom: 14 }}>
           {steps.map((_, idx) => (
             <button
               key={idx}
               onClick={() => onGoToStep(idx)}
               style={{
-                height: 4,
+                height: 5,
                 flex: 1,
                 background: idx === currentStepIndex ? '#00d4aa' : idx < currentStepIndex ? '#14532d' : '#1e293b',
-                borderRadius: 2,
+                borderRadius: 3,
                 border: 'none',
                 cursor: 'pointer',
                 transition: 'background 0.2s',
@@ -308,18 +308,18 @@ export const TutorialSpotlight: React.FC<TutorialSpotlightProps> = ({
             style={{
               background: 'transparent',
               border: 'none',
-              color: '#64748b',
-              fontSize: 11,
+              color: '#94a3b8',
+              fontSize: 12,
               cursor: 'pointer',
               padding: '4px 6px',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#94a3b8')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = '#64748b')}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#f1f5f9')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#94a3b8')}
           >
             Saltar tour
           </button>
 
-          <div style={{ display: 'flex', gap: 6 }}>
+          <div style={{ display: 'flex', gap: 8 }}>
             {currentStepIndex > 0 && (
               <button
                 onClick={onPrev}
@@ -327,9 +327,9 @@ export const TutorialSpotlight: React.FC<TutorialSpotlightProps> = ({
                   background: '#131e30',
                   border: '1px solid #1e3352',
                   borderRadius: 7,
-                  color: '#cbd5e1',
-                  padding: '5px 11px',
-                  fontSize: 11,
+                  color: '#e2e8f0',
+                  padding: '7px 13px',
+                  fontSize: 12,
                   fontWeight: 600,
                   cursor: 'pointer',
                 }}
@@ -347,11 +347,11 @@ export const TutorialSpotlight: React.FC<TutorialSpotlightProps> = ({
                 border: 'none',
                 borderRadius: 7,
                 color: '#fff',
-                padding: '6px 14px',
-                fontSize: 11,
-                fontWeight: 700,
+                padding: '7px 16px',
+                fontSize: 12.5,
+                fontWeight: 800,
                 cursor: 'pointer',
-                boxShadow: isLast ? '0 0 12px rgba(16, 185, 129, 0.4)' : '0 0 12px rgba(0, 212, 170, 0.4)',
+                boxShadow: isLast ? '0 0 14px rgba(16, 185, 129, 0.4)' : '0 0 14px rgba(0, 212, 170, 0.4)',
               }}
             >
               {isLast ? '¡Comenzar! 🚀' : 'Siguiente →'}

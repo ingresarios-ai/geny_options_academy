@@ -42,33 +42,33 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
         }}
       >
         {/* Badge superior */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#d4a01718', border: '1px solid #d4a01740', padding: '3px 10px', borderRadius: 20, marginBottom: 14 }}>
-          <span style={{ fontSize: 10, color: '#f59e0b', fontWeight: 800, letterSpacing: 1.2 }}>INGRESARIOS PRESENTA</span>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#d4a01718', border: '1px solid #d4a01740', padding: '4px 12px', borderRadius: 20, marginBottom: 14 }}>
+          <span style={{ fontSize: 11, color: '#f59e0b', fontWeight: 800, letterSpacing: 1.2 }}>INGRESARIOS PRESENTA</span>
         </div>
 
         {/* Icono central con efecto glow */}
         <div
           style={{
-            width: 58,
-            height: 58,
-            borderRadius: 16,
+            width: 62,
+            height: 62,
+            borderRadius: 18,
             background: 'linear-gradient(135deg, #00d4aa, #0284c7)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             margin: '0 auto 16px',
-            fontSize: 28,
+            fontSize: 30,
             boxShadow: '0 0 25px rgba(0, 212, 170, 0.5)',
           }}
         >
           🎓
         </div>
 
-        <h2 style={{ fontSize: 20, fontWeight: 900, color: '#f8fafc', marginBottom: 8, letterSpacing: -0.5 }}>
+        <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f8fafc', marginBottom: 10, letterSpacing: -0.5 }}>
           ¡Bienvenido a Geny Options Academy!
         </h2>
 
-        <p style={{ fontSize: 12, color: '#94a3b8', lineHeight: 1.65, marginBottom: 20 }}>
+        <p style={{ fontSize: 13.5, color: '#cbd5e1', lineHeight: 1.65, marginBottom: 20 }}>
           Aprende y domina el trading de opciones financieras en un simulador gamificado en tiempo real con datos de mercado, cálculo de griegas y retroalimentación inteligente de nuestro <strong style={{ color: '#00d4aa' }}>Coach Geny IA</strong>.
         </p>
 
@@ -77,43 +77,43 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
           style={{
             background: '#07101c',
             border: '1px solid #132238',
-            borderRadius: 10,
-            padding: '12px 14px',
-            marginBottom: 20,
+            borderRadius: 12,
+            padding: '14px 16px',
+            marginBottom: 22,
             textAlign: 'left',
-            fontSize: 11,
-            color: '#cbd5e1',
+            fontSize: 12.5,
+            color: '#e2e8f0',
             display: 'flex',
             flexDirection: 'column',
-            gap: 8,
+            gap: 10,
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span>📊</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: 16 }}>📊</span>
             <span><strong>Option Chain interactivo:</strong> opera Calls y Puts en vivo.</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span>📈</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: 16 }}>📈</span>
             <span><strong>Gráficos de Payoff:</strong> visualiza tu riesgo/recompensa exacto.</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span>⏩</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: 16 }}>⏩</span>
             <span><strong>Máquina del tiempo:</strong> avanza días para ver el impacto de Theta.</span>
           </div>
         </div>
 
         {/* Botones de acción */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <button
             onClick={onStartTour}
             style={{
               background: 'linear-gradient(135deg, #00d4aa, #0284c7)',
               border: 'none',
-              borderRadius: 8,
+              borderRadius: 9,
               color: '#030712',
               fontWeight: 800,
-              fontSize: 13,
-              padding: '11px',
+              fontSize: 14,
+              padding: '12px',
               cursor: 'pointer',
               boxShadow: '0 0 20px rgba(0, 212, 170, 0.4)',
               letterSpacing: 0.3,
@@ -127,14 +127,14 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
             style={{
               background: 'transparent',
               border: '1px solid #1e3352',
-              borderRadius: 8,
+              borderRadius: 9,
               color: '#94a3b8',
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 600,
-              padding: '8px',
+              padding: '9px',
               cursor: 'pointer',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#e2e8f0')}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#f1f5f9')}
             onMouseLeave={(e) => (e.currentTarget.style.color = '#94a3b8')}
           >
             Ya conozco la plataforma · Ir directo al simulador
