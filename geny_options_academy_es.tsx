@@ -711,56 +711,64 @@ export default function GenyOptionsAcademyES(){
             )}
           </div>
 
-          {/* Payoff */}
-          <div style={{padding:14,borderBottom:`1px solid ${BDR}`,flexShrink:0}}>
-            <div style={{fontWeight:800,fontSize:11,color:DIM,letterSpacing:1.2,marginBottom:8}}>PAYOFF AL VENCIMIENTO</div>
+          {/* Payoff al vencimiento (ahora con espacio completo y despejado) */}
+          <div style={{padding:14,flex:1,display:'flex',flexDirection:'column'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
+              <div style={{fontWeight:800,fontSize:11,color:DIM,letterSpacing:1.2}}>PAYOFF AL VENCIMIENTO</div>
+              {positions.length > 0 && (
+                <span style={{fontSize:10.5,color:TEAL,fontWeight:700}}>Curva en vivo</span>
+              )}
+            </div>
             {payoff.length?(
-              <ResponsiveContainer width="100%" height={125}>
-                <LineChart data={payoff} margin={{top:4,right:4,bottom:0,left:-8}}>
-                  <CartesianGrid strokeDasharray="2 4" stroke="#0d1828"/>
-                  <XAxis dataKey="s" tick={{fontSize:9.5,fill:DIM}} interval={14}/>
-                  <YAxis tick={{fontSize:9.5,fill:DIM}} tickFormatter={v=>v>=0?`$${v}`:`-$${Math.abs(v)}`}/>
-                  <Tooltip contentStyle={{background:CARD,border:`1px solid ${BDR}`,borderRadius:7,fontSize:11}} formatter={v=>[`${v>=0?'+':''}$${v}`,'P&L']} labelFormatter={l=>`${sym} @ $${l}`}/>
-                  <ReferenceLine y={0} stroke="#475569" strokeDasharray="3 3"/>
-                  <ReferenceLine x={spot.toFixed(0)} stroke={TEAL} strokeDasharray="3 3"/>
-                  <Line type="monotone" dataKey="pnl" stroke={TEAL} dot={false} strokeWidth={2.5}/>
-                </LineChart>
-              </ResponsiveContainer>
+              <div style={{flex:1,minHeight:210}}>
+                <ResponsiveContainer width="100%" height={210}>
+                  <LineChart data={payoff} margin={{top:6,right:6,bottom:0,left:-6}}>
+                    <CartesianGrid strokeDasharray="2 4" stroke="#0d1828"/>
+                    <XAxis dataKey="s" tick={{fontSize:10,fill:DIM}} interval={12}/>
+                    <YAxis tick={{fontSize:10,fill:DIM}} tickFormatter={v=>v>=0?`$${v}`:`-$${Math.abs(v)}`}/>
+                    <Tooltip contentStyle={{background:CARD,border:`1px solid ${BDR}`,borderRadius:7,fontSize:11.5}} formatter={v=>[`${v>=0?'+':''}$${v}`,'P&L']} labelFormatter={l=>`${sym} @ $${l}`}/>
+                    <ReferenceLine y={0} stroke="#475569" strokeDasharray="3 3"/>
+                    <ReferenceLine x={spot.toFixed(0)} stroke={TEAL} strokeDasharray="3 3"/>
+                    <Line type="monotone" dataKey="pnl" stroke={TEAL} dot={false} strokeWidth={2.5}/>
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
             ):(
-              <div style={{textAlign:'center',color:DIM,fontSize:12,padding:'18px 0',background:CARD,borderRadius:8,lineHeight:1.7}}>Abre una posición<br/>para ver el diagrama de payoff</div>
+              <div style={{textAlign:'center',color:DIM,fontSize:12.5,padding:'32px 0',background:CARD,borderRadius:8,lineHeight:1.8}}>
+                <div style={{fontSize:20,marginBottom:6}}>📈</div>
+                Abre una posición en el chain<br/>para proyectar tus ganancias y pérdidas
+              </div>
             )}
-          </div>
-
-          {/* Coach IA Hub con Buscador de Conceptos y DeepSeek */}
-          <div style={{padding:14,flex:1}}>
-            <CoachGenyHub
-              sym={sym}
-              spot={spot}
-              SD={SD}
-              sigma={σ}
-              dte={dte}
-              sel={sel}
-              selInfo={selInfo}
-              equity={equity}
-              cash={cash}
-              totalPnL={totalPnL}
-              positionsCount={positions.length}
-              lastAiTradeMsg={aiMsg}
-              isAiLoading={aiLoad}
-              onNavigateToAcademyTier={tierId => {
-                setTierAprender(tierId);
-                setTabCentro('aprender');
-              }}
-              onSelectAtmOption={() => {
-                const s = SYMBOLS[sym] || SYMBOLS.SPY;
-                const atm = Math.round(spot / s.step) * s.step;
-                setSel({ strike: atm, ot: 'call' });
-                setOSide('buy');
-              }}
-            />
           </div>
         </div>
       </div>
+
+      {/* Widget flotante de Coach Geny IA (Burbuja interactiva en la esquina inferior derecha) */}
+      <CoachGenyHub
+        sym={sym}
+        spot={spot}
+        SD={SD}
+        sigma={σ}
+        dte={dte}
+        sel={sel}
+        selInfo={selInfo}
+        equity={equity}
+        cash={cash}
+        totalPnL={totalPnL}
+        positionsCount={positions.length}
+        lastAiTradeMsg={aiMsg}
+        isAiLoading={aiLoad}
+        onNavigateToAcademyTier={tierId => {
+          setTierAprender(tierId);
+          setTabCentro('aprender');
+        }}
+        onSelectAtmOption={() => {
+          const s = SYMBOLS[sym] || SYMBOLS.SPY;
+          const atm = Math.round(spot / s.step) * s.step;
+          setSel({ strike: atm, ot: 'call' });
+          setOSide('buy');
+        }}
+      />
 
       {/* Modal de Bienvenida inicial */}
       <WelcomeModal
