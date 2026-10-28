@@ -696,15 +696,94 @@
 .sp-sem-ai b { color: var(--gold-2); margin-right: 8px; }
 @media (max-width: 720px) { .sp-hero-ai b { font-size: 17px; } }
 
-/* ── Hero centrado con fondo animado de velas ── */
-.sp-hero { padding: 48px 0 64px; }
-.sp-hero-bg {
-  position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: .3;
-  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, transparent 28%, #000 85%);
-          mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, transparent 28%, #000 85%);
+/* ── HERO ELEGANTE, TECNOLÓGICO Y DE ALTO NIVEL (FINTECH LUXURY) ── */
+.sp-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: calc(100svh - 42px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 0 76px;
+  background: radial-gradient(circle at 50% -10%, #15181e 0%, #090a0d 65%, #050608 100%);
 }
-.sp-hero-grid { display: block; text-align: center; max-width: 860px; margin: 0 auto; }
-.sp-hero-copy { max-width: 820px; margin: 0 auto; }
+
+/* Focos de iluminación cinemática suave y halo dorado institucional */
+.sp-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 750px 380px at 50% 18%, rgba(214, 168, 78, 0.14), transparent 70%),
+    radial-gradient(circle 420px at 50% 38%, rgba(241, 208, 138, 0.06), transparent 75%);
+}
+
+/* Retícula arquitectónica tenue (estilo Stripe / Linear) */
+.sp-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.22;
+  background-image:
+    linear-gradient(rgba(214, 168, 78, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(214, 168, 78, 0.12) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, #000 20%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, #000 20%, transparent 80%);
+}
+
+/* Lienzo dinámico de trading de opciones en vivo */
+.sp-hero-bg-trading {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.92;
+  /* Gradiente radial equilibrado: mantiene la continuidad visual del gráfico con suavizado en el centro */
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, rgba(0,0,0,0.16) 0%, rgba(0,0,0,0.42) 42%, rgba(0,0,0,0.88) 72%, #000 100%);
+          mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, rgba(0,0,0,0.16) 0%, rgba(0,0,0,0.42) 42%, rgba(0,0,0,0.88) 72%, #000 100%);
+}
+
+/* Contenedor central simétrico y equilibrado */
+.sp-hero-wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 24px;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Lente óptica de alto contraste: difumina delicadamente el fondo detrás del texto para máxima legibilidad sin cortar la animación */
+.sp-hero-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -20px -30px;
+  border-radius: 40px;
+  background: radial-gradient(ellipse 72% 60% at 50% 45%, rgba(7, 8, 11, 0.72) 0%, rgba(7, 8, 11, 0.40) 55%, transparent 80%);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.sp-hero-copy {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
 
 /* Logo oficial de Ingresarios arriba del headline */
 .sp-hero-logo-wrap {
@@ -719,66 +798,192 @@
   height: auto;
   max-height: 44px;
   object-fit: contain;
-  filter: drop-shadow(0 4px 14px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 16px rgba(214, 168, 78, 0.2));
 }
 
-.sp-hero-h1 {
-  font-size: clamp(34px, 5.2vw, 66px);
+/* Micro-badge de vanguardia */
+.sp-hero-kicker-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-2);
+  background: rgba(214, 168, 78, 0.08);
+  border: 1px solid rgba(214, 168, 78, 0.28);
+  padding: 6px 16px;
+  border-radius: 999px;
+  margin: 0 auto 24px;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.sp-kicker-radar {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+  animation: spPulse 2s infinite ease-in-out;
+}
+
+/* Titular: armónico, potente, equilibrado y con degradado dorado */
+.sp .sp-hero-h1 {
+  font-size: clamp(38px, 5.2vw, 64px);
   font-weight: 850;
   line-height: 1.12;
   letter-spacing: -0.035em;
   color: #fff;
-  margin: 0 auto 18px;
-  max-width: 860px;
+  margin: 0 auto 20px;
+  max-width: 820px;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 1), 0 2px 8px rgba(0, 0, 0, 0.95), 0 0 1px rgba(0, 0, 0, 0.8);
+  text-align: center;
 }
-.sp-hero-h1 span.sp-gold-grad {
+.sp .sp-hero-h1 span.sp-gold-grad {
   display: inline;
   margin: 0;
+  background: linear-gradient(135deg, #fae29f 0%, #d6a84e 50%, #f6dfa2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 24px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 28px rgba(214, 168, 78, 0.45));
 }
+
+/* Subtítulo y párrafo explicativo */
 .sp .sp-hero-sub,
 .sp p.sp-hero-sub {
   display: block;
-  max-width: 760px;
+  max-width: 720px;
   margin: 0 auto 16px !important;
-  font-size: clamp(17px, 1.8vw, 21px);
+  font-size: clamp(18px, 1.9vw, 22px);
+  font-weight: 500;
   line-height: 1.45;
-  color: var(--text);
+  color: #fff;
   text-wrap: balance;
   text-align: center;
+  text-shadow: 0 3px 20px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 .sp .sp-lead,
 .sp p.sp-lead {
   display: block;
-  max-width: 680px;
-  margin: 0 auto 24px !important;
+  max-width: 660px;
+  margin: 0 auto 26px !important;
   font-size: clamp(15px, 1.2vw, 17px);
   line-height: 1.6;
-  color: var(--text-2);
+  color: #c9ccd6;
   text-wrap: balance;
   text-align: center;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.95);
 }
+
+/* Tarjeta minimalista de lujo del Simulador con IA */
 .sp-hero-ai {
-  max-width: 640px;
-  margin: 0 auto 26px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto 30px !important;
+  padding: 16px 24px;
   text-align: center;
-  border: 1px solid rgba(214,168,78,.35);
-  border-left-width: 1px;
-  border-radius: 10px;
+  background: linear-gradient(145deg, rgba(20, 24, 31, 0.78) 0%, rgba(12, 14, 18, 0.9) 100%);
+  border: 1px solid rgba(214, 168, 78, 0.32);
+  border-radius: 14px;
+  box-shadow:
+    0 16px 40px -10px rgba(0, 0, 0, 0.8),
+    0 0 24px -6px rgba(214, 168, 78, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   text-wrap: balance;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
-.sp-hero-cta { align-items: center; margin-bottom: 18px; }
+.sp-hero-ai:hover {
+  border-color: rgba(214, 168, 78, 0.55);
+  box-shadow:
+    0 20px 48px -10px rgba(0, 0, 0, 0.9),
+    0 0 32px -4px rgba(214, 168, 78, 0.25);
+}
+.sp-hero-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-2);
+  background: rgba(214, 168, 78, 0.12);
+  border: 1px solid rgba(214, 168, 78, 0.28);
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+.sp-hero-ai-badge span { font-size: 10.5px; color: var(--gold-2); line-height: 1.4; }
+.sp-hero-ai .sp-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+  animation: spPulse 2s infinite ease-in-out;
+}
+@keyframes spPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.6; }
+}
+.sp-hero-ai b {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.sp-hero-ai > span {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+/* Llamado a la acción (CTA) y sellos de confianza */
+.sp-hero-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.sp-hero-cta .sp-btn--lg {
+  font-size: 19px;
+  padding: 22px 38px;
+  border-radius: 14px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset, 0 16px 45px -10px rgba(214, 168, 78, 0.75);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+.sp-hero-cta .sp-btn--lg:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 20px 52px -8px rgba(214, 168, 78, 0.9);
+  filter: brightness(1.06);
+}
 .sp-hero-price { justify-content: center; }
-.sp-fine { justify-content: center; }
+.sp-hero .sp-fine { justify-content: center; }
 
-@media (max-width: 720px) {
-  .sp-hero { padding: 36px 0 48px; }
-  .sp-hero-logo { max-width: 160px; max-height: 36px; }
-  .sp-hero-logo-wrap { margin-bottom: 16px; }
-  .sp-hero-h1 { font-size: 32px; line-height: 1.18; margin-bottom: 14px; }
-  .sp .sp-hero-sub,
-  .sp p.sp-hero-sub { font-size: 16px; margin: 0 auto 14px !important; max-width: 440px; }
-  .sp .sp-lead,
-  .sp p.sp-lead { font-size: 14.5px; line-height: 1.55; max-width: 440px; margin: 0 auto 20px !important; }
-  .sp-hero-ai { max-width: 440px; font-size: 14px; margin: 0 auto 22px !important; padding: 12px 16px; }
+@media (prefers-reduced-motion: reduce) {
+  .sp-hero-ai .sp-pulse-dot,
+  .sp-kicker-radar { animation: none; }
 }
 
+/* ── RESPONSIVE MÓVIL Y TABLET ── */
+@media (max-width: 720px) {
+  .sp-hero { min-height: 0; padding: 44px 0 56px; }
+  .sp-hero-logo { max-width: 160px; max-height: 36px; }
+  .sp-hero-logo-wrap { margin-bottom: 18px; }
+  .sp-hero-kicker-tag { font-size: 10px; padding: 4px 12px; margin-bottom: 18px; white-space: nowrap; }
+  .sp .sp-hero-h1 { font-size: 33px; line-height: 1.15; margin-bottom: 14px; }
+  .sp .sp-hero-sub,
+  .sp p.sp-hero-sub { font-size: 16px; margin: 0 auto 12px !important; }
+  .sp .sp-lead,
+  .sp p.sp-lead { font-size: 14.5px; line-height: 1.55; margin: 0 auto 20px !important; }
+  .sp-hero-ai { padding: 14px 16px; margin: 0 auto 24px !important; border-radius: 12px; }
+  .sp-hero-ai b { font-size: 16.5px; }
+  .sp-hero-cta .sp-btn--lg { font-size: 17px; padding: 18px 24px; width: 100%; max-width: 440px; }
+}

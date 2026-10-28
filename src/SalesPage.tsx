@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import './sales.css';
+import { TradingOptionsHeroBg } from './HeroFx';
 
 /* ─────────────────────────────────────────────
    CONFIGURACIÓN DE LA OFERTA
@@ -72,7 +73,7 @@ function HeroBackground() {
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const SLOT = 18;
+    const SLOT = 22;
     type Candle = { o: number; h: number; l: number; c: number };
     let candles: Candle[] = [];
     let price = 0;
@@ -95,21 +96,23 @@ function HeroBackground() {
       for (let i = 0; i < Math.ceil(w / SLOT) + 3; i++) candles.push(next());
       draw();
     };
-    const y = (v: number) => h * 0.5 - v * 3.4;
+    const y = (v: number) => h * 0.58 - v * 4;
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
+      ctx.shadowBlur = 0;
       candles.forEach((k, i) => {
         const x = i * SLOT - off + SLOT / 2;
         const up = k.c >= k.o;
-        ctx.strokeStyle = ctx.fillStyle = up ? 'rgba(214,168,78,.55)' : 'rgba(150,144,132,.4)';
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = ctx.fillStyle = up ? 'rgba(232,186,92,.9)' : 'rgba(160,152,138,.55)';
+        ctx.lineWidth = 1.2;
         ctx.beginPath(); ctx.moveTo(x, y(k.h)); ctx.lineTo(x, y(k.l)); ctx.stroke();
         const top = y(Math.max(k.o, k.c));
-        ctx.fillRect(x - 3.5, top, 7, Math.max(2, Math.abs(y(k.o) - y(k.c))));
+        ctx.fillRect(x - 4.5, top, 9, Math.max(2, Math.abs(y(k.o) - y(k.c))));
       });
-      // media móvil
+      // media móvil con brillo
       ctx.beginPath();
-      ctx.strokeStyle = 'rgba(241,208,138,.9)'; ctx.lineWidth = 1.6;
+      ctx.strokeStyle = 'rgba(255,224,150,1)'; ctx.lineWidth = 2.2;
+      ctx.shadowColor = 'rgba(241,208,138,.9)'; ctx.shadowBlur = 14;
       candles.forEach((_, i) => {
         const n = Math.min(i + 1, 9);
         let sum = 0;
@@ -308,10 +311,11 @@ export const SalesPage: React.FC = () => {
       </div>
 
       <main id="top">
-        {/* ── HERO DE ALTO IMPACTO (SALES PAGE) ── */}
+        {/* ── HERO ELEGANTE Y DE VANGUARDIA (FINTECH LUXURY) ── */}
         <section className="sp-hero">
-          <HeroBackground />
-          <div className="sp-wrap sp-hero-grid">
+          <TradingOptionsHeroBg />
+
+          <div className="sp-wrap sp-hero-wrap">
             <div className="sp-hero-copy">
               <div className="sp-hero-logo-wrap">
                 <img
@@ -324,9 +328,15 @@ export const SalesPage: React.FC = () => {
                 />
               </div>
 
+              <div className="sp-hero-kicker-tag">
+                <span className="sp-kicker-radar" />
+                <span>Seminario + Simulador</span>
+              </div>
+
               <h1 className="sp-hero-h1">
                 Seminario de <span className="sp-gold-grad">Opciones</span>
               </h1>
+
               <p className="sp-hero-sub">Aprende a operar con riesgo definido, desde cero y en español.</p>
 
               <p className="sp-lead">
@@ -334,6 +344,10 @@ export const SalesPage: React.FC = () => {
               </p>
 
               <div className="sp-hero-ai">
+                <div className="sp-hero-ai-badge">
+                  <span className="sp-pulse-dot" />
+                  <span>BONO EXCLUSIVO INCLUIDO</span>
+                </div>
                 <b>Incluye simulador con tutor IA</b>
                 <span>Practica sin dinero real y pregúntale al Coach Geny lo que no entiendas, a cualquier hora.</span>
               </div>
