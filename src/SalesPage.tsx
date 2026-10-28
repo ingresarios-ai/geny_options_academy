@@ -204,7 +204,7 @@ function CdtCalculator() {
           </div>
         </div>
         <div className="sp-ledger-foot">
-          Y durante <strong>365 días</strong> no puedes tocar esa plata.
+          Y durante <strong>365 días</strong> no puedes tocar ese dinero.
         </div>
       </div>
     </div>
@@ -340,7 +340,7 @@ export const SalesPage: React.FC = () => {
               <p className="sp-hero-sub">Aprende a operar con riesgo definido, desde cero y en español.</p>
 
               <p className="sp-lead">
-                5 clases en video para entender cómo funcionan las opciones y saber <strong>cuánto puedes perder antes de entrar</strong>. Una alternativa a dejar tu plata quieta en un CDT.
+                5 clases en video para entender cómo funcionan las opciones y saber <strong>cuánto puedes perder antes de entrar</strong>. Una alternativa a dejar tu dinero quieto en un CDT.
               </p>
 
               <div className="sp-hero-ai">
@@ -373,7 +373,7 @@ export const SalesPage: React.FC = () => {
         <div className="sp-facts" aria-label="Qué incluye en números">
           <div className="sp-wrap">
             <div><b>5</b><span>videos del seminario</span></div>
-            <div><b>+5 h</b><span>de formación práctica</span></div>
+            <div><b>4 horas</b><span>de formación práctica</span></div>
             <div><b>1</b><span>simulador de opciones</span></div>
             <div><b>2</b><span>bonos incluidos</span></div>
             <div><b>7 días</b><span>de garantía</span></div>
@@ -384,7 +384,7 @@ export const SalesPage: React.FC = () => {
         <section className="sp-section" hidden style={{ display: 'none' }}>
           <div className="sp-wrap">
             <div className="sp-intro sp-reveal">
-              <span className="sp-kicker">Si tienes plata en un CDT</span>
+              <span className="sp-kicker">Si tienes dinero en un CDT</span>
               <h2>La cuenta que <em>el banco no te hace.</em></h2>
               <p>
                 El papel dice 10%. Pero cuando le quitas la retención y lo que subió todo durante el año, la cifra cambia bastante.
@@ -396,11 +396,11 @@ export const SalesPage: React.FC = () => {
 
             <div className="sp-after-calc">
               <p className="sp-bigquote sp-reveal">
-                No es que el CDT sea malo. Es seguro, y para eso sirve. El problema es creer que <em>es lo único que puedes hacer</em> con tu plata.
+                No es que el CDT sea malo. Es seguro, y para eso sirve. El problema es creer que <em>es lo único que puedes hacer</em> con tu dinero.
               </p>
               <div className="sp-reveal">
                 <p>
-                  Mientras tanto, el banco toma esa misma plata y la presta a tasas mucho más altas de las que te paga. Tú pones el capital,
+                  Mientras tanto, el banco toma ese mismo dinero y lo presta a tasas mucho más altas de las que te paga. Tú pones el capital,
                   esperas un año y te llevas la parte más pequeña.
                 </p>
                 <p style={{ marginBottom: 0 }}>
@@ -439,7 +439,7 @@ export const SalesPage: React.FC = () => {
                 <div className="sp-pillar">
                   <i>3</i>
                   <div>
-                    <h3>Primero practicas, sin plata real</h3>
+                    <h3>Primero practicas, sin dinero real</h3>
                     <p>Haces las operaciones del reto en el simulador antes de tocar un peso. Llegas al mercado con criterio.</p>
                   </div>
                 </div>
@@ -491,7 +491,7 @@ export const SalesPage: React.FC = () => {
             <div className="sp-bento">
               <article className="sp-card sp-card--course sp-reveal">
                 <div className="sp-card-top">
-                  <span className="sp-tag">El seminario · 5 videos · +5 horas</span>
+                  <span className="sp-tag">El seminario · 5 videos · 4 horas</span>
                   <div className="sp-val"><s>US$297</s><em>incluido</em></div>
                 </div>
                 <h3>Seminario de Opciones</h3>
@@ -566,10 +566,149 @@ export const SalesPage: React.FC = () => {
                 <ul className="sp-points">
                   <li>Qué revisar en un bróker y cómo validar su regulación.</li>
                   <li>Abrir la cuenta y completar el registro.</li>
-                  <li>Fondearla desde tu país: cómo enviar la plata.</li>
+                  <li>Fondearla desde tu país: cómo enviar el dinero.</li>
                   <li>Cuándo dar el paso: después de practicar en el simulador.</li>
                 </ul>
               </article>
+            </div>
+          </div>
+        </section>
+
+        {/* ── PARA QUIÉN ── */}
+        <section className="sp-section sp-section--alt" id="para-quien">
+          <div className="sp-wrap">
+            <div className="sp-intro sp-reveal">
+              <span className="sp-kicker">Antes de comprar</span>
+              <h2>Para quién es <em>(y para quién no).</em></h2>
+            </div>
+            <div className="sp-fit">
+              <div className="sp-fit--yes sp-reveal">
+                <h3>Es para ti si…</h3>
+                <ul>
+                  <li>Tienes ahorros en un CDT o en el banco y quieres entender otras alternativas antes de mover un peso.</li>
+                  <li>Prefieres saber cuánto puedes perder antes que soñar con cuánto puedes ganar.</li>
+                  <li>Puedes dedicarle unas horas esta semana a estudiar y practicar.</li>
+                  <li>Quieres aprender en español, paso a paso, sin depender de las señales de nadie.</li>
+                </ul>
+              </div>
+              <div className="sp-fit--no sp-reveal">
+                <h3>No es para ti si…</h3>
+                <ul>
+                  <li>Buscas hacerte rico rápido.</li>
+                  <li>Quieres que alguien te diga qué comprar y cuándo.</li>
+                  <li>Piensas operar con dinero que necesitas para vivir o que pediste prestado.</li>
+                  <li>No estás dispuesto a practicar primero en el simulador.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── AUTORIDAD Y MENTOR: JUAN VILLEGAS ── */}
+        <section className="sp-section sp-mentor-section" id="mentor">
+          <div className="sp-wrap">
+            {/* Título visible en pantallas medianas y móviles antes de la foto */}
+            <div className="sp-mentor-header sp-mentor-header--mobile sp-reveal">
+              <span className="sp-kicker">Quién enseña el seminario</span>
+              <h2 className="sp-mentor-title">
+                Aprende un método creado por traders reales, <em>no de influencers de redes.</em>
+              </h2>
+            </div>
+
+            <div className="sp-mentor-grid">
+              
+              {/* Columna Izquierda: Retrato y Credencial Visual */}
+              <div className="sp-mentor-media sp-reveal">
+                <div className="sp-mentor-card">
+                  <div className="sp-mentor-glow" aria-hidden />
+                  <div className="sp-mentor-img-frame">
+                    <img
+                      src="/juan-mentor.png"
+                      alt="Juan Fernando Villegas - Fundador de Ingresarios"
+                      className="sp-mentor-img"
+                      loading="lazy"
+                      width={1254}
+                      height={1254}
+                    />
+                  </div>
+                  <div className="sp-mentor-card-footer">
+                    <div className="sp-mentor-card-badge">
+                      <span className="sp-pulse-dot" />
+                      <span>Mentor Principal</span>
+                    </div>
+                    <b>Juan Fernando Villegas</b>
+                    <p>Fundador de Ingresarios · Trader & Creador del Método</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Columna Derecha: Bio, Filosofía y Métricas */}
+              <div className="sp-mentor-info sp-reveal">
+                {/* Título visible en desktop al lado de la foto */}
+                <div className="sp-mentor-header sp-mentor-header--desktop">
+                  <span className="sp-kicker">Quién enseña el seminario</span>
+                  <h2 className="sp-mentor-title">
+                    Aprende un método creado por traders reales, <em>no de influencers de redes.</em>
+                  </h2>
+                </div>
+                
+                <div className="sp-mentor-quote">
+                  <p>
+                    «No operamos por suerte ni por corazonadas; operamos con un sistema, tecnología y, sobre todo, criterio profesional.»
+                  </p>
+                  <span>— Juan Fernando Villegas</span>
+                </div>
+
+                <div className="sp-mentor-bio-text">
+                  <p>
+                    <strong>Juan Fernando Villegas</strong> es la mente detrás del Método Ingresarios y uno de los referentes más respetados en la profesionalización del trading y las inversiones en Latinoamérica. Con más de 20 años de experiencia enfrentando la volatilidad de los mercados globales, ha consolidado una carrera basada en la transparencia y la disciplina matemática.
+                  </p>
+                  <p>
+                    Reconocido en la industria como un <strong>"anti-gurú"</strong>, su enfoque no persigue promesas de dinero fácil ni pantallas de ganancias mágicas, sino la maestría técnica: cómo funciona realmente la subasta de Wall Street, cómo proteger el capital antes de buscar rentabilidad y cómo utilizar las opciones financieras como herramientas quirúrgicas de generación de renta con riesgo 100% definido antes de hacer clic.
+                  </p>
+                  <p>
+                    Este seminario condensa toda esa trayectoria en una ruta estructurada de 5 pasos para que cualquier persona en español pueda operar con la misma tranquilidad con la que gestionan los profesionales.
+                  </p>
+                </div>
+
+                {/* Métricas de Autoridad */}
+                <div className="sp-mentor-stats">
+                  <div className="sp-mentor-stat">
+                    <b>+20</b>
+                    <span>Años de trayectoria en mercados globales</span>
+                  </div>
+                  <div className="sp-mentor-stat">
+                    <b>+12,000</b>
+                    <span>Traders e inversionistas en la comunidad</span>
+                  </div>
+                  <div className="sp-mentor-stat">
+                    <b>+1,500</b>
+                    <span>Graduados de programas certificados</span>
+                  </div>
+                  <div className="sp-mentor-stat">
+                    <b>100%</b>
+                    <span>Enfoque en riesgo definido y datos reales</span>
+                  </div>
+                </div>
+
+                {/* Sellos de Respaldo */}
+                <div className="sp-mentor-tags">
+                  <span className="sp-mentor-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+                    Operativa real y transparente
+                  </span>
+                  <span className="sp-mentor-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+                    Tecnología bursátil algorítmica
+                  </span>
+                  <span className="sp-mentor-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+                    Autor y conferencista internacional
+                  </span>
+                </div>
+
+              </div>
+
             </div>
           </div>
         </section>
@@ -579,13 +718,13 @@ export const SalesPage: React.FC = () => {
           <div className="sp-wrap">
             <div className="sp-intro sp-center sp-reveal" style={{ marginBottom: 48 }}>
               <span className="sp-kicker">La oferta de lanzamiento</span>
-              <h2>Por menos de lo que cuesta <em>una salida a comer.</em></h2>
+              <h2>Por menos de lo que cuesta <em>una salida a cenar.</em></h2>
             </div>
 
             <div className="sp-offer sp-reveal">
               <div className="sp-offer-stack">
                 <h3>Todo lo que recibes hoy</h3>
-                <div className="sp-stack-row"><span>Seminario de Opciones<small>5 videos · más de 5 horas</small></span><s>US$297</s></div>
+                <div className="sp-stack-row"><span>Seminario de Opciones<small>5 videos · 4 horas de formación</small></span><s>US$297</s></div>
                 <div className="sp-stack-row"><span>Simulador de Opciones Ingresarios<small>Complemento · Geny Options Academy</small></span><s>US$197</s></div>
                 <div className="sp-stack-row"><span>Bono 1 · Checklist pre-mercado<small>PDF</small></span><s>US$47</s></div>
                 <div className="sp-stack-row"><span>Bono 2 · Guía de bróker<small>Videos</small></span><s>US$97</s></div>
@@ -640,36 +779,6 @@ export const SalesPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ── PARA QUIÉN ── */}
-        <section className="sp-section sp-section--alt">
-          <div className="sp-wrap">
-            <div className="sp-intro sp-reveal">
-              <span className="sp-kicker">Antes de comprar</span>
-              <h2>Para quién es <em>(y para quién no).</em></h2>
-            </div>
-            <div className="sp-fit">
-              <div className="sp-fit--yes sp-reveal">
-                <h3>Es para ti si…</h3>
-                <ul>
-                  <li>Tienes ahorros en un CDT o en el banco y quieres entender otras alternativas antes de mover un peso.</li>
-                  <li>Prefieres saber cuánto puedes perder antes que soñar con cuánto puedes ganar.</li>
-                  <li>Puedes dedicarle unas horas esta semana a estudiar y practicar.</li>
-                  <li>Quieres aprender en español, paso a paso, sin depender de las señales de nadie.</li>
-                </ul>
-              </div>
-              <div className="sp-fit--no sp-reveal">
-                <h3>No es para ti si…</h3>
-                <ul>
-                  <li>Buscas hacerte rico rápido.</li>
-                  <li>Quieres que alguien te diga qué comprar y cuándo.</li>
-                  <li>Piensas operar con plata que necesitas para vivir o que pediste prestada.</li>
-                  <li>No estás dispuesto a practicar primero en el simulador.</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* ── FAQ ── */}
         <section className="sp-section">
           <div className="sp-narrow" style={{ maxWidth: 860 }}>
@@ -683,7 +792,7 @@ export const SalesPage: React.FC = () => {
                 <p>No. El seminario arranca por finanzas personales y por qué es una acción. Si sabes lo que es un CDT, puedes seguirlo.</p>
               </details>
               <details>
-                <summary>¿Cuánta plata necesito para empezar?</summary>
+                <summary>¿Cuánto dinero necesito para empezar?</summary>
                 <p>
                   Para el seminario y el simulador, cero dólares: practicas en un entorno simulado guiado por tutor IA. Para operar en real, no necesitas miles de dólares comprando 100 acciones: en el Video 5 aprenderás la estrategia <strong>PMCC (Poor Man's Covered Call)</strong> con contratos LEAPS, diseñada específicamente para carteras pequeñas con más del 50% de reducción en capital requerido.
                 </p>
@@ -729,7 +838,7 @@ export const SalesPage: React.FC = () => {
               <div className="sp-road sp-reveal">
                 <span className="sp-tag">Camino 1</span>
                 <h3>Renuevas el CDT</h3>
-                <p>Otros 365 días con la plata amarrada, el mismo 10% en el papel y la misma duda de si había algo mejor. Es válido, pero ya sabes cómo termina.</p>
+                <p>Otros 365 días con el dinero amarrado, el mismo 10% en el papel y la misma duda de si había algo mejor. Es válido, pero ya sabes cómo termina.</p>
               </div>
               <div className="sp-road sp-road--b sp-reveal">
                 <span className="sp-tag">Camino 2</span>
@@ -756,12 +865,73 @@ export const SalesPage: React.FC = () => {
 
       <footer className="sp-footer">
         <div className="sp-wrap">
-          <p><strong>Seminario de Opciones · Ingresarios</strong> · Incluye Geny Options Academy, el simulador complementario.</p>
-          <p>
-            Contenido educativo. Operar opciones implica riesgo y puede resultar en la pérdida del capital invertido. Los ejemplos y cálculos son
-            ilustrativos y no constituyen una recomendación de inversión. Resultados pasados no garantizan resultados futuros.
-          </p>
-          <p><a href="#">Términos y condiciones</a> · <a href="#">Política de privacidad</a></p>
+          <div className="sp-footer-brand">
+            <div className="sp-footer-brand-header">
+              <span className="sp-footer-logo">INGRESARIOS</span>
+              <span className="sp-footer-badge">Seminario de Opciones</span>
+            </div>
+            <p className="sp-footer-tagline">
+              Programa de formación integral en opciones financieras con el simulador interactivo complementario Geny Options Academy.
+            </p>
+          </div>
+
+
+          <div className="sp-footer-disc-links-bar">
+            <span className="sp-footer-disc-links-label">Páginas de descargo oficial:</span>
+            <div className="sp-footer-disc-links">
+              <a
+                href="https://www.ingresarios.com/descargo-testimonial"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="sp-footer-disc-link"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span>Descargo de responsabilidad testimonial</span>
+                <span className="sp-footer-ext">↗</span>
+              </a>
+              <a
+                href="https://www.ingresarios.com/descargo-criptomonedas"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="sp-footer-disc-link"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span>Divulgación de riesgos para monedas digitales</span>
+                <span className="sp-footer-ext">↗</span>
+              </a>
+            </div>
+          </div>
+
+          <div className="sp-footer-bottom">
+            <div className="sp-footer-legal-links">
+              <a
+                href="https://site.ingresarios.net/politicas-privacidad"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Políticas de Privacidad
+              </a>
+              <span className="sp-footer-sep">·</span>
+              <a
+                href="https://site.ingresarios.net/terminos-de-uso-de-informacion"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Términos y Condiciones
+              </a>
+              <span className="sp-footer-sep">·</span>
+              <a
+                href="https://site.ingresarios.net/politicas-tratamiento-de-datos-personales"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Política y Tratamiento de Datos Personales
+              </a>
+            </div>
+            <div className="sp-footer-copy">
+              Ingresarios © {new Date().getFullYear()} · Todos los derechos reservados.
+            </div>
+          </div>
         </div>
       </footer>
 
