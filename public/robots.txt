@@ -1,0 +1,5 @@
+# robots.txt para Seminario de Opciones (Ingresarios)
+User-agent: *
+Disallow: /simulador
+Disallow: /simulador/
+Allow: /
