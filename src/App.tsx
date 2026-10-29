@@ -1,25 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import SalesPage from './SalesPage';
 import GenyOptionsAcademyES from '../geny_options_academy_es';
+import ThankYouPage from './ThankYouPage';
 
 /**
  * Ruteo:
- *  - "/"           → Sales Page (Página de ventas oficial en la raíz)
- *  - "/simulador"  → Simulador privado de opciones (protegido contra indexación)
+ *  - "/"               → Sales Page (Página de ventas oficial en la raíz)
+ *  - "/simulador"      → Simulador privado de opciones (protegido contra indexación)
+ *  - "/graciascompra"  → Página de agradecimiento y confirmación de compra (noindex)
  */
-const isSimulatorRoute = (): boolean => {
-  if (typeof window === 'undefined') return false;
+export type RouteName = 'sales' | 'simulator' | 'thank-you';
+
+const getActiveRoute = (): RouteName => {
+  if (typeof window === 'undefined') return 'sales';
   const path = window.location.pathname.toLowerCase().replace(/\/+$/, '');
   const hash = window.location.hash.toLowerCase();
-  return path === '/simulador' || path.startsWith('/simulador/') || hash === '#simulador';
+
+  if (
+    path === '/graciascompra' ||
+    path.startsWith('/graciascompra/') ||
+    path === '/gracias-compra' ||
+    path.startsWith('/gracias-compra/') ||
+    hash === '#graciascompra'
+  ) {
+    return 'thank-you';
+  }
+
+  if (path === '/simulador' || path.startsWith('/simulador/') || hash === '#simulador') {
+    return 'simulator';
+  }
+
+  return 'sales';
 };
 
 export const App: React.FC = () => {
-  const [isSim, setIsSim] = useState<boolean>(isSimulatorRoute);
+  const [currentRoute, setCurrentRoute] = useState<RouteName>(getActiveRoute);
 
   useEffect(() => {
     const handleRouteChange = () => {
-      setIsSim(isSimulatorRoute());
+      setCurrentRoute(getActiveRoute());
     };
 
     window.addEventListener('popstate', handleRouteChange);
@@ -40,16 +59,27 @@ export const App: React.FC = () => {
       document.head.appendChild(robotsMeta);
     }
 
-    if (isSim) {
+    if (currentRoute === 'simulator') {
       document.title = 'Simulador de Opciones | Geny Options Academy';
+      robotsMeta.content = 'noindex, nofollow, noarchive, nosnippet';
+    } else if (currentRoute === 'thank-you') {
+      document.title = '¡Compra Exitosa! · Seminario de Opciones | Ingresarios';
       robotsMeta.content = 'noindex, nofollow, noarchive, nosnippet';
     } else {
       document.title = 'Seminario de Opciones | Ingresarios';
       robotsMeta.content = 'index, follow';
     }
-  }, [isSim]);
+  }, [currentRoute]);
 
-  return isSim ? <GenyOptionsAcademyES /> : <SalesPage />;
+  if (currentRoute === 'simulator') {
+    return <GenyOptionsAcademyES />;
+  }
+
+  if (currentRoute === 'thank-you') {
+    return <ThankYouPage />;
+  }
+
+  return <SalesPage />;
 };
 
 export default App;

@@ -17,6 +17,15 @@
           "value": "noindex, nofollow, noarchive"
         }
       ]
+    },
+    {
+      "source": "/graciascompra(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
     }
   ]
 }

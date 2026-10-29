@@ -1,0 +1,498 @@
+/* ── Estilos de la Página de Gracias / Compra Exitosa (/graciascompra) ── */
+
+.ty-root {
+  min-height: 100vh;
+  background-color: #06080B;
+  color: #EDEFEF;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fondo ambiental sutil */
+.ty-ambient-glow {
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(214, 168, 78, 0.12) 0%, rgba(16, 185, 129, 0.06) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(40px);
+}
+
+.ty-wrap {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.ty-header {
+  padding: 32px 0 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ty-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.ty-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.ty-brand-logo {
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  color: #EDEFEF;
+}
+
+.ty-brand-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #D6A84E;
+  background: rgba(214, 168, 78, 0.12);
+  border: 1px solid rgba(214, 168, 78, 0.3);
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.ty-back-link {
+  font-size: 13px;
+  color: #AEB5C0;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease;
+}
+
+.ty-back-link:hover {
+  color: #D6A84E;
+}
+
+/* Contenido Principal */
+.ty-main {
+  flex: 1;
+  padding: 72px 0 80px;
+}
+
+/* Hero de confirmación */
+.ty-hero {
+  text-align: center;
+  max-width: 740px;
+  margin: 0 auto 48px;
+}
+
+.ty-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34D399;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.ty-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34D399;
+  box-shadow: 0 0 10px #34D399;
+}
+
+.ty-check-icon-wrap {
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(214, 168, 78, 0.15) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 0 35px rgba(16, 185, 129, 0.25);
+}
+
+.ty-check-icon {
+  width: 44px;
+  height: 44px;
+  color: #34D399;
+}
+
+.ty-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(32px, 5vw, 46px);
+  font-weight: 500;
+  line-height: 1.15;
+  color: #EDEFEF;
+  margin: 0 0 16px;
+  letter-spacing: -0.02em;
+}
+
+.ty-title em {
+  font-style: italic;
+  color: #D6A84E;
+  font-weight: 400;
+}
+
+.ty-lead {
+  font-size: clamp(16px, 2.2vw, 19px);
+  line-height: 1.6;
+  color: #AEB5C0;
+  margin: 0;
+}
+
+/* Banner de Alerta de Correo */
+.ty-email-alert {
+  background: linear-gradient(180deg, rgba(214, 168, 78, 0.09) 0%, rgba(14, 18, 24, 0.95) 100%);
+  border: 1px solid rgba(214, 168, 78, 0.32);
+  border-radius: 18px;
+  padding: 28px 32px;
+  margin-bottom: 40px;
+  position: relative;
+  box-shadow: 0 12px 36px -10px rgba(0, 0, 0, 0.6);
+}
+
+.ty-email-alert-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.ty-email-alert-icon {
+  width: 26px;
+  height: 26px;
+  color: #D6A84E;
+  flex-shrink: 0;
+}
+
+.ty-email-alert-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 22px;
+  color: #EDEFEF;
+  font-weight: 600;
+  margin: 0;
+}
+
+.ty-email-alert-body {
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: #AEB5C0;
+}
+
+.ty-email-alert-body p {
+  margin: 0 0 12px;
+}
+
+.ty-email-alert-body p:last-child {
+  margin-bottom: 0;
+}
+
+.ty-highlight {
+  color: #EDEFEF;
+  font-weight: 600;
+}
+
+.ty-email-alert-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 13.5px;
+  color: #D6A84E;
+}
+
+.ty-email-alert-tip svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Pasos siguientes */
+.ty-steps-section {
+  margin-bottom: 44px;
+}
+
+.ty-section-heading {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #D6A84E;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.ty-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.ty-step-card {
+  background: rgba(14, 18, 24, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px 20px;
+  position: relative;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.ty-step-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(214, 168, 78, 0.3);
+}
+
+.ty-step-number {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: #D6A84E;
+  background: rgba(214, 168, 78, 0.1);
+  border: 1px solid rgba(214, 168, 78, 0.25);
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+}
+
+.ty-step-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #EDEFEF;
+  margin: 0 0 8px;
+}
+
+.ty-step-desc {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #AEB5C0;
+  margin: 0;
+}
+
+/* Tarjeta Principal de Soporte WhatsApp */
+.ty-support-card {
+  background: linear-gradient(145deg, rgba(37, 211, 102, 0.08) 0%, rgba(14, 18, 24, 0.95) 60%, rgba(214, 168, 78, 0.06) 100%);
+  border: 1px solid rgba(37, 211, 102, 0.35);
+  border-radius: 20px;
+  padding: 36px 32px;
+  margin-bottom: 40px;
+  position: relative;
+  box-shadow: 0 16px 40px -12px rgba(37, 211, 102, 0.15);
+}
+
+.ty-support-content {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.ty-support-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #25D366;
+  background: rgba(37, 211, 102, 0.12);
+  border: 1px solid rgba(37, 211, 102, 0.3);
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.ty-support-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(24px, 3.6vw, 32px);
+  font-weight: 500;
+  color: #EDEFEF;
+  margin: 0 0 14px;
+}
+
+.ty-support-desc {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: #AEB5C0;
+  margin: 0 0 28px;
+}
+
+/* Botón de WhatsApp */
+.ty-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #25D366;
+  color: #07190F;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 16px 32px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+  margin-bottom: 18px;
+}
+
+.ty-wa-btn:hover {
+  background: #20BD5A;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.5);
+  color: #000;
+}
+
+.ty-wa-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.ty-support-subtext {
+  font-size: 13px;
+  color: #6D7584;
+  margin: 0;
+}
+
+.ty-support-subtext a {
+  color: #D6A84E;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ty-support-subtext a:hover {
+  color: #F5CE7B;
+}
+
+/* Atajos / Enlace directo al simulador */
+.ty-shortcuts {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 24px;
+  background: rgba(14, 18, 24, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+}
+
+.ty-shortcut-txt {
+  font-size: 14px;
+  color: #AEB5C0;
+}
+
+.ty-shortcut-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #D6A84E;
+  background: rgba(214, 168, 78, 0.08);
+  border: 1px solid rgba(214, 168, 78, 0.25);
+  padding: 8px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.ty-shortcut-btn:hover {
+  background: rgba(214, 168, 78, 0.16);
+  border-color: #D6A84E;
+  color: #F5CE7B;
+}
+
+/* Footer de la página de gracias */
+.ty-footer {
+  padding: 36px 0 48px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 12.5px;
+  color: #6D7584;
+}
+
+.ty-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.ty-footer-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ty-footer-links a {
+  color: #AEB5C0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+
+.ty-footer-links a:hover {
+  color: #D6A84E;
+}
+
+.ty-footer-copy {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ty-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .ty-email-alert {
+    padding: 24px 20px;
+  }
+  .ty-support-card {
+    padding: 28px 20px;
+  }
+  .ty-wa-btn {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+  .ty-footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
