@@ -2,6 +2,26 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import './sales.css';
 import { TradingOptionsHeroBg } from './HeroFx';
 
+export type SalesVariant = 'default' | 'v1' | 'v2';
+
+export interface SalesPageProps {
+  variant?: SalesVariant;
+}
+
+const WHATSAPP_PHONE = '573009121234';
+
+const WHATSAPP_ZERO_URL =
+  `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=` +
+  encodeURIComponent(
+    'Hola equipo de Ingresarios, estoy comenzando desde cero en opciones financieras y me gustaría orientación sobre la ruta de aprendizaje más adecuada para mi nivel.'
+  );
+
+const WHATSAPP_TRIBU_URL =
+  `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=` +
+  encodeURIComponent(
+    'Hola equipo de Ingresarios, ya soy miembro de la Tribu y quiero consultar antes de inscribirme al Seminario de Opciones Financieras.'
+  );
+
 /* ─────────────────────────────────────────────
    CONFIGURACIÓN DE LA OFERTA
    Cambia estos valores antes de publicar.
@@ -49,7 +69,7 @@ function useCountdown(iso: string | null) {
 }
 
 /* Aparición suave al hacer scroll */
-function useReveal() {
+function useReveal(dep?: unknown) {
   useEffect(() => {
     const els = document.querySelectorAll('.sp-reveal');
     const io = new IntersectionObserver(
@@ -58,7 +78,7 @@ function useReveal() {
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, []);
+  }, [dep]);
 }
 
 function Arrow() {
@@ -279,10 +299,12 @@ function Seal() {
   );
 }
 
-export const SalesPage: React.FC = () => {
+export const SalesPage: React.FC<SalesPageProps> = ({ variant = 'default' }) => {
+  const isV1 = variant === 'v1';
+  const isV2 = variant === 'v2';
   const countdown = useCountdown(OFFER.deadlineISO);
   const [stickyOn, setStickyOn] = useState(false);
-  useReveal();
+  useReveal(variant);
 
   // Fondo del body acorde a la página (evita el "rebote" claro en Mac)
   useEffect(() => {
@@ -300,13 +322,25 @@ export const SalesPage: React.FC = () => {
     if (price) io.observe(price);
     window.addEventListener('scroll', update, { passive: true });
     return () => { io.disconnect(); window.removeEventListener('scroll', update); };
-  }, []);
+  }, [variant]);
 
   return (
-    <div className="sp">
+    <div className={`sp${isV1 ? ' sp--v1' : ''}${isV2 ? ' sp--v2' : ''}`}>
       {/* Barra superior: urgencia real, sin inventos */}
       <div className="sp-topbar">
-        <strong>Seminario de Opciones</strong> · Precio de lanzamiento: <strong>US${OFFER.price}</strong> hasta el {OFFER.deadlineLabel}. El {OFFER.raiseLabel} sube a US${OFFER.nextPrice}.
+        {isV1 ? (
+          <>
+            <strong>Seminario de Opciones Financieras · Ingresarios</strong> · Tarifa preferencial de lanzamiento: <strong>US${OFFER.price}</strong> hasta el {OFFER.deadlineLabel} (a partir del {OFFER.raiseLabel}: US${OFFER.nextPrice}).
+          </>
+        ) : isV2 ? (
+          <>
+            <strong>De la teoría suelta al sistema real</strong> · Oferta de lanzamiento: <strong>US${OFFER.price}</strong> hasta el {OFFER.deadlineLabel}. El {OFFER.raiseLabel} sube a US${OFFER.nextPrice}.
+          </>
+        ) : (
+          <>
+            <strong>Seminario de Opciones</strong> · Precio de lanzamiento: <strong>US${OFFER.price}</strong> hasta el {OFFER.deadlineLabel}. El {OFFER.raiseLabel} sube a US${OFFER.nextPrice}.
+          </>
+        )}
         {countdown && <span className="sp-count">{countdown}</span>}
       </div>
 
@@ -330,41 +364,132 @@ export const SalesPage: React.FC = () => {
 
               <div className="sp-hero-kicker-tag">
                 <span className="sp-kicker-radar" />
-                <span>Seminario + Simulador</span>
+                <span>
+                  {isV1
+                    ? 'Formación Especializada · Más Allá de lo Básico'
+                    : isV2
+                    ? 'Para quienes ya conocen lo básico · Nivel Estratégico'
+                    : 'Seminario + Simulador'}
+                </span>
               </div>
 
-              <h1 className="sp-hero-h1">
-                Seminario de <span className="sp-gold-grad">Opciones</span>
-              </h1>
+              {isV1 ? (
+                <h1 className="sp-hero-h1 sp-hero-h1--v1">
+                  Seminario de <span className="sp-gold-grad">Opciones Financieras</span>
+                  <span className="visually-hidden"> | </span>
+                  <span className="sp-hero-h1-sub">De los fundamentos a las estrategias</span>
+                </h1>
+              ) : isV2 ? (
+                <h1 className="sp-hero-h1 sp-hero-h1--v2">
+                  Ya sabes qué es un Call y un Put…{' '}
+                  <span className="sp-gold-grad sp-hero-h1-v2-accent">te falta el sistema para dejar de adivinar.</span>
+                </h1>
+              ) : (
+                <h1 className="sp-hero-h1">
+                  Seminario de <span className="sp-gold-grad">Opciones</span>
+                </h1>
+              )}
 
-              <p className="sp-hero-sub">Aprende a operar con riesgo definido, desde cero y en español.</p>
+              <p className="sp-hero-sub">
+                {isV1
+                  ? 'Dirigido a personas con conocimientos previos de opciones que desean fortalecer su formación.'
+                  : isV2
+                  ? 'Deja de comprar contratos rezando para que el precio se mueva rápido y aprende a estructurar estrategias donde el tiempo y la matemática juegan a tu favor.'
+                  : 'Aprende a operar con riesgo definido, desde cero y en español.'}
+              </p>
 
               <p className="sp-lead">
-                5 clases en video para entender cómo funcionan las opciones y saber <strong>cuánto puedes perder antes de entrar</strong>. Una alternativa a dejar tu dinero quieto en un CDT.
+                {isV1 ? (
+                  <>
+                    5 módulos estructurados para pasar del dominio de los conceptos fundamentales a ejecutar{' '}
+                    <strong>estrategias profesionales con riesgo definido</strong>, lectura de griegas y validación previa en simulador.
+                  </>
+                ) : isV2 ? (
+                  <>
+                    En 5 clases prácticas conectas las piezas que hoy tienes sueltas: dominas las Griegas, pasas a cobrar primas y operas{' '}
+                    <strong>sabiendo exactamente cuánto arriesgas antes de hacer clic</strong>.
+                  </>
+                ) : (
+                  <>
+                    5 clases en video para entender cómo funcionan las opciones y saber <strong>cuánto puedes perder antes de entrar</strong>. Una alternativa a dejar tu dinero quieto en un CDT.
+                  </>
+                )}
               </p>
 
               <div className="sp-hero-ai">
                 <div className="sp-hero-ai-badge">
                   <span className="sp-pulse-dot" />
-                  <span>BONO EXCLUSIVO INCLUIDO</span>
+                  <span>
+                    {isV1
+                      ? 'ENTORNO DE SIMULACIÓN INCLUIDO'
+                      : isV2
+                      ? 'ENTRENA SIN QUEMAR TU CUENTA REAL'
+                      : 'BONO EXCLUSIVO INCLUIDO'}
+                  </span>
                 </div>
-                <b>Incluye simulador con tutor IA</b>
-                <span>Practica sin dinero real y pregúntale al Coach Geny lo que no entiendas, a cualquier hora.</span>
+                <b>
+                  {isV1
+                    ? 'Incluye simulador interactivo con tutor IA'
+                    : isV2
+                    ? 'Incluye Simulador de Opciones + Tutor IA 24/7'
+                    : 'Incluye simulador con tutor IA'}
+                </b>
+                <span>
+                  {isV1
+                    ? 'Estructura posiciones, evalúa escenarios y resuelve dudas técnicas con el Coach Geny antes de comprometer capital real.'
+                    : isV2
+                    ? 'Arma tus cadenas de opciones sin arriesgar un dólar y pregúntale al Coach Geny por qué tu posición gana o pierde valor.'
+                    : 'Practica sin dinero real y pregúntale al Coach Geny lo que no entiendas, a cualquier hora.'}
+                </span>
               </div>
 
               <div className="sp-hero-cta">
                 <a className="sp-btn sp-btn--lg" href={CTA_HREF} id="cta-hero">
-                  Quiero entrar al Seminario <span className="sp-btn-price">· US${OFFER.price}</span> <Arrow />
+                  {isV1
+                    ? 'Inscribirme al Seminario'
+                    : isV2
+                    ? 'Quiero pasar de la teoría a la estrategia'
+                    : 'Quiero entrar al Seminario'}{' '}
+                  <span className="sp-btn-price">· US${OFFER.price}</span> <Arrow />
                 </a>
                 <div className="sp-hero-price">
-                  <s>US${OFFER.nextPrice}</s> <b>US${OFFER.price}</b> precio de lanzamiento hasta el {OFFER.deadlineLabel}
+                  <s>US${OFFER.nextPrice}</s> <b>US${OFFER.price}</b>{' '}
+                  {isV1
+                    ? `tarifa institucional de lanzamiento hasta el ${OFFER.deadlineLabel}`
+                    : `precio de lanzamiento hasta el ${OFFER.deadlineLabel}`}
                 </div>
               </div>
 
               <div className="sp-fine">
                 <span>Acceso de por vida</span>
                 <span>Garantía de 7 días</span>
+                {isV1 && <span>Nivel: Fundamentos previos</span>}
+                {isV2 && <span>Requiere nociones básicas (Call / Put)</span>}
               </div>
+
+              {isV1 && (
+                <div className="sp-hero-qual-nav">
+                  <a href="#perfil-ingreso" className="sp-hero-qual-link">
+                    <span>¿Este seminario se ajusta a tu nivel actual? Revisa el perfil de ingreso</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M12 5v14" />
+                      <path d="m19 12-7 7-7-7" />
+                    </svg>
+                  </a>
+                </div>
+              )}
+
+              {isV2 && (
+                <div className="sp-hero-qual-nav">
+                  <a href="#dolor-intermedio" className="sp-hero-qual-link">
+                    <span>Descubre por qué te estancas con lo básico (y si este nivel es para ti)</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M12 5v14" />
+                      <path d="m19 12-7 7-7-7" />
+                    </svg>
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -372,13 +497,232 @@ export const SalesPage: React.FC = () => {
         {/* ── HECHOS ── */}
         <div className="sp-facts" aria-label="Qué incluye en números">
           <div className="sp-wrap">
-            <div><b>5</b><span>videos del seminario</span></div>
-            <div><b>4 horas</b><span>de formación práctica</span></div>
+            <div><b>5</b><span>{isV1 ? 'módulos en video' : 'videos del seminario'}</span></div>
+            <div><b>4 horas</b><span>{isV1 ? 'de formación aplicada' : isV2 ? 'de estrategias reales' : 'de formación práctica'}</span></div>
             <div><b>1</b><span>simulador de opciones</span></div>
-            <div><b>2</b><span>bonos incluidos</span></div>
+            <div><b>2</b><span>{isV1 ? 'recursos operativos' : 'bonos incluidos'}</span></div>
             <div><b>7 días</b><span>de garantía</span></div>
           </div>
         </div>
+
+        {/* ── PERFIL DE INGRESO Y ORIENTACIÓN (EXCLUSIVO VARIANTE 1 INSTITUCIONAL) ── */}
+        {isV1 && (
+          <section className="sp-section sp-section--alt sp-v1-qual-section" id="perfil-ingreso">
+            <div className="sp-wrap">
+              <div className="sp-intro sp-reveal" style={{ marginBottom: 44 }}>
+                <span className="sp-kicker">Perfil de ingreso y orientación académica</span>
+                <h2>
+                  Ubica tu nivel <em>antes de inscribirte.</em>
+                </h2>
+              </div>
+
+              <div className="sp-v1-qual-grid">
+                {/* Tarjeta 1: Perfil requerido */}
+                <article className="sp-v1-qual-card sp-v1-qual-card--primary sp-reveal">
+                  <header className="sp-v1-card-head">
+                    <span className="sp-v1-badge sp-v1-badge--gold">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                      </svg>
+                      <span>Nivel requerido · Conocimientos previos</span>
+                    </span>
+                    <h3>¿Este seminario es para ti?</h3>
+                  </header>
+
+                  <div className="sp-v1-card-content">
+                    <p>
+                      El <strong>Seminario de Opciones Financieras: Más Allá de lo Básico</strong> está dirigido a personas que ya cuentan con conocimientos fundamentales sobre opciones financieras, como <strong>Call, Put, primas, contratos y fechas de vencimiento</strong>, y desean profundizar en su aprendizaje.
+                    </p>
+
+                    <div className="sp-v1-prereq-box">
+                      <span className="sp-v1-prereq-label">Conceptos base que ya debes reconocer:</span>
+                      <ul className="sp-v1-pills" role="list">
+                        <li>Call</li>
+                        <li>Put</li>
+                        <li>Primas</li>
+                        <li>Contratos</li>
+                        <li>Fechas de vencimiento</li>
+                      </ul>
+                    </div>
+
+                    <p className="sp-v1-card-subnote">
+                      Si ya identificas estos elementos y buscas estructurar estrategias reales con lectura de griegas y riesgo definido, estás en el lugar correcto.
+                    </p>
+                  </div>
+
+                  <footer className="sp-v1-card-foot sp-v1-card-foot--tribu">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="16" x2="12" y2="12" />
+                      <line x1="12" y1="8" x2="12.01" y2="8" />
+                    </svg>
+                    <span>
+                      ¿Ya eres miembro de la Tribu?{' '}
+                      <a href={WHATSAPP_TRIBU_URL} target="_blank" rel="noopener noreferrer" className="sp-v1-tribu-link">
+                        Contáctanos antes de hacer la compra ↗
+                      </a>
+                    </span>
+                  </footer>
+                </article>
+
+                {/* Tarjeta 2: Ruta desde cero */}
+                <article className="sp-v1-qual-card sp-v1-qual-card--zero sp-reveal">
+                  <header className="sp-v1-card-head">
+                    <span className="sp-v1-badge sp-v1-badge--neutral">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" />
+                        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+                      </svg>
+                      <span>Alternativa formativa · Nivel inicial</span>
+                    </span>
+                    <h3>¿Estás comenzando desde cero?</h3>
+                  </header>
+
+                  <div className="sp-v1-card-content">
+                    <p>
+                      ¡No te preocupes! En <strong>Ingresarios</strong> también contamos con alternativas de formación para quienes están dando sus primeros pasos.
+                    </p>
+                    <p>
+                      Antes de inscribirte, te invitamos a contactar a nuestro equipo a través de la <strong>línea oficial de soporte</strong>, donde podremos orientarte sobre la ruta de aprendizaje más adecuada para tu nivel de experiencia.
+                    </p>
+                    <div className="sp-v1-commitment">
+                      Queremos que aproveches al máximo tu formación, comenzando desde el nivel adecuado para ti.
+                    </div>
+                  </div>
+
+                  <footer className="sp-v1-card-foot">
+                    <a
+                      href={WHATSAPP_ZERO_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="sp-btn-outline-inst"
+                      id="cta-soporte-orientacion"
+                    >
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm5.84 14.12c-.24.68-1.42 1.3-1.97 1.38-.51.08-1.18.12-3.41-.81-2.85-1.18-4.69-4.08-4.83-4.27-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.09.99-2.37.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.42-.07.65.49.24.57.81 1.98.88 2.12.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.17-.3.37-.43.5-.14.14-.29.3-.12.59.16.28.73 1.2 1.57 1.95 1.08.96 1.99 1.26 2.27 1.4.28.14.45.12.62-.07.17-.19.73-.85.92-1.14.19-.28.38-.24.64-.14.26.09 1.66.78 1.94.92.28.14.47.21.54.33.07.12.07.7-.17 1.38z" />
+                      </svg>
+                      <span>Contactar a la línea oficial de soporte</span>
+                      <Arrow />
+                    </a>
+                  </footer>
+                </article>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ── DOLOR DEL TRADER CON BASES + FILTRO DE NIVEL (EXCLUSIVO VARIANTE 2 MARKETERA) ── */}
+        {isV2 && (
+          <section className="sp-section sp-section--alt sp-v2-pain-section" id="dolor-intermedio">
+            <div className="sp-wrap">
+              <div className="sp-intro sp-reveal" style={{ marginBottom: 44 }}>
+                <span className="sp-kicker">El techo del nivel básico</span>
+                <h2>
+                  Por qué saber qué es un Call y un Put <em>no basta para ser rentable.</em>
+                </h2>
+                <p>
+                  Entender las definiciones toma una tarde en YouTube. El problema real empieza cuando abres el bróker y te chocas con estos tres muros:
+                </p>
+              </div>
+
+              <div className="sp-v2-pains-grid">
+                <article className="sp-v2-pain-card sp-reveal">
+                  <header className="sp-v2-pain-head">
+                    <span className="sp-v2-pain-icon" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                      </svg>
+                    </span>
+                    <h3>Aciertas la dirección… y aun así pierdes</h3>
+                  </header>
+                  <p>
+                    Compras un Call, la acción sube como esperabas, pero entre el desgaste diario del tiempo (<strong>Theta</strong>) y el desplome de volatilidad (<strong>IV Crush</strong>), tu contrato termina en rojo.
+                  </p>
+                </article>
+
+                <article className="sp-v2-pain-card sp-reveal">
+                  <header className="sp-v2-pain-head">
+                    <span className="sp-v2-pain-icon" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="4" y1="21" x2="4" y2="14" />
+                        <line x1="4" y1="10" x2="4" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="12" />
+                        <line x1="12" y1="8" x2="12" y2="3" />
+                        <line x1="20" y1="21" x2="20" y2="16" />
+                        <line x1="20" y1="12" x2="20" y2="3" />
+                        <line x1="1" y1="14" x2="7" y2="14" />
+                        <line x1="9" y1="8" x2="15" y2="8" />
+                        <line x1="17" y1="16" x2="23" y2="16" />
+                      </svg>
+                    </span>
+                    <h3>Te paralizas frente a la cadena</h3>
+                  </header>
+                  <p>
+                    Ves decenas de strikes y fechas de vencimiento, pero terminas eligiendo al ojo porque nadie te dio una regla clara basada en <strong>probabilidad matemática (POP)</strong>.
+                  </p>
+                </article>
+
+                <article className="sp-v2-pain-card sp-reveal">
+                  <header className="sp-v2-pain-head">
+                    <span className="sp-v2-pain-icon" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                      </svg>
+                    </span>
+                    <h3>Operas como comprador de lotería</h3>
+                  </header>
+                  <p>
+                    Dependes de movimientos explosivos para ganar, cuando los profesionales hacen lo opuesto: <strong>actúan como aseguradoras</strong> cobrando primas con riesgo definido.
+                  </p>
+                </article>
+              </div>
+
+              {/* Filtro inteligente para el avatar + desvío amable de principiantes */}
+              <div className="sp-v2-filter-banner sp-reveal">
+                <div className="sp-v2-filter-main">
+                  <span className="sp-v1-badge sp-v1-badge--gold">Filtro honesto antes de entrar</span>
+                  <h3>Este seminario NO empieza explicando qué es una acción</h3>
+                  <p>
+                    Está hecho a la medida de quienes ya reconocen <strong>Call, Put, primas, contratos y fechas de vencimiento</strong>, y quieren dejar de improvisar para dominar estrategias reales.
+                  </p>
+                  <ul className="sp-v1-pills" role="list">
+                    <li>Call &amp; Put</li>
+                    <li>Primas</li>
+                    <li>Contratos</li>
+                    <li>Fechas de vencimiento</li>
+                  </ul>
+                  <p className="sp-v2-tribu-note">
+                    ¿Ya eres miembro de la Tribu?{' '}
+                    <a href={WHATSAPP_TRIBU_URL} target="_blank" rel="noopener noreferrer" className="sp-v1-tribu-link">
+                      Contáctanos antes de hacer la compra ↗
+                    </a>
+                  </p>
+                </div>
+
+                <div className="sp-v2-filter-side">
+                  <h4>¿Estás empezando desde cero absoluto?</h4>
+                  <p>
+                    ¡Tranquilo! En <strong>Ingresarios</strong> tenemos programas ideales para dar tus primeros pasos. Antes de inscribirte, escríbenos a soporte para ubicarte en el nivel correcto y que aproveches al máximo tu inversión.
+                  </p>
+                  <a
+                    href={WHATSAPP_ZERO_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="sp-btn-outline-inst"
+                    id="cta-v2-soporte-cero"
+                  >
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm5.84 14.12c-.24.68-1.42 1.3-1.97 1.38-.51.08-1.18.12-3.41-.81-2.85-1.18-4.69-4.08-4.83-4.27-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.09.99-2.37.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.42-.07.65.49.24.57.81 1.98.88 2.12.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.17-.3.37-.43.5-.14.14-.29.3-.12.59.16.28.73 1.2 1.57 1.95 1.08.96 1.99 1.26 2.27 1.4.28.14.45.12.62-.07.17-.19.73-.85.92-1.14.19-.28.38-.24.64-.14.26.09 1.66.78 1.94.92.28.14.47.21.54.33.07.12.07.7-.17 1.38z" />
+                    </svg>
+                    <span>Empezando desde cero · Hablar con Soporte</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* ── DOLOR: LA CUENTA REAL (oculta; quitar `hidden` para mostrarla) ── */}
         <section className="sp-section" hidden style={{ display: 'none' }}>
@@ -416,31 +760,63 @@ export const SalesPage: React.FC = () => {
         <section className="sp-section">
           <div className="sp-wrap sp-mech">
             <div className="sp-reveal">
-              <span className="sp-kicker">La diferencia</span>
-              <h2>Las opciones no son el casino <em>que te contaron.</em></h2>
+              <span className="sp-kicker">{isV1 ? 'Enfoque metodológico' : isV2 ? 'El cambio de juego' : 'La diferencia'}</span>
+              {isV1 ? (
+                <h2>
+                  De conocer los contratos a operar <em>con estructura profesional.</em>
+                </h2>
+              ) : isV2 ? (
+                <h2>
+                  Deja de comprar contratos esperando un milagro. <em>Opera como la casa.</em>
+                </h2>
+              ) : (
+                <h2>Las opciones no son el casino <em>que te contaron.</em></h2>
+              )}
               <p style={{ fontSize: 19 }}>
-                Nacieron como herramientas de cobertura. Bien usadas, te dejan poner el límite antes de entrar. Esto es lo que vas a aprender a hacer:
+                {isV1
+                  ? 'Cuando ya comprendes qué es un Call y un Put, el verdadero avance consiste en estructurar posiciones con riesgo acotado y criterios cuantificables antes de ejecutar:'
+                  : isV2
+                  ? 'Los amateurs compran opciones rezando por un movimiento explosivo. Los profesionales arman estructuras donde el reloj y la probabilidad trabajan para ellos:'
+                  : 'Nacieron como herramientas de cobertura. Bien usadas, te dejan poner el límite antes de entrar. Esto es lo que vas a aprender a hacer:'}
               </p>
               <div className="sp-pillars">
                 <div className="sp-pillar">
                   <i>1</i>
                   <div>
-                    <h3>Riesgo definido</h3>
-                    <p>Conoces la pérdida máxima en dólares antes de abrir la operación. Si no te deja dormir tranquilo, no entras.</p>
+                    <h3>{isV2 ? 'Sabes tu pérdida máxima antes del clic' : 'Riesgo definido'}</h3>
+                    <p>
+                      {isV1
+                        ? 'Estableces la pérdida máxima en dólares y el punto de equilibrio exacto antes de enviar la orden al mercado.'
+                        : isV2
+                        ? 'Cero sorpresas ni cuentas quemadas por un movimiento brusco. Ves en pantalla cuánto arriesgas exactamente antes de entrar.'
+                        : 'Conoces la pérdida máxima en dólares antes de abrir la operación. Si no te deja dormir tranquilo, no entras.'}
+                    </p>
                   </div>
                 </div>
                 <div className="sp-pillar">
                   <i>2</i>
                   <div>
-                    <h3>Solo una parte de tu capital</h3>
-                    <p>No mueves todo tu ahorro. Comprometes una parte pequeña y el resto sigue donde está.</p>
+                    <h3>{isV1 ? 'Gestión disciplinada de capital' : isV2 ? 'El tiempo (Theta) pasa a tu bando' : 'Solo una parte de tu capital'}</h3>
+                    <p>
+                      {isV1
+                        ? 'Asignas una fracción controlada de tu portafolio bajo reglas claras de preservación patrimonial.'
+                        : isV2
+                        ? 'Aprendes a cobrar primas como las aseguradoras para ganar incluso si la acción se mueve lento o se queda lateral.'
+                        : 'No mueves todo tu ahorro. Comprometes una parte pequeña y el resto sigue donde está.'}
+                    </p>
                   </div>
                 </div>
                 <div className="sp-pillar">
                   <i>3</i>
                   <div>
-                    <h3>Primero practicas, sin dinero real</h3>
-                    <p>Haces las operaciones del reto en el simulador antes de tocar un peso. Llegas al mercado con criterio.</p>
+                    <h3>{isV1 ? 'Validación previa en simulador' : isV2 ? 'Te equivocas gratis en el simulador' : 'Primero practicas, sin dinero real'}</h3>
+                    <p>
+                      {isV1
+                        ? 'Pones a prueba cada estrategia y el impacto del paso del tiempo en el simulador antes de operar en real.'
+                        : isV2
+                        ? 'Entrenas lecturas de cadena y griegas con el Coach IA antes de poner un solo dólar real en tu bróker.'
+                        : 'Haces las operaciones del reto en el simulador antes de tocar un peso. Llegas al mercado con criterio.'}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -453,28 +829,58 @@ export const SalesPage: React.FC = () => {
         <section className="sp-section sp-section--alt">
           <div className="sp-wrap">
             <div className="sp-intro sp-reveal">
-              <span className="sp-kicker">Cómo funciona</span>
-              <h2>Tu semana, <em>paso a paso.</em></h2>
-              <p>Unas horas al día. Sin saltos ni videos sueltos: cada parte prepara la siguiente.</p>
+              <span className="sp-kicker">{isV1 ? 'Ruta de profundización' : isV2 ? 'De la teoría a la ejecución' : 'Cómo funciona'}</span>
+              {isV1 ? (
+                <h2>De los fundamentos <em>a las estrategias.</em></h2>
+              ) : isV2 ? (
+                <h2>En 7 días conectas las piezas <em>que hoy tienes sueltas.</em></h2>
+              ) : (
+                <h2>Tu semana, <em>paso a paso.</em></h2>
+              )}
+              <p>
+                {isV1
+                  ? 'Un recorrido progresivo donde cada módulo conecta tus bases actuales con la ejecución estratégica.'
+                  : isV2
+                  ? 'Sin paja ni teoría eterna. Directo a lo que transforma tu operativa cuando ya sabes lo básico.'
+                  : 'Unas horas al día. Sin saltos ni videos sueltos: cada parte prepara la siguiente.'}
+              </p>
             </div>
             <div className="sp-plan">
               <div className="sp-step sp-reveal">
                 <div className="sp-step-dot">1</div>
-                <div className="sp-step-days">Días 1 y 2</div>
-                <h3>Entiendes</h3>
-                <p>Salud financiera, acciones vs ETFs y la mecánica de gaps y horarios bursátiles. Sabes cómo se mueve el mercado antes de tocar opciones.</p>
+                <div className="sp-step-days">{isV1 ? 'Etapa 1 · Módulos 1 y 2' : 'Días 1 y 2'}</div>
+                <h3>{isV1 ? 'Contexto y gestión' : isV2 ? 'Blindas capital y aperturas' : 'Entiendes'}</h3>
+                <p>
+                  {isV1
+                    ? 'Asignación responsable de capital, arquitectura bursátil, lectura de gaps y niveles clave para contextualizar cada entrada.'
+                    : isV2
+                    ? 'Reglas claras de tamaño de posición, horarios trampa de Wall Street y lectura de gaps para dejar de perseguir velas en la apertura.'
+                    : 'Salud financiera, acciones vs ETFs y la mecánica de gaps y horarios bursátiles. Sabes cómo se mueve el mercado antes de tocar opciones.'}
+                </p>
               </div>
               <div className="sp-step sp-reveal">
                 <div className="sp-step-dot">2</div>
-                <div className="sp-step-days">Días 3 a 5</div>
-                <h3>Practicas</h3>
-                <p>Calls, Puts, la cadena de opciones y las griegas como instrumentos de navegación. Armas operaciones de cobro de renta en el simulador con tutor IA.</p>
+                <div className="sp-step-days">{isV1 ? 'Etapa 2 · Módulos 3 y 4' : 'Días 3 a 5'}</div>
+                <h3>{isV1 ? 'Flujo de caja y Griegas' : isV2 ? 'Dominas Griegas y cobras primas' : 'Practicas'}</h3>
+                <p>
+                  {isV1
+                    ? 'Transición de comprador direccional a cobro de primas, probabilidad de éxito (POP) y dominio práctico de Delta, Gamma, Theta y Vega en el simulador.'
+                    : isV2
+                    ? 'Dejas de operar a ciegas: entiendes Delta, Theta, Vega e IV Crush en acción y practicas cobro de renta en el simulador con IA.'
+                    : 'Calls, Puts, la cadena de opciones y las griegas como instrumentos de navegación. Armas operaciones de cobro de renta en el simulador con tutor IA.'}
+                </p>
               </div>
               <div className="sp-step sp-reveal">
                 <div className="sp-step-dot">3</div>
-                <div className="sp-step-days">Días 6 y 7</div>
-                <h3>Dominas el sistema</h3>
-                <p>Estrategias La Rueda y PMCC (LEAPS con 50% menos colateral), checklist pre-mercado y bróker listo para operar cuando tú decidas.</p>
+                <div className="sp-step-days">{isV1 ? 'Etapa 3 · Módulo 5 y Práctica' : 'Días 6 y 7'}</div>
+                <h3>{isV1 ? 'Estrategias de renta' : isV2 ? 'Ejecutas La Rueda y PMCC' : 'Dominas el sistema'}</h3>
+                <p>
+                  {isV1
+                    ? 'Implementación de La Rueda (Cash Secured Put + Covered Call) y PMCC con LEAPS para reducir más del 50% el colateral requerido.'
+                    : isV2
+                    ? 'Armas La Rueda y PMCC (simulando 100 acciones con LEAPS usando menos de la mitad del capital) con tu checklist listo al lado del bróker.'
+                    : 'Estrategias La Rueda y PMCC (LEAPS con 50% menos colateral), checklist pre-mercado y bróker listo para operar cuando tú decidas.'}
+                </p>
               </div>
             </div>
           </div>
@@ -484,8 +890,14 @@ export const SalesPage: React.FC = () => {
         <section className="sp-section" id="que-incluye">
           <div className="sp-wrap">
             <div className="sp-intro sp-reveal">
-              <span className="sp-kicker">Lo que incluye el seminario</span>
-              <h2>Todo para llegar a tu primera operación <em>sabiendo lo que haces.</em></h2>
+              <span className="sp-kicker">{isV1 ? 'Contenido académico del programa' : isV2 ? 'Tu arsenal completo' : 'Lo que incluye el seminario'}</span>
+              {isV1 ? (
+                <h2>Todo el ecosistema para <em>estructurar tus operaciones.</em></h2>
+              ) : isV2 ? (
+                <h2>Todo para dejar de improvisar <em>frente a la cadena de opciones.</em></h2>
+              ) : (
+                <h2>Todo para llegar a tu primera operación <em>sabiendo lo que haces.</em></h2>
+              )}
             </div>
 
             <div className="sp-bento">
@@ -494,8 +906,20 @@ export const SalesPage: React.FC = () => {
                   <span className="sp-tag">El seminario · 5 videos · 4 horas</span>
                   <div className="sp-val"><s>US$297</s><em>incluido</em></div>
                 </div>
-                <h3>Seminario de Opciones</h3>
-                <p>Opciones desde cero, en español y en orden. Formación práctica de Ingresarios, con énfasis en riesgo definido y criterio antes de operar.</p>
+                <h3>
+                  {isV1
+                    ? 'Seminario de Opciones Financieras: Más Allá de lo Básico'
+                    : isV2
+                    ? 'Seminario: De los Fundamentos a las Estrategias'
+                    : 'Seminario de Opciones'}
+                </h3>
+                <p>
+                  {isV1
+                    ? 'De los fundamentos a las estrategias en español. Formación estructurada de Ingresarios enfocada en riesgo definido, lectura de griegas y generación de flujo.'
+                    : isV2
+                    ? 'El puente exacto entre saber qué es un Call y un Put y tener un sistema repetible de opciones en español, sin humo ni señales ajenas.'
+                    : 'Opciones desde cero, en español y en orden. Formación práctica de Ingresarios, con énfasis en riesgo definido y criterio antes de operar.'}
+                </p>
                 <ol className="sp-modules">
                   <li><span><b>Finanzas y base bursátil.</b> Deudas, presupuesto, fondos de emergencia y la regla de destinar máximo 10%–30% a trading con mentalidad de largo plazo.</span></li>
                   <li><span><b>Mecánica de gaps y niveles clave.</b> Horarios del mercado americano, lectura de brechas y niveles técnicos para nunca perseguir precios en la apertura.</span></li>
@@ -574,35 +998,37 @@ export const SalesPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ── PARA QUIÉN ── */}
-        <section className="sp-section sp-section--alt" id="para-quien">
-          <div className="sp-wrap">
-            <div className="sp-intro sp-reveal">
-              <span className="sp-kicker">Antes de comprar</span>
-              <h2>Para quién es <em>(y para quién no).</em></h2>
-            </div>
-            <div className="sp-fit">
-              <div className="sp-fit--yes sp-reveal">
-                <h3>Es para ti si…</h3>
-                <ul>
-                  <li>Tienes ahorros en un CDT o en el banco y quieres entender otras alternativas antes de mover un peso.</li>
-                  <li>Prefieres saber cuánto puedes perder antes que soñar con cuánto puedes ganar.</li>
-                  <li>Puedes dedicarle unas horas esta semana a estudiar y practicar.</li>
-                  <li>Quieres aprender en español, paso a paso, sin depender de las señales de nadie.</li>
-                </ul>
+        {/* ── PARA QUIÉN (VERSIÓN ORIGINAL EN PÁGINA PRINCIPAL) ── */}
+        {!isV1 && !isV2 && (
+          <section className="sp-section sp-section--alt" id="para-quien">
+            <div className="sp-wrap">
+              <div className="sp-intro sp-reveal">
+                <span className="sp-kicker">Antes de comprar</span>
+                <h2>Para quién es <em>(y para quién no).</em></h2>
               </div>
-              <div className="sp-fit--no sp-reveal">
-                <h3>No es para ti si…</h3>
-                <ul>
-                  <li>Buscas hacerte rico rápido.</li>
-                  <li>Quieres que alguien te diga qué comprar y cuándo.</li>
-                  <li>Piensas operar con dinero que necesitas para vivir o que pediste prestado.</li>
-                  <li>No estás dispuesto a practicar primero en el simulador.</li>
-                </ul>
+              <div className="sp-fit">
+                <div className="sp-fit--yes sp-reveal">
+                  <h3>Es para ti si…</h3>
+                  <ul>
+                    <li>Tienes ahorros en un CDT o en el banco y quieres entender otras alternativas antes de mover un peso.</li>
+                    <li>Prefieres saber cuánto puedes perder antes que soñar con cuánto puedes ganar.</li>
+                    <li>Puedes dedicarle unas horas esta semana a estudiar y practicar.</li>
+                    <li>Quieres aprender en español, paso a paso, sin depender de las señales de nadie.</li>
+                  </ul>
+                </div>
+                <div className="sp-fit--no sp-reveal">
+                  <h3>No es para ti si…</h3>
+                  <ul>
+                    <li>Buscas hacerte rico rápido.</li>
+                    <li>Quieres que alguien te diga qué comprar y cuándo.</li>
+                    <li>Piensas operar con dinero que necesitas para vivir o que pediste prestado.</li>
+                    <li>No estás dispuesto a practicar primero en el simulador.</li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* ── AUTORIDAD Y MENTOR: JUAN VILLEGAS ── */}
         <section className="sp-section sp-mentor-section" id="mentor">
@@ -667,7 +1093,11 @@ export const SalesPage: React.FC = () => {
                     Reconocido en la industria como un <strong>"anti-gurú"</strong>, su enfoque no persigue promesas de dinero fácil ni pantallas de ganancias mágicas, sino la maestría técnica: cómo funciona realmente la subasta de Wall Street, cómo proteger el capital antes de buscar rentabilidad y cómo utilizar las opciones financieras como herramientas quirúrgicas de generación de renta con riesgo 100% definido antes de hacer clic.
                   </p>
                   <p>
-                    Este seminario condensa toda esa trayectoria en una ruta estructurada de 5 pasos para que cualquier persona en español pueda operar con la misma tranquilidad con la que gestionan los profesionales.
+                    {isV1
+                      ? 'Este seminario condensa toda esa trayectoria en una ruta estructurada de 5 módulos para que inversionistas con bases previas consoliden su formación y operen con la disciplina técnica con la que gestionan los profesionales.'
+                      : isV2
+                      ? 'Este seminario condensa 20 años de cancha real en 5 clases al grano para que pases de saber qué es un Call y un Put a operar con el criterio matemático de un profesional.'
+                      : 'Este seminario condensa toda esa trayectoria en una ruta estructurada de 5 pasos para que cualquier persona en español pueda operar con la misma tranquilidad con la que gestionan los profesionales.'}
                   </p>
                 </div>
 
@@ -717,14 +1147,32 @@ export const SalesPage: React.FC = () => {
         <section className="sp-price" id="precio">
           <div className="sp-wrap">
             <div className="sp-intro sp-center sp-reveal" style={{ marginBottom: 48 }}>
-              <span className="sp-kicker">La oferta de lanzamiento</span>
-              <h2>Por menos de lo que cuesta <em>una salida a cenar.</em></h2>
+              <span className="sp-kicker">
+                {isV1 ? 'Inscripción al programa' : isV2 ? 'Menos de lo que cuesta un mal trade' : 'La oferta de lanzamiento'}
+              </span>
+              {isV1 ? (
+                <h2>Acceso integral al seminario <em>y entorno de simulación.</em></h2>
+              ) : isV2 ? (
+                <h2>Un solo contrato mal elegido te cuesta <em>mucho más que US${OFFER.price}.</em></h2>
+              ) : (
+                <h2>Por menos de lo que cuesta <em>una salida a cenar.</em></h2>
+              )}
             </div>
 
             <div className="sp-offer sp-reveal">
               <div className="sp-offer-stack">
-                <h3>Todo lo que recibes hoy</h3>
-                <div className="sp-stack-row"><span>Seminario de Opciones<small>5 videos · 4 horas de formación</small></span><s>US$297</s></div>
+                <h3>{isV1 ? 'Resumen del programa incluido' : 'Todo lo que recibes hoy'}</h3>
+                <div className="sp-stack-row">
+                  <span>
+                    {isV1
+                      ? 'Seminario de Opciones Financieras · Más Allá de lo Básico'
+                      : isV2
+                      ? 'Seminario: De los Fundamentos a las Estrategias'
+                      : 'Seminario de Opciones'}
+                    <small>{isV1 ? '5 módulos · 4 horas de formación estratégica' : '5 videos · 4 horas de formación'}</small>
+                  </span>
+                  <s>US$297</s>
+                </div>
                 <div className="sp-stack-row"><span>Simulador de Opciones Ingresarios<small>Complemento · Geny Options Academy</small></span><s>US$197</s></div>
                 <div className="sp-stack-row"><span>Bono 1 · Checklist pre-mercado<small>PDF</small></span><s>US$47</s></div>
                 <div className="sp-stack-row"><span>Bono 2 · Guía de bróker<small>Videos</small></span><s>US$97</s></div>
@@ -732,7 +1180,7 @@ export const SalesPage: React.FC = () => {
               </div>
 
               <div className="sp-offer-buy">
-                <span className="sp-kicker">Hoy pagas</span>
+                <span className="sp-kicker">{isV1 ? 'Inversión única' : 'Hoy pagas'}</span>
                 <div className="sp-big-price"><small>US$</small><b>{OFFER.price}</b></div>
                 <div className="sp-price-sub">Pago único. Sin mensualidades.</div>
                 <div className="sp-ladder">
@@ -740,20 +1188,46 @@ export const SalesPage: React.FC = () => {
                   <div><b>US${OFFER.nextPrice}</b>Desde el {OFFER.raiseLabel}</div>
                 </div>
                 <a className="sp-btn sp-btn--block sp-btn--lg" href={CTA_HREF} id="cta-precio">
-                  Quiero entrar al Seminario <Arrow />
+                  {isV1 ? 'Completar inscripción' : isV2 ? 'Quiero pasar al nivel estratégico' : 'Quiero entrar al Seminario'} <Arrow />
                 </a>
                 <div className="sp-fine" style={{ justifyContent: 'center' }}>
                   <span>Garantía de 7 días</span>
                   <span>Acceso inmediato</span>
                 </div>
+                {(isV1 || isV2) && (
+                  <p className="sp-v1-price-tribu">
+                    ¿Ya eres miembro de la Tribu?{' '}
+                    <a href={WHATSAPP_TRIBU_URL} target="_blank" rel="noopener noreferrer">
+                      Contáctanos antes de inscribirte
+                    </a>
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="sp-urgency sp-reveal">
-              <p>
-                Hoy está en veintisiete dólares porque es el lanzamiento. El {OFFER.raiseLabel} sube a cuarenta y siete.
-              </p>
-              <p>No hay cupos limitados ni cuentas regresivas inventadas. Es un seminario en video; lo único que cambia es el precio.</p>
+              {isV1 ? (
+                <>
+                  <p>
+                    Tarifa institucional de lanzamiento de US${OFFER.price} vigente hasta el {OFFER.deadlineLabel}. A partir del {OFFER.raiseLabel} el valor regular será de US${OFFER.nextPrice}.
+                  </p>
+                  <p>Programa en modalidad grabada con acceso inmediato al campus y al simulador tras confirmar tu inscripción.</p>
+                </>
+              ) : isV2 ? (
+                <>
+                  <p>
+                    Entrar a una sola operación sin entender Theta o el límite de pérdida suele costar cientos de dólares en minutos. Hoy desbloqueas el sistema completo por US${OFFER.price}.
+                  </p>
+                  <p>Precio especial de lanzamiento hasta el {OFFER.deadlineLabel}. El {OFFER.raiseLabel} sube a US${OFFER.nextPrice}.</p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    Hoy está en veintisiete dólares porque es el lanzamiento. El {OFFER.raiseLabel} sube a cuarenta y siete.
+                  </p>
+                  <p>No hay cupos limitados ni cuentas regresivas inventadas. Es un seminario en video; lo único que cambia es el precio.</p>
+                </>
+              )}
             </div>
           </div>
         </section>
@@ -764,15 +1238,16 @@ export const SalesPage: React.FC = () => {
             <div className="sp-guarantee sp-reveal">
               <Seal />
               <div>
-                <span className="sp-kicker">Garantía</span>
-                <h2>Siete días. El riesgo es nuestro.</h2>
+                <span className="sp-kicker">{isV1 ? 'Respaldo institucional' : 'Garantía'}</span>
+                <h2>{isV1 ? 'Siete días para evaluar el programa con respaldo total.' : 'Siete días. El riesgo es nuestro.'}</h2>
                 <p>
-                  Entra, mira los videos, practica en el simulador y descarga los bonos. Si en los primeros 7 días sientes que no era lo que
-                  esperabas, nos escribes y te devolvemos tus US${OFFER.price}. Sin preguntas incómodas.
+                  {isV1
+                    ? `Accede a los módulos, pon a prueba el simulador y revisa los recursos complementarios. Si durante los primeros 7 días consideras que el contenido no corresponde a tus expectativas formativas, solicitas el reembolso íntegro de tus US$${OFFER.price}.`
+                    : `Entra, mira los videos, practica en el simulador y descarga los bonos. Si en los primeros 7 días sientes que no era lo que esperabas, nos escribes y te devolvemos tus US$${OFFER.price}. Sin preguntas incómodas.`}
                 </p>
                 <div className="sp-sign">
                   <span className="sp-hand">Ingresarios</span>
-                  <small>Seminario de Opciones</small>
+                  <small>{isV1 ? 'Seminario de Opciones Financieras' : 'Seminario de Opciones'}</small>
                 </div>
               </div>
             </div>
@@ -784,13 +1259,68 @@ export const SalesPage: React.FC = () => {
           <div className="sp-narrow" style={{ maxWidth: 860 }}>
             <div className="sp-reveal">
               <span className="sp-kicker">Preguntas frecuentes</span>
-              <h2>Lo que más nos preguntan.</h2>
+              <h2>{isV1 ? 'Consultas habituales antes de inscribirse.' : 'Lo que más nos preguntan.'}</h2>
             </div>
             <div className="sp-faq">
-              <details>
-                <summary>¿Necesito saber de bolsa?</summary>
-                <p>No. El seminario arranca por finanzas personales y por qué es una acción. Si sabes lo que es un CDT, puedes seguirlo.</p>
-              </details>
+              {isV1 ? (
+                <>
+                  <details>
+                    <summary>¿Qué conocimientos previos debo tener para inscribirme?</summary>
+                    <p>
+                      Este programa va más allá de lo básico. Está orientado a quienes ya identifican conceptos esenciales como{' '}
+                      <strong>Call, Put, primas, contratos y fechas de vencimiento</strong>. Si estás comenzando completamente desde cero,{' '}
+                      <a href={WHATSAPP_ZERO_URL} target="_blank" rel="noopener noreferrer" className="sp-v1-inline-link">
+                        escríbenos a la línea oficial de soporte
+                      </a>{' '}
+                      para orientarte hacia la ruta inicial adecuada.
+                    </p>
+                  </details>
+                  <details>
+                    <summary>¿Qué hago si ya soy miembro de la Tribu Ingresarios?</summary>
+                    <p>
+                      Este enlace de inscripción está pensado para público externo que hoy no forma parte activa de nuestros programas. Si ya eres miembro de la Tribu,{' '}
+                      <a href={WHATSAPP_TRIBU_URL} target="_blank" rel="noopener noreferrer" className="sp-v1-inline-link">
+                        contáctanos antes de realizar la compra
+                      </a>{' '}
+                      para orientarte internamente.
+                    </p>
+                  </details>
+                </>
+              ) : isV2 ? (
+                <>
+                  <details>
+                    <summary>Ya sé qué es un Call y un Put, ¿de verdad me va a aportar valor?</summary>
+                    <p>
+                      Justamente para ti fue hecho. La mayoría se queda estancada sabiendo qué es un contrato, pero perdiendo dinero por no dominar las Griegas (Theta y Vega), la probabilidad (POP) ni estrategias de cobro de renta como <strong>La Rueda y PMCC</strong>. Aquí pasas del diccionario al sistema real.
+                    </p>
+                  </details>
+                  <details>
+                    <summary>¿Y si todavía estoy empezando desde cero absoluto?</summary>
+                    <p>
+                      Si aún no reconoces conceptos básicos como Call, Put, prima o fecha de vencimiento, antes de comprar{' '}
+                      <a href={WHATSAPP_ZERO_URL} target="_blank" rel="noopener noreferrer" className="sp-v1-inline-link">
+                        escríbenos a nuestra línea oficial de soporte
+                      </a>{' '}
+                      para recomendarte la ruta inicial de Ingresarios ideal para ti.
+                    </p>
+                  </details>
+                  <details>
+                    <summary>¿Qué pasa si ya soy miembro de la Tribu Ingresarios?</summary>
+                    <p>
+                      Si ya eres miembro activo de la Tribu,{' '}
+                      <a href={WHATSAPP_TRIBU_URL} target="_blank" rel="noopener noreferrer" className="sp-v1-inline-link">
+                        contáctanos antes de comprar
+                      </a>{' '}
+                      para orientarte internamente.
+                    </p>
+                  </details>
+                </>
+              ) : (
+                <details>
+                  <summary>¿Necesito saber de bolsa?</summary>
+                  <p>No. El seminario arranca por finanzas personales y por qué es una acción. Si sabes lo que es un CDT, puedes seguirlo.</p>
+                </details>
+              )}
               <details>
                 <summary>¿Cuánto dinero necesito para empezar?</summary>
                 <p>
@@ -831,24 +1361,61 @@ export const SalesPage: React.FC = () => {
         <section className="sp-section sp-section--alt">
           <div className="sp-narrow" style={{ maxWidth: 940 }}>
             <div className="sp-intro sp-center sp-reveal" style={{ marginBottom: 40 }}>
-              <span className="sp-kicker">La decisión</span>
-              <h2>Dentro de un año vas a estar <em>en uno de estos dos lugares.</em></h2>
+              <span className="sp-kicker">
+                {isV1 ? 'Tu siguiente paso formativo' : isV2 ? 'El punto de quiebre' : 'La decisión'}
+              </span>
+              {isV1 ? (
+                <h2>Consolidar tus bases marca la diferencia <em>al momento de operar.</em></h2>
+              ) : isV2 ? (
+                <h2>Tu próxima operación la puedes abrir <em>de dos maneras.</em></h2>
+              ) : (
+                <h2>Dentro de un año vas a estar <em>en uno de estos dos lugares.</em></h2>
+              )}
             </div>
             <div className="sp-roads">
               <div className="sp-road sp-reveal">
-                <span className="sp-tag">Camino 1</span>
-                <h3>Renuevas el CDT</h3>
-                <p>Otros 365 días con el dinero amarrado, el mismo 10% en el papel y la misma duda de si había algo mejor. Es válido, pero ya sabes cómo termina.</p>
+                <span className="sp-tag">{isV1 ? 'Escenario 1' : 'Camino 1'}</span>
+                <h3>
+                  {isV1
+                    ? 'Quedarte en conceptos aislados'
+                    : isV2
+                    ? 'Seguir probando suerte con lo básico'
+                    : 'Renuevas el CDT'}
+                </h3>
+                <p>
+                  {isV1
+                    ? 'Saber qué es un Call o un Put sin integrar lectura de griegas, probabilidad ni reglas de riesgo definido suele traducirse en ejecuciones intuitivas y resultados inconsistentes.'
+                    : isV2
+                    ? 'Seguir comprando Calls o Puts por corazonada, viendo cómo Theta desgasta tu prima cada día y dudando frente a la cadena de opciones.'
+                    : 'Otros 365 días con el dinero amarrado, el mismo 10% en el papel y la misma duda de si había algo mejor. Es válido, pero ya sabes cómo termina.'}
+                </p>
               </div>
               <div className="sp-road sp-road--b sp-reveal">
-                <span className="sp-tag">Camino 2</span>
-                <h3>Inviertes una semana y US${OFFER.price}</h3>
-                <p>Haces el Seminario de Opciones, entiendes cómo funcionan, practicas sin riesgo y decides con tu propio número qué parte de tu capital pones a trabajar.</p>
+                <span className="sp-tag">{isV1 ? 'Escenario 2' : 'Camino 2'}</span>
+                <h3>
+                  {isV1
+                    ? `Estructurar un método profesional por US$${OFFER.price}`
+                    : isV2
+                    ? `Operar con un sistema probado por US$${OFFER.price}`
+                    : `Inviertes una semana y US$${OFFER.price}`}
+                </h3>
+                <p>
+                  {isV1
+                    ? 'Profundizas en estrategias de flujo de caja como La Rueda y PMCC, validas tus posiciones en el simulador con IA y operas bajo un protocolo claro de gestión de capital.'
+                    : isV2
+                    ? 'Dominas las Griegas en una semana, practicas La Rueda y PMCC en el simulador con IA y nunca vuelves a abrir una operación sin saber tu pérdida máxima exacta.'
+                    : 'Haces el Seminario de Opciones, entiendes cómo funcionan, practicas sin riesgo y decides con tu propio número qué parte de tu capital pones a trabajar.'}
+                </p>
               </div>
             </div>
             <div className="sp-center sp-reveal">
               <a className="sp-btn sp-btn--lg" href={CTA_HREF} id="cta-cierre">
-                Elijo el camino 2 · US${OFFER.price} <Arrow />
+                {isV1
+                  ? `Inscribirme al Seminario · US$${OFFER.price}`
+                  : isV2
+                  ? `Quiero operar con sistema · US$${OFFER.price}`
+                  : `Elijo el camino 2 · US$${OFFER.price}`}{' '}
+                <Arrow />
               </a>
               <div className="sp-fine" style={{ justifyContent: 'center' }}>
                 <span>Acceso inmediato</span>
@@ -868,7 +1435,13 @@ export const SalesPage: React.FC = () => {
           <div className="sp-footer-brand">
             <div className="sp-footer-brand-header">
               <span className="sp-footer-logo">INGRESARIOS</span>
-              <span className="sp-footer-badge">Seminario de Opciones</span>
+              <span className="sp-footer-badge">
+                {isV1
+                  ? 'Seminario de Opciones Financieras · Más Allá de lo Básico'
+                  : isV2
+                  ? 'Seminario de Opciones · Nivel Estratégico'
+                  : 'Seminario de Opciones'}
+              </span>
             </div>
             <p className="sp-footer-tagline">
               Programa de formación integral en opciones financieras con el simulador interactivo complementario Geny Options Academy.
@@ -939,10 +1512,17 @@ export const SalesPage: React.FC = () => {
       <div className={`sp-sticky${stickyOn ? ' is-on' : ''}`} aria-hidden={!stickyOn}>
         <div className="sp-wrap">
           <div className="sp-sticky-txt">
-            <s>US${OFFER.nextPrice}</s><b>US${OFFER.price}</b> <span>Seminario de Opciones · lanzamiento hasta el {OFFER.deadlineLabel}</span>
+            <s>US${OFFER.nextPrice}</s><b>US${OFFER.price}</b>{' '}
+            <span>
+              {isV1
+                ? `Seminario de Opciones Financieras · tarifa de lanzamiento hasta el ${OFFER.deadlineLabel}`
+                : isV2
+                ? `De los fundamentos a la estrategia · lanzamiento hasta el ${OFFER.deadlineLabel}`
+                : `Seminario de Opciones · lanzamiento hasta el ${OFFER.deadlineLabel}`}
+            </span>
           </div>
           <a className="sp-btn" href={CTA_HREF} tabIndex={stickyOn ? 0 : -1}>
-            Quiero entrar <Arrow />
+            {isV1 ? 'Inscribirme' : isV2 ? 'Quiero el sistema' : 'Quiero entrar'} <Arrow />
           </a>
         </div>
       </div>
