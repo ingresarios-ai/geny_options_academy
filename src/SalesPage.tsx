@@ -299,7 +299,7 @@ function Seal() {
   );
 }
 
-export const SalesPage: React.FC<SalesPageProps> = ({ variant = 'default' }) => {
+export const SalesPage: React.FC<SalesPageProps> = ({ variant = 'v1' }) => {
   const isV1 = variant === 'v1';
   const isV2 = variant === 'v2';
   const countdown = useCountdown(OFFER.deadlineISO);
@@ -461,7 +461,7 @@ export const SalesPage: React.FC<SalesPageProps> = ({ variant = 'default' }) => 
               </div>
 
               <div className="sp-fine">
-                <span>Acceso de por vida</span>
+                <span>Acceso por 1 año</span>
                 <span>Garantía de 7 días</span>
                 {isV1 && <span>Nivel: Fundamentos previos</span>}
                 {isV2 && <span>Requiere nociones básicas (Call / Put)</span>}
@@ -841,7 +841,7 @@ export const SalesPage: React.FC<SalesPageProps> = ({ variant = 'default' }) => 
                 {isV1
                   ? 'Un recorrido progresivo donde cada módulo conecta tus bases actuales con la ejecución estratégica.'
                   : isV2
-                  ? 'Sin paja ni teoría eterna. Directo a lo que transforma tu operativa cuando ya sabes lo básico.'
+                  ? 'Sin tanta carreta. Aquí se aprende haciendo.'
                   : 'Unas horas al día. Sin saltos ni videos sueltos: cada parte prepara la siguiente.'}
               </p>
             </div>
@@ -958,6 +958,32 @@ export const SalesPage: React.FC<SalesPageProps> = ({ variant = 'default' }) => 
                   <li>Qué pasa si la acción sube, baja o se queda quieta.</li>
                   <li>Cómo cambia el valor de la opción con los días.</li>
                 </ul>
+              </article>
+
+              <article className="sp-card sp-card--manual sp-reveal">
+                <header>
+                  <div className="sp-card-top">
+                    <span className="sp-tag">Material de estudio · PDF descargable</span>
+                    <div className="sp-val"><em>incluido</em></div>
+                  </div>
+                  <h3>Manual descargable del seminario</h3>
+                </header>
+                <div className="sp-manual-content">
+                  <p>
+                    Material escrito de consulta para acompañar cada clase, repasar los conceptos esenciales y revisar cómo se aplican las estrategias paso a paso.
+                  </p>
+                  <div className="sp-manual-note">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <path d="M12 18v-6" />
+                      <path d="m9 15 3 3 3-3" />
+                    </svg>
+                    <span>
+                      Encuéntralo listo para descargar como <strong>Manual</strong> en la sección <strong>Archivos adjuntos</strong> de la lección dentro de la plataforma.
+                    </span>
+                  </div>
+                </div>
               </article>
 
               <article className="sp-card sp-card--b1 sp-reveal">
@@ -1093,11 +1119,7 @@ export const SalesPage: React.FC<SalesPageProps> = ({ variant = 'default' }) => 
                     Reconocido en la industria como un <strong>"anti-gurú"</strong>, su enfoque no persigue promesas de dinero fácil ni pantallas de ganancias mágicas, sino la maestría técnica: cómo funciona realmente la subasta de Wall Street, cómo proteger el capital antes de buscar rentabilidad y cómo utilizar las opciones financieras como herramientas quirúrgicas de generación de renta con riesgo 100% definido antes de hacer clic.
                   </p>
                   <p>
-                    {isV1
-                      ? 'Este seminario condensa toda esa trayectoria en una ruta estructurada de 5 módulos para que inversionistas con bases previas consoliden su formación y operen con la disciplina técnica con la que gestionan los profesionales.'
-                      : isV2
-                      ? 'Este seminario condensa 20 años de cancha real en 5 clases al grano para que pases de saber qué es un Call y un Put a operar con el criterio matemático de un profesional.'
-                      : 'Este seminario condensa toda esa trayectoria en una ruta estructurada de 5 pasos para que cualquier persona en español pueda operar con la misma tranquilidad con la que gestionan los profesionales.'}
+                    Este seminario reúne algunos aprendizajes de 20 años de experiencia en los mercados, en 5 clases al grano. Sin tantas vueltas, para que entiendas mejor las opciones financieras, conozcas cómo se aplican algunas estrategias y sepas qué analizar antes de tomar una decisión.
                   </p>
                 </div>
 
@@ -1169,9 +1191,16 @@ export const SalesPage: React.FC<SalesPageProps> = ({ variant = 'default' }) => 
                       : isV2
                       ? 'Seminario: De los Fundamentos a las Estrategias'
                       : 'Seminario de Opciones'}
-                    <small>{isV1 ? '5 módulos · 4 horas de formación estratégica' : '5 videos · 4 horas de formación'}</small>
+                    <small>{isV1 ? '5 módulos · 4 horas de formación estratégica · 1 año de acceso' : '5 videos · 4 horas de formación · 1 año de acceso'}</small>
                   </span>
                   <s>US$297</s>
+                </div>
+                <div className="sp-stack-row">
+                  <span>
+                    Manual descargable del seminario
+                    <small>PDF en la sección «Archivos adjuntos» de la lección</small>
+                  </span>
+                  <em className="sp-stack-inc">Incluido</em>
                 </div>
                 <div className="sp-stack-row"><span>Simulador de Opciones Ingresarios<small>Complemento · Geny Options Academy</small></span><s>US$197</s></div>
                 <div className="sp-stack-row"><span>Bono 1 · Checklist pre-mercado<small>PDF</small></span><s>US$47</s></div>
@@ -1182,7 +1211,7 @@ export const SalesPage: React.FC<SalesPageProps> = ({ variant = 'default' }) => 
               <div className="sp-offer-buy">
                 <span className="sp-kicker">{isV1 ? 'Inversión única' : 'Hoy pagas'}</span>
                 <div className="sp-big-price"><small>US$</small><b>{OFFER.price}</b></div>
-                <div className="sp-price-sub">Pago único. Sin mensualidades.</div>
+                <div className="sp-price-sub">Pago único · 1 año de acceso.</div>
                 <div className="sp-ladder">
                   <div className="is-now"><b>US${OFFER.price}</b>Lanzamiento · hoy</div>
                   <div><b>US${OFFER.nextPrice}</b>Desde el {OFFER.raiseLabel}</div>
@@ -1191,6 +1220,7 @@ export const SalesPage: React.FC<SalesPageProps> = ({ variant = 'default' }) => 
                   {isV1 ? 'Completar inscripción' : isV2 ? 'Quiero pasar al nivel estratégico' : 'Quiero entrar al Seminario'} <Arrow />
                 </a>
                 <div className="sp-fine" style={{ justifyContent: 'center' }}>
+                  <span>Acceso por 1 año</span>
                   <span>Garantía de 7 días</span>
                   <span>Acceso inmediato</span>
                 </div>
@@ -1341,13 +1371,15 @@ export const SalesPage: React.FC<SalesPageProps> = ({ variant = 'default' }) => 
               <details>
                 <summary>¿Qué significa “en 7 días”?</summary>
                 <p>
-                  Que el contenido está pensado para verlo y practicarlo en una semana: los 5 videos, las operaciones en el simulador y el checklist.
-                  Si necesitas ir más despacio, vas a tu ritmo.
+                  Que el contenido está pensado para verlo y practicarlo en una semana: los 5 videos, el manual de apoyo, las operaciones en el simulador y el checklist.
+                  Si necesitas ir más despacio, vas a tu ritmo durante todo tu año de acceso.
                 </p>
               </details>
               <details>
                 <summary>¿Cómo recibo el acceso?</summary>
-                <p>Al completar el pago te llega un correo con el acceso al seminario, al simulador y a los bonos.</p>
+                <p>
+                  Al completar el pago te llega un correo con tu acceso por 1 año al seminario, al simulador y a los bonos. Dentro de la plataforma también encontrarás el Manual descargable en la sección «Archivos adjuntos» de la lección.
+                </p>
               </details>
               <details>
                 <summary>¿Y si no me gusta?</summary>
@@ -1418,7 +1450,7 @@ export const SalesPage: React.FC<SalesPageProps> = ({ variant = 'default' }) => 
                 <Arrow />
               </a>
               <div className="sp-fine" style={{ justifyContent: 'center' }}>
-                <span>Acceso inmediato</span>
+                <span>Acceso por 1 año</span>
                 <span>Garantía de 7 días</span>
               </div>
             </div>

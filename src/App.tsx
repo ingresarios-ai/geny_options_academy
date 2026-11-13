@@ -5,11 +5,12 @@ import ThankYouPage from './ThankYouPage';
 
 /**
  * Ruteo:
- *  - "/"                        → Sales Page original (intacta)
- *  - "/?variante1" | "/variante1" → Sales Page Variante 1 (Institucional · Más allá de lo básico)
- *  - "/?variante2" | "/variante2" → Sales Page Variante 2
- *  - "/simulador"               → Simulador privado de opciones (protegido contra indexación)
- *  - "/graciascompra"           → Página de agradecimiento y confirmación de compra (noindex)
+ *  - "/"                          → Sales Page principal: Versión 1 (Institucional · Más allá de lo básico)
+ *  - "/?variante2" | "/variante2" → Sales Page Variante 2 (Marketera · Nivel Estratégico)
+ *  - "/?original"  | "/original"  → Sales Page Original (Desde cero / CDT)
+ *  - "/?variante1" | "/variante1" → Alias compatible hacia Versión 1
+ *  - "/simulador"                 → Simulador privado de opciones (protegido contra indexación)
+ *  - "/graciascompra"             → Página de agradecimiento y confirmación de compra (noindex)
  */
 export type RouteName = 'sales' | 'simulator' | 'thank-you';
 
@@ -36,24 +37,26 @@ const getActiveRoute = (): RouteName => {
 };
 
 const getSalesVariant = (): SalesVariant => {
-  if (typeof window === 'undefined') return 'default';
+  if (typeof window === 'undefined') return 'v1';
   const path = window.location.pathname.toLowerCase().replace(/\/+$/, '');
   const search = window.location.search.toLowerCase();
   const hash = window.location.hash.toLowerCase();
   const params = new URLSearchParams(search);
 
   if (
-    params.has('variante1') ||
-    params.has('variente1') ||
-    params.has('v1') ||
-    params.get('variante') === '1' ||
-    params.get('variant') === '1' ||
-    path === '/variante1' ||
-    path === '/variente1' ||
-    path === '/v1' ||
-    hash === '#variante1'
+    params.has('original') ||
+    params.has('variante0') ||
+    params.has('v0') ||
+    params.get('variante') === '0' ||
+    params.get('variant') === '0' ||
+    params.get('variante') === 'original' ||
+    params.get('variant') === 'original' ||
+    path === '/original' ||
+    path === '/variante0' ||
+    path === '/v0' ||
+    hash === '#original'
   ) {
-    return 'v1';
+    return 'default';
   }
 
   if (
@@ -70,7 +73,18 @@ const getSalesVariant = (): SalesVariant => {
     return 'v2';
   }
 
-  return 'default';
+  // Por defecto en "/" (y también en "/?variante1" | "/variante1") mostramos la Versión 1
+  return 'v1';
+};
+
+const isAlternateVariantSlug = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  const path = window.location.pathname.toLowerCase().replace(/\/+$/, '');
+  const params = new URLSearchParams(window.location.search.toLowerCase());
+  const variantPaths = ['/variante1', '/variente1', '/v1', '/variante2', '/variente2', '/v2', '/original', '/variante0', '/v0'];
+  if (variantPaths.includes(path)) return true;
+  const variantParams = ['variante1', 'variente1', 'v1', 'variante2', 'variente2', 'v2', 'original', 'variante0', 'v0', 'variante', 'variant'];
+  return variantParams.some((k) => params.has(k));
 };
 
 export const App: React.FC = () => {
@@ -107,15 +121,15 @@ export const App: React.FC = () => {
     } else if (currentRoute === 'thank-you') {
       document.title = '¡Compra Exitosa! · Seminario de Opciones | Ingresarios';
       robotsMeta.content = 'noindex, nofollow, noarchive, nosnippet';
-    } else if (salesVariant === 'v1') {
-      document.title = 'Seminario de Opciones Financieras | De los fundamentos a las estrategias · Ingresarios';
-      robotsMeta.content = 'noindex, nofollow';
     } else if (salesVariant === 'v2') {
       document.title = 'Ya sabes qué es un Call y un Put… da el salto | Seminario de Opciones · Ingresarios';
       robotsMeta.content = 'noindex, nofollow';
-    } else {
+    } else if (salesVariant === 'default') {
       document.title = 'Seminario de Opciones | Ingresarios';
-      robotsMeta.content = 'index, follow';
+      robotsMeta.content = 'noindex, nofollow';
+    } else {
+      document.title = 'Seminario de Opciones Financieras | De los fundamentos a las estrategias · Ingresarios';
+      robotsMeta.content = isAlternateVariantSlug() ? 'noindex, nofollow' : 'index, follow';
     }
   }, [currentRoute, salesVariant]);
 
